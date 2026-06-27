@@ -1,6 +1,7 @@
 import { createServerClient } from "@/lib/supabase/server";
 import Image from "next/image";
 
+// Define the type
 interface Destination {
   id: number;
   city: string;
