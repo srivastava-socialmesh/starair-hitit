@@ -12,7 +12,7 @@ interface Destination {
 }
 
 export default async function Destinations() {
-  const supabase = createServerClient();
+  const supabase = await createServerClient();
   const { data: destinations } = await supabase
     .from("destinations")
     .select("*")
