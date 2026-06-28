@@ -1,48 +1,31 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMxODYsImV4cCI6MTgxNDE4OTE4Nn0.9eMaYkm8Vjdz_JrXCYcGL9GGkRQN3g1UYibxm_5US3w",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyMTQsImV4cCI6MTgxNDE4OTIxNH0.bsbxU_WOXdPYe4k1SdkvZoUPYnqKJwUOEB84U4Qgrfs",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyNDMsImV4cCI6MTgxNDE4OTI0M30.ul05CrO3CYyZEqY280JTIWwM8PkT3bqjA6CddN-BULk",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyNjMsImV4cCI6MTgxNDE4OTI2M30.GuGORT-Pu_1Cy7nsdYQILfpavhgoU6UlhBzm2baQpCY",
 ];
 
 export default function Hero() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
-  const [offset, setOffset] = useState(0);
-  const animationRef = useRef<NodeJS.Timeout | null>(null);
-  const speed = 0.5; // pixels per frame – adjust for desired speed
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
+  // Change image every 4 seconds
   useEffect(() => {
-    const step = () => {
-      setOffset((prev) => {
-        const newOffset = prev - speed;
-        // Reset when we've moved past one full set of images
-        // Since we have 4 images, one set width is 400vw? Actually we use percentage of container width.
-        // We'll use a simpler approach: reset when offset <= -100 (since we have 4 images, each 25% of container)
-        // But we use translateX in % of the container width. We want to move by 100% to show all 4 images.
-        // We'll loop when we've moved 100% (4 images * 25% each)
-        // Actually we have width: 400% (4 images), so moving -100% brings us to the start of the duplicate set.
-        // We'll reset when offset <= -100.
-        if (newOffset <= -100) {
-          return 0;
-        }
-        return newOffset;
-      });
-    };
-
-    // Run the animation every 16ms (~60fps)
-    animationRef.current = setInterval(step, 16);
-
-    return () => {
-      if (animationRef.current) {
-        clearInterval(animationRef.current);
-      }
-    };
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
+        setIsVisible(true);
+      }, 500); // fade-out duration
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -50,37 +33,21 @@ export default function Hero() {
     alert("Searching flights... (Connect to Hitit)");
   };
 
-  // Duplicate images for seamless loop
-  const allImages = [...bannerImages, ...bannerImages];
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Scrolling background container */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div
-          className="flex h-full"
-          style={{
-            width: `${allImages.length * 100}vw`,
-            transform: `translateX(${offset}%)`,
-            transition: 'none',
-          }}
-        >
-          {allImages.map((img, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 h-full"
-              style={{
-                width: '100vw',
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-          ))}
-        </div>
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/30"></div>
-      </div>
+      {/* Background image with fade transition */}
+      <div
+        className="absolute inset-0 -z-10 transition-all duration-1000 ease-in-out"
+        style={{
+          backgroundImage: `url(${bannerImages[currentIndex]})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: isVisible ? 1 : 0,
+        }}
+      />
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/30 z-5"></div>
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
