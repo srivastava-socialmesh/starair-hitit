@@ -5,10 +5,10 @@ import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 import Marquee from "react-fast-marquee";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug", // Beach
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw", // Shoes? Actually better use city
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ", // Dubai
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds", // Skyline
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds",
 ];
 
 export default function Hero() {
@@ -40,10 +40,12 @@ export default function Hero() {
             </div>
           ))}
         </Marquee>
-        {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
-        {/* Additional gradient for depth */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-[#0a0e1a]/50"></div>
+
+        {/* Lighter overlay – images are now visible */}
+        <div className="absolute inset-0 bg-black/40"></div>
+
+        {/* Gradient at bottom for text readability (optional) */}
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0a0e1a] to-transparent"></div>
       </div>
 
       {/* Gold Accent Line */}
