@@ -19,35 +19,30 @@ export default function Hero() {
     alert("Searching flights... (Connect to Hitit)");
   };
 
+  // Duplicate images for seamless loop
+  const allImages = [...bannerImages, ...bannerImages];
+
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        // Apply first image as static fallback
-        backgroundImage: `url(${bannerImages[0]})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      {/* Animated background with sliding images */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Scrolling background - flex row with images */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div
-          className="absolute inset-0 animate-bg-slide"
-          style={{
-            backgroundImage: `
-              url(${bannerImages[0]}),
-              url(${bannerImages[1]}),
-              url(${bannerImages[2]}),
-              url(${bannerImages[3]})
-            `,
-            backgroundSize: '100vw 100vh, 100vw 100vh, 100vw 100vh, 100vw 100vh',
-            backgroundPosition: '0 0, 100vw 0, 200vw 0, 300vw 0',
-            backgroundRepeat: 'no-repeat',
-            width: '400vw',
-            height: '100vh',
-          }}
-        />
+        <div className="flex h-full w-[200%] animate-slide">
+          {allImages.map((img, index) => (
+            <div
+              key={index}
+              className="w-screen h-full flex-shrink-0"
+              style={{
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+          ))}
+        </div>
+        {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/30"></div>
+        {/* Fallback background if images fail */}
+        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
       {/* Gold Accent Line */}
@@ -156,12 +151,23 @@ export default function Hero() {
 
       {/* Inline keyframes for the sliding animation */}
       <style jsx>{`
-        @keyframes bgSlide {
+        @keyframes slide {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-75%); }
+          100% { transform: translateX(-50%); }
         }
-        .animate-bg-slide {
-          animation: bgSlide 30s linear infinite;
+        .animate-slide {
+          animation: slide 30s linear infinite;
+          will-change: transform;
+        }
+        @media (max-width: 768px) {
+          .animate-slide {
+            animation-duration: 20s; /* faster on mobile */
+          }
+        }
+        /* Ensure the container is full height */
+        .h-full {
+          height: 100vh;
+          min-height: 100vh;
         }
       `}</style>
     </section>
