@@ -1,14 +1,11 @@
+
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 
-const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds",
-];
+// Use a single public image to test
+const testImage = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop";
 
 export default function Hero() {
   const [origin, setOrigin] = useState("");
@@ -16,32 +13,20 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Searching flights... (Connect to Hitit)");
+    alert("Searching flights...");
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Pure CSS Scrolling Banner Background – NO OVERLAY */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="flex h-full w-[200%] animate-marquee">
-          {bannerImages.map((img, index) => (
-            <div
-              key={index}
-              className="h-screen w-screen flex-shrink-0"
-              style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            />
-          ))}
-          {bannerImages.map((img, index) => (
-            <div
-              key={index + bannerImages.length}
-              className="h-screen w-screen flex-shrink-0"
-              style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            />
-          ))}
-        </div>
-        {/* Fallback background if images fail to load */}
-        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
-      </div>
+      {/* Fixed background image – no overlay */}
+      <div 
+        className="absolute inset-0 -z-10"
+        style={{ 
+          backgroundImage: `url(${testImage})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center',
+        }}
+      />
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
@@ -60,20 +45,20 @@ export default function Hero() {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-bold leading-[1.1] tracking-tight text-shadow-lg">
-            <span className="text-white">Discover the</span>
+          <h1 className="text-5xl md:text-8xl font-bold leading-[1.1] tracking-tight">
+            <span className="text-white drop-shadow-lg">Discover the</span>
             <br />
-            <span className="text-gradient-gold">Art of Travel</span>
+            <span className="text-gradient-gold drop-shadow-lg">Art of Travel</span>
           </h1>
 
-          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed text-shadow-md">
+          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed drop-shadow-lg">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-8 mt-8 text-xs text-white uppercase tracking-wider text-shadow-sm">
-            <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
-            <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
-            <span className="flex items-center gap-2">🏆 24 Awards</span>
+          <div className="flex flex-wrap justify-center gap-8 mt-8 text-xs text-white uppercase tracking-wider drop-shadow-lg">
+            <span>⭐ 4.9/5 Rating</span>
+            <span>✈️ 120+ Destinations</span>
+            <span>🏆 24 Awards</span>
           </div>
         </motion.div>
 
@@ -96,10 +81,9 @@ export default function Hero() {
           </div>
 
           <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* ... same form fields as before ... */}
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
-                From
-              </label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">From</label>
               <div className="relative">
                 <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
                 <input
@@ -113,9 +97,7 @@ export default function Hero() {
               </div>
             </div>
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
-                To
-              </label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">To</label>
               <div className="relative">
                 <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60 rotate-90" />
                 <input
@@ -129,9 +111,7 @@ export default function Hero() {
               </div>
             </div>
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
-                Date
-              </label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">Date</label>
               <div className="relative">
                 <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
                 <input
