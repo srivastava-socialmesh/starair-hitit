@@ -16,14 +16,13 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
-  // Change image every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setIsVisible(false);
       setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
         setIsVisible(true);
-      }, 500); // fade-out duration
+      }, 500);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
@@ -35,9 +34,9 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image with fade transition */}
+      {/* Background image with fade transition – NO OVERLAY */}
       <div
-        className="absolute inset-0 -z-10 transition-all duration-1000 ease-in-out"
+        className="absolute inset-0 -z-10 transition-opacity duration-1000 ease-in-out"
         style={{
           backgroundImage: `url(${bannerImages[currentIndex]})`,
           backgroundSize: 'cover',
@@ -46,8 +45,8 @@ export default function Hero() {
         }}
       />
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/30 z-5"></div>
+      {/* Subtle gradient at the bottom only (for text readability) */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
