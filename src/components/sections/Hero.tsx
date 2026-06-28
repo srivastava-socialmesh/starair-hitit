@@ -21,23 +21,37 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Scrolling background with <img> tags */}
+      {/* Scrolling background with background-image on divs (no <img> tags) */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="flex h-screen w-[200%] animate-marquee">
+        <div className="flex h-screen w-[400%] animate-marquee will-change-transform">
           {bannerImages.map((img, index) => (
-            <div key={index} className="w-screen h-screen flex-shrink-0 relative">
-              <img src={img} alt={`Banner ${index + 1}`} className="w-full h-full object-cover" />
-            </div>
+            <div
+              key={index}
+              className="w-screen h-screen flex-shrink-0"
+              style={{
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           ))}
           {/* Duplicate for seamless loop */}
           {bannerImages.map((img, index) => (
-            <div key={index + bannerImages.length} className="w-screen h-screen flex-shrink-0 relative">
-              <img src={img} alt={`Banner ${index + 1}`} className="w-full h-full object-cover" />
-            </div>
+            <div
+              key={index + bannerImages.length}
+              className="w-screen h-screen flex-shrink-0"
+              style={{
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           ))}
         </div>
-        {/* Light overlay to enhance text readability (optional, comment out if you want full brightness) */}
+        {/* Light overlay for text readability */}
         <div className="absolute inset-0 bg-black/30"></div>
+        {/* Fallback background if images fail */}
+        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
       {/* Gold Accent Line */}
