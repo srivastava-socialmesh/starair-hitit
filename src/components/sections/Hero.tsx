@@ -1,10 +1,8 @@
-
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 
-// Use a single public image to test
 const testImage = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop";
 
 export default function Hero() {
@@ -17,19 +15,20 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Fixed background image – no overlay */}
-      <div 
-        className="absolute inset-0 -z-10"
-        style={{ 
-          backgroundImage: `url(${testImage})`, 
-          backgroundSize: 'cover', 
-          backgroundPosition: 'center',
-        }}
-      />
-
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: `url(${testImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', // optional parallax effect
+      }}
+    >
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
+
+      {/* Dark overlay for text readability (optional – you can remove if you want full brightness) */}
+      <div className="absolute inset-0 bg-black/30 z-5"></div>
 
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
@@ -81,7 +80,6 @@ export default function Hero() {
           </div>
 
           <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* ... same form fields as before ... */}
             <div>
               <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">From</label>
               <div className="relative">
