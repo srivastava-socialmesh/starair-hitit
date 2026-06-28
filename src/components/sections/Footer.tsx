@@ -1,4 +1,4 @@
-import { Plane, Mail, Phone, MapPin, Twitter, Instagram, Youtube } from "lucide-react";
+import { Plane, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -17,10 +17,10 @@ export default function Footer() {
           <p className="text-slate-400 text-sm mt-3 leading-relaxed">
             Redefining luxury air travel with real-time inventory powered by Hitit.
           </p>
-          <div className="flex gap-4 mt-4">
-            <Twitter className="text-slate-400 hover:text-amber-400 cursor-pointer transition" size={20} />
-            <Instagram className="text-slate-400 hover:text-amber-400 cursor-pointer transition" size={20} />
-            <Youtube className="text-slate-400 hover:text-amber-400 cursor-pointer transition" size={20} />
+          <div className="flex gap-4 mt-4 text-slate-400">
+            <span className="hover:text-amber-400 cursor-pointer transition text-xl">🐦</span>
+            <span className="hover:text-amber-400 cursor-pointer transition text-xl">📸</span>
+            <span className="hover:text-amber-400 cursor-pointer transition text-xl">▶️</span>
           </div>
         </div>
 
