@@ -1,6 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Plane, Menu, X, Crown } from "lucide-react";
+import { Menu, X, Crown } from "lucide-react";
+import Image from "next/image";
+
+// Replace this with your actual Supabase public URL
+const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/StarAir_Logo.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,16 +25,23 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        {/* Logo + Brand */}
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <Plane className="text-amber-400" size={32} fill="#fcd34d" />
-            <Crown className="absolute -top-2 -right-2 text-amber-400" size={14} />
+          <div className="relative w-10 h-10 md:w-12 md:h-12">
+            <Image
+              src={LOGO_URL}
+              alt="StarAir Logo"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent hidden sm:block">
             StarAir
           </span>
         </div>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
           {["Destinations", "Deals", "Flight Status", "About"].map((item) => (
             <li key={item} className="text-slate-300 hover:text-amber-400 cursor-pointer transition-colors">
@@ -42,6 +53,7 @@ export default function Navbar() {
           </li>
         </ul>
 
+        {/* Mobile Toggle */}
         <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
