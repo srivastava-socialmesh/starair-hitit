@@ -3,7 +3,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 
-const testImage = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop";
+const bannerImages = [
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds",
+];
 
 export default function Hero() {
   const [origin, setOrigin] = useState("");
@@ -11,24 +16,32 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Searching flights...");
+    alert("Searching flights... (Connect to Hitit)");
   };
 
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: `url(${testImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed', // optional parallax effect
-      }}
-    >
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Scrolling background with <img> tags */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="flex h-screen w-[200%] animate-marquee">
+          {bannerImages.map((img, index) => (
+            <div key={index} className="w-screen h-screen flex-shrink-0 relative">
+              <img src={img} alt={`Banner ${index + 1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+          {/* Duplicate for seamless loop */}
+          {bannerImages.map((img, index) => (
+            <div key={index + bannerImages.length} className="w-screen h-screen flex-shrink-0 relative">
+              <img src={img} alt={`Banner ${index + 1}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+        {/* Light overlay to enhance text readability (optional, comment out if you want full brightness) */}
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
+
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
-
-      {/* Dark overlay for text readability (optional – you can remove if you want full brightness) */}
-      <div className="absolute inset-0 bg-black/30 z-5"></div>
 
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
