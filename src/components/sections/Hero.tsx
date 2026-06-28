@@ -1,7 +1,15 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Plane, Calendar, Users, Search, Crown, Sparkles } from "lucide-react";
+import { Plane, Calendar, Search, Sparkles } from "lucide-react";
+import Marquee from "react-fast-marquee";
+
+const bannerImages = [
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug", // Beach
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4MjgsImV4cCI6MTgxNDE4MjgyOH0.xXQJ3yAxemlUnE4emyAShMYjcMPmizWwOK1vO-qceOw", // Shoes? Actually better use city
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4NjcsImV4cCI6MTgxNDE4Mjg2N30._azE-M3d7yL7OnTerZ4A2lHq_fu4szi2vZtAaiVmPUQ", // Dubai
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY4OTgsImV4cCI6MTgxNDE4Mjg5OH0.rmg69OWx5gOnCsJXb3FCUmqIHCLyhYu1vQn-LxjVqds", // Skyline
+];
 
 export default function Hero() {
   const [origin, setOrigin] = useState("");
@@ -14,15 +22,32 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background with Premium Gradient */}
-      <div className="absolute inset-0 bg-gradient-hero">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-amber-500/20 rounded-full blur-[150px] animate-pulse-slow"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-[150px] animate-pulse-slow"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-[200px]"></div>
+      {/* Scrolling Banner Background */}
+      <div className="absolute inset-0 -z-10">
+        <Marquee
+          gradient={false}
+          speed={50}
+          pauseOnHover={false}
+          className="h-full w-full"
+        >
+          {bannerImages.map((img, index) => (
+            <div key={index} className="h-screen w-screen flex-shrink-0 relative">
+              <img
+                src={img}
+                alt={`Banner ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+        </Marquee>
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
+        {/* Additional gradient for depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-[#0a0e1a]/50"></div>
       </div>
 
-      {/* Luxury Gold Accent Lines */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+      {/* Gold Accent Line */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
 
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
@@ -48,7 +73,6 @@ export default function Hero() {
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          {/* Trust Badges */}
           <div className="flex flex-wrap justify-center gap-8 mt-8 text-xs text-slate-400 uppercase tracking-wider">
             <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
@@ -56,7 +80,6 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Search Box - Glass Gold */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,7 +100,9 @@ export default function Hero() {
 
           <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">From</label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
+                From
+              </label>
               <div className="relative">
                 <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
                 <input
@@ -91,7 +116,9 @@ export default function Hero() {
               </div>
             </div>
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">To</label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
+                To
+              </label>
               <div className="relative">
                 <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60 rotate-90" />
                 <input
@@ -105,7 +132,9 @@ export default function Hero() {
               </div>
             </div>
             <div>
-              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">Date</label>
+              <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">
+                Date
+              </label>
               <div className="relative">
                 <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
                 <input
