@@ -1,16 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   body {
     @apply bg-slate-950 text-white antialiased;
   }
 }
+
 @layer utilities {
   .glass {
     @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
   }
+
   .text-gradient {
     @apply bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent;
   }
