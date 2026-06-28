@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
 
@@ -13,23 +13,74 @@ const bannerImages = [
 export default function Hero() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
+  const [offset, setOffset] = useState(0);
+  const animationRef = useRef<NodeJS.Timeout | null>(null);
+  const speed = 0.5; // pixels per frame – adjust for desired speed
+
+  useEffect(() => {
+    const step = () => {
+      setOffset((prev) => {
+        const newOffset = prev - speed;
+        // Reset when we've moved past one full set of images
+        // Since we have 4 images, one set width is 400vw? Actually we use percentage of container width.
+        // We'll use a simpler approach: reset when offset <= -100 (since we have 4 images, each 25% of container)
+        // But we use translateX in % of the container width. We want to move by 100% to show all 4 images.
+        // We'll loop when we've moved 100% (4 images * 25% each)
+        // Actually we have width: 400% (4 images), so moving -100% brings us to the start of the duplicate set.
+        // We'll reset when offset <= -100.
+        if (newOffset <= -100) {
+          return 0;
+        }
+        return newOffset;
+      });
+    };
+
+    // Run the animation every 16ms (~60fps)
+    animationRef.current = setInterval(step, 16);
+
+    return () => {
+      if (animationRef.current) {
+        clearInterval(animationRef.current);
+      }
+    };
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     alert("Searching flights... (Connect to Hitit)");
   };
 
+  // Duplicate images for seamless loop
+  const allImages = [...bannerImages, ...bannerImages];
+
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg"
-      style={
-        {
-          // No inline style needed; all background is in the ::before pseudo-element
-        }
-      }
-    >
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/30 z-5"></div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Scrolling background container */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div
+          className="flex h-full"
+          style={{
+            width: `${allImages.length * 100}vw`,
+            transform: `translateX(${offset}%)`,
+            transition: 'none',
+          }}
+        >
+          {allImages.map((img, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 h-full"
+              style={{
+                width: '100vw',
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+          ))}
+        </div>
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
@@ -134,42 +185,6 @@ export default function Hero() {
           </form>
         </motion.div>
       </div>
-
-      <style jsx>{`
-        .hero-bg {
-          position: relative;
-        }
-        .hero-bg::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 400%;
-          height: 100%;
-          background-image: url(${bannerImages[0]}), url(${bannerImages[1]}), url(${bannerImages[2]}), url(${bannerImages[3]});
-          background-size: 100vw 100vh;
-          background-position: 0 0, 100vw 0, 200vw 0, 300vw 0;
-          background-repeat: no-repeat;
-          animation: slideBg 30s linear infinite;
-          will-change: transform;
-          z-index: -2;
-        }
-        @keyframes slideBg {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-75%); }
-        }
-        .z-5 {
-          z-index: 5;
-        }
-        .drop-shadow-lg {
-          text-shadow: 0 4px 16px rgba(0,0,0,0.9);
-        }
-        @media (max-width: 768px) {
-          .hero-bg::before {
-            animation-duration: 20s;
-          }
-        }
-      `}</style>
     </section>
   );
 }
