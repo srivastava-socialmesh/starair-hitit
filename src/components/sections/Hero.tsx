@@ -19,31 +19,17 @@ export default function Hero() {
     alert("Searching flights... (Connect to Hitit)");
   };
 
-  // Duplicate images for seamless loop
-  const allImages = [...bannerImages, ...bannerImages];
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Scrolling background - flex row with images */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="flex h-full w-[200%] animate-slide">
-          {allImages.map((img, index) => (
-            <div
-              key={index}
-              className="w-screen h-full flex-shrink-0"
-              style={{
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-          ))}
-        </div>
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/30"></div>
-        {/* Fallback background if images fail */}
-        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
-      </div>
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg"
+      style={
+        {
+          // No inline style needed; all background is in the ::before pseudo-element
+        }
+      }
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/30 z-5"></div>
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
@@ -149,25 +135,39 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Inline keyframes for the sliding animation */}
       <style jsx>{`
-        @keyframes slide {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        .hero-bg {
+          position: relative;
         }
-        .animate-slide {
-          animation: slide 30s linear infinite;
+        .hero-bg::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 400%;
+          height: 100%;
+          background-image: url(${bannerImages[0]}), url(${bannerImages[1]}), url(${bannerImages[2]}), url(${bannerImages[3]});
+          background-size: 100vw 100vh;
+          background-position: 0 0, 100vw 0, 200vw 0, 300vw 0;
+          background-repeat: no-repeat;
+          animation: slideBg 30s linear infinite;
           will-change: transform;
+          z-index: -2;
+        }
+        @keyframes slideBg {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-75%); }
+        }
+        .z-5 {
+          z-index: 5;
+        }
+        .drop-shadow-lg {
+          text-shadow: 0 4px 16px rgba(0,0,0,0.9);
         }
         @media (max-width: 768px) {
-          .animate-slide {
-            animation-duration: 20s; /* faster on mobile */
+          .hero-bg::before {
+            animation-duration: 20s;
           }
-        }
-        /* Ensure the container is full height */
-        .h-full {
-          height: 100vh;
-          min-height: 100vh;
         }
       `}</style>
     </section>
