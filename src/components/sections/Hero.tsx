@@ -16,53 +16,43 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Searching flights...");
+    alert("Searching flights... (Connect to Hitit)");
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* DEBUG: MARQUEE CONTAINER WITH RED BACKGROUND TO VERIFY VISIBILITY */}
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        // Apply first image as static fallback
+        backgroundImage: `url(${bannerImages[0]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Animated background with sliding images */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* If you see a red background, the container is visible */}
-        <div 
-          className="flex h-screen w-[400%] bg-red-500" 
+        <div
+          className="absolute inset-0 animate-bg-slide"
           style={{
-            animation: 'marqueeScroll 40s linear infinite',
+            backgroundImage: `
+              url(${bannerImages[0]}),
+              url(${bannerImages[1]}),
+              url(${bannerImages[2]}),
+              url(${bannerImages[3]})
+            `,
+            backgroundSize: '100vw 100vh, 100vw 100vh, 100vw 100vh, 100vw 100vh',
+            backgroundPosition: '0 0, 100vw 0, 200vw 0, 300vw 0',
+            backgroundRepeat: 'no-repeat',
+            width: '400vw',
+            height: '100vh',
           }}
-        >
-          {bannerImages.map((img, index) => (
-            <div
-              key={index}
-              className="w-screen h-screen flex-shrink-0"
-              style={{
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                // add a white border to see each slide
-                border: '2px solid white',
-              }}
-            />
-          ))}
-          {bannerImages.map((img, index) => (
-            <div
-              key={index + bannerImages.length}
-              className="w-screen h-screen flex-shrink-0"
-              style={{
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                border: '2px solid white',
-              }}
-            />
-          ))}
-        </div>
-        {/* Light overlay */}
+        />
         <div className="absolute inset-0 bg-black/30"></div>
-        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
-      {/* Same gold line and content as before... */}
+      {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
+
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -164,11 +154,14 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Add the keyframe inside a style tag to guarantee it exists */}
+      {/* Inline keyframes for the sliding animation */}
       <style jsx>{`
-        @keyframes marqueeScroll {
+        @keyframes bgSlide {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-25%); }
+          100% { transform: translateX(-75%); }
+        }
+        .animate-bg-slide {
+          animation: bgSlide 30s linear infinite;
         }
       `}</style>
     </section>
