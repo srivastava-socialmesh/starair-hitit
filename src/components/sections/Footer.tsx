@@ -1,4 +1,4 @@
-import { Plane, Twitter, Instagram, Youtube } from "lucide-react";
+import { Plane } from "lucide-react";
 
 export default function Footer() {
   return (
