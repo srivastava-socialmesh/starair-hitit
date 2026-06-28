@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
-import Marquee from "react-fast-marquee";
 
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NDY3ODUsImV4cCI6MTgxNDE4Mjc4NX0.qPXOyO2Rf_hdSjf_da8Br9EDbd5T4fP61YW6jwVlfug",
@@ -22,30 +21,26 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Scrolling Banner Background */}
-      <div className="absolute inset-0 -z-10">
-        <Marquee
-          gradient={false}
-          speed={50}
-          pauseOnHover={false}
-          className="h-full w-full"
-        >
+      {/* Pure CSS Scrolling Banner Background – NO OVERLAY */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="flex h-full w-[200%] animate-marquee">
           {bannerImages.map((img, index) => (
-            <div key={index} className="h-screen w-screen flex-shrink-0 relative">
-              <img
-                src={img}
-                alt={`Banner ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <div
+              key={index}
+              className="h-screen w-screen flex-shrink-0"
+              style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            />
           ))}
-        </Marquee>
-
-        {/* Lighter overlay – images are now visible */}
-        <div className="absolute inset-0 bg-black/40"></div>
-
-        {/* Gradient at bottom for text readability (optional) */}
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#0a0e1a] to-transparent"></div>
+          {bannerImages.map((img, index) => (
+            <div
+              key={index + bannerImages.length}
+              className="h-screen w-screen flex-shrink-0"
+              style={{ backgroundImage: `url(${img})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            />
+          ))}
+        </div>
+        {/* Fallback background if images fail to load */}
+        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
       {/* Gold Accent Line */}
@@ -65,17 +60,17 @@ export default function Hero() {
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-bold leading-[1.1] tracking-tight">
+          <h1 className="text-5xl md:text-8xl font-bold leading-[1.1] tracking-tight text-shadow-lg">
             <span className="text-white">Discover the</span>
             <br />
             <span className="text-gradient-gold">Art of Travel</span>
           </h1>
 
-          <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed">
+          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mt-6 leading-relaxed text-shadow-md">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-8 mt-8 text-xs text-slate-400 uppercase tracking-wider">
+          <div className="flex flex-wrap justify-center gap-8 mt-8 text-xs text-white uppercase tracking-wider text-shadow-sm">
             <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-2">🏆 24 Awards</span>
