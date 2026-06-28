@@ -16,14 +16,20 @@ export default function Hero() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Searching flights... (Connect to Hitit)");
+    alert("Searching flights...");
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Scrolling background with background-image on divs (no <img> tags) */}
+      {/* DEBUG: MARQUEE CONTAINER WITH RED BACKGROUND TO VERIFY VISIBILITY */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="flex h-screen w-[400%] animate-marquee will-change-transform">
+        {/* If you see a red background, the container is visible */}
+        <div 
+          className="flex h-screen w-[400%] bg-red-500" 
+          style={{
+            animation: 'marqueeScroll 40s linear infinite',
+          }}
+        >
           {bannerImages.map((img, index) => (
             <div
               key={index}
@@ -32,10 +38,11 @@ export default function Hero() {
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                // add a white border to see each slide
+                border: '2px solid white',
               }}
             />
           ))}
-          {/* Duplicate for seamless loop */}
           {bannerImages.map((img, index) => (
             <div
               key={index + bannerImages.length}
@@ -44,19 +51,18 @@ export default function Hero() {
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                border: '2px solid white',
               }}
             />
           ))}
         </div>
-        {/* Light overlay for text readability */}
+        {/* Light overlay */}
         <div className="absolute inset-0 bg-black/30"></div>
-        {/* Fallback background if images fail */}
         <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
-      {/* Gold Accent Line */}
+      {/* Same gold line and content as before... */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
-
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -157,6 +163,14 @@ export default function Hero() {
           </form>
         </motion.div>
       </div>
+
+      {/* Add the keyframe inside a style tag to guarantee it exists */}
+      <style jsx>{`
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-25%); }
+        }
+      `}</style>
     </section>
   );
 }
