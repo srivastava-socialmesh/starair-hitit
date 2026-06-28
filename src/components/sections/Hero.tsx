@@ -1,11 +1,7 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles } from "lucide-react";
-
-// Temporary public image for testing
-const testImage = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop";
 
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMxODYsImV4cCI6MTgxNDE4OTE4Nn0.9eMaYkm8Vjdz_JrXCYcGL9GGkRQN3g1UYibxm_5US3w",
@@ -18,18 +14,10 @@ export default function Hero() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
-
-  // Use a public test image OR the first banner image
-  const imageUrl = testImage; // <<< CHANGE to bannerImages[currentIndex] after testing
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
-        setIsVisible(true);
-      }, 500);
+      setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
     }, 4000);
     return () => clearInterval(interval);
   }, []);
@@ -40,28 +28,20 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* DEBUG: RED BACKGROUND – if you see red, the container exists */}
-      <div className="absolute inset-0 -z-10 bg-red-500">
-        {/* Background image with fade transition – using test image */}
-        <div
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-          style={{
-            backgroundImage: `url(${imageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: isVisible ? 1 : 0,
-          }}
-        />
-      </div>
-
-      {/* Subtle gradient at the bottom only */}
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-1000 ease-in-out"
+      style={{
+        backgroundImage: `url(${bannerImages[currentIndex]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Subtle gradient at the bottom for text readability */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
 
       {/* Gold Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-10"></div>
 
-      {/* Rest of content (same as before) */}
       <div className="max-w-7xl w-full mx-auto px-6 z-10 mt-20">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -112,7 +92,6 @@ export default function Hero() {
           </div>
 
           <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {/* form fields – same as before */}
             <div>
               <label className="text-amber-400/80 text-xs uppercase tracking-wider font-bold">From</label>
               <div className="relative">
