@@ -73,11 +73,12 @@ export default function Hero() {
           </div>
         </motion.div>
 
+        {/* 🔽 TRANSPARENT SEARCH BAR – REPLACED `glass-gold` WITH `backdrop-blur-xl bg-white/5 border border-white/10` */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="glass-gold rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto mt-8 sm:mt-12"
+          className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto mt-8 sm:mt-12 shadow-2xl"
         >
           <div className="flex bg-black/30 rounded-xl p-1 mb-6 w-fit mx-auto">
             {["Round Trip", "One Way", "Multi-City"].map((tab) => (

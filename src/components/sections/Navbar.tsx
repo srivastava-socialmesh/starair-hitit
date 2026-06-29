@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
-// ⚠️ Replace this URL with your actual public logo URL
 const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/StarAir_Logo.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -27,28 +27,21 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo – only image, no text */}
         <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
-          <Image
-            src={LOGO_URL}
-            alt="StarAir"
-            fill
-            className="object-contain"
-            priority
-            onError={(e) => {
-              // If logo fails, show a fallback text
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              const parent = target.parentElement;
-              if (parent) {
-                const fallback = document.createElement('span');
-                fallback.className = 'text-2xl font-bold text-amber-400';
-                fallback.textContent = '✈️';
-                parent.appendChild(fallback);
-              }
-            }}
-          />
+          {!logoError ? (
+            <Image
+              src={LOGO_URL}
+              alt="StarAir"
+              fill
+              className="object-contain"
+              priority
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <span className="text-3xl font-bold text-amber-400">✈️</span>
+          )}
         </div>
 
-        {/* Desktop Menu – now using blood red/amber colors */}
+        {/* Desktop Menu – blood red / amber */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
           {["Destinations", "Deals", "Flight Status", "About"].map((item) => (
             <li key={item} className="text-amber-400 hover:text-red-600 cursor-pointer transition-colors font-semibold">
