@@ -20,17 +20,30 @@ export default function DealsManager() {
   const [editing, setEditing] = useState<Deal | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<Partial<Deal>>({});
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
 
   const fetchItems = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("deals")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) console.error(error);
-    else setItems(data || []);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("deals")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("Fetch error:", error);
+        setError(error.message);
+      } else {
+        setItems(data || []);
+        setError(null);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("Failed to load deals");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -38,32 +51,98 @@ export default function DealsManager() {
   }, []);
 
   const handleSave = async () => {
+    // Validate required fields
     if (!form.title || !form.image_url || !form.discount_percent) {
-      return alert("Title, Image URL, and Discount % are required");
+      alert("Title, Image URL, and Discount % are required");
+      return;
     }
-    if (editing) {
-      await supabase
-        .from("deals")
-        .update({ ...form, updated_at: new Date() })
-        .eq("id", editing.id);
-    } else {
-      await supabase.from("deals").insert([form]);
+
+    setSaving(true);
+    setError(null);
+
+    try {
+      const payload = {
+        title: form.title,
+        description: form.description || null,
+        image_url: form.image_url,
+        discount_percent: parseInt(form.discount_percent as any),
+        valid_until: form.valid_until || null,
+        link: form.link || null,
+        is_active: form.is_active !== undefined ? form.is_active : true,
+      };
+
+      if (editing) {
+        // Update existing deal
+        const { error } = await supabase
+          .from("deals")
+          .update(payload)
+          .eq("id", editing.id);
+        if (error) {
+          console.error("Update error:", error);
+          setError(error.message);
+          alert("Update failed: " + error.message);
+          return;
+        }
+      } else {
+        // Insert new deal
+        const { error } = await supabase
+          .from("deals")
+          .insert([payload]);
+        if (error) {
+          console.error("Insert error:", error);
+          setError(error.message);
+          alert("Insert failed: " + error.message);
+          return;
+        }
+      }
+
+      // Reset form and refresh
+      setShowForm(false);
+      setEditing(null);
+      setForm({});
+      fetchItems();
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("An unexpected error occurred");
+    } finally {
+      setSaving(false);
     }
-    setShowForm(false);
-    setEditing(null);
-    setForm({});
-    fetchItems();
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this deal?")) return;
-    await supabase.from("deals").delete().eq("id", id);
-    fetchItems();
+    try {
+      const { error } = await supabase
+        .from("deals")
+        .delete()
+        .eq("id", id);
+      if (error) {
+        console.error("Delete error:", error);
+        alert("Delete failed: " + error.message);
+        return;
+      }
+      fetchItems();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("An unexpected error occurred");
+    }
   };
 
   const toggleActive = async (id: number, current: boolean) => {
-    await supabase.from("deals").update({ is_active: !current }).eq("id", id);
-    fetchItems();
+    try {
+      const { error } = await supabase
+        .from("deals")
+        .update({ is_active: !current })
+        .eq("id", id);
+      if (error) {
+        console.error("Toggle error:", error);
+        alert("Toggle failed: " + error.message);
+        return;
+      }
+      fetchItems();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
   };
 
   return (
@@ -71,18 +150,35 @@ export default function DealsManager() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-amber-400">Deals</h2>
         <button
-          onClick={() => { setEditing(null); setForm({}); setShowForm(true); }}
+          onClick={() => {
+            setEditing(null);
+            setForm({ is_active: true });
+            setShowForm(true);
+          }}
           className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg"
         >
           <Plus size={18} /> Add Deal
         </button>
       </div>
 
+      {error && (
+        <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-4 rounded-lg mb-4">
+          {error}
+        </div>
+      )}
+
       {showForm && (
         <div className="bg-[#111827] p-6 rounded-xl border border-amber-500/20 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">{editing ? "Edit" : "New"} Deal</h3>
-            <button onClick={() => { setShowForm(false); setEditing(null); }} className="text-slate-400 hover:text-white">
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditing(null);
+                setForm({});
+              }}
+              className="text-slate-400 hover:text-white"
+            >
               <X size={20} />
             </button>
           </div>
@@ -105,7 +201,7 @@ export default function DealsManager() {
               min="0"
               max="100"
               value={form.discount_percent || ""}
-              onChange={(e) => setForm({ ...form, discount_percent: parseInt(e.target.value) })}
+              onChange={(e) => setForm({ ...form, discount_percent: parseInt(e.target.value) || 0 })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
@@ -130,10 +226,21 @@ export default function DealsManager() {
             />
           </div>
           <div className="mt-4 flex gap-3">
-            <button onClick={handleSave} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2">
-              <Save size={18} /> Save
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50"
+            >
+              <Save size={18} /> {saving ? "Saving..." : "Save"}
             </button>
-            <button onClick={() => { setShowForm(false); setEditing(null); }} className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg">
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditing(null);
+                setForm({});
+              }}
+              className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg"
+            >
               Cancel
             </button>
           </div>
@@ -174,7 +281,11 @@ export default function DealsManager() {
                   </td>
                   <td className="p-3 flex gap-2">
                     <button
-                      onClick={() => { setEditing(item); setForm(item); setShowForm(true); }}
+                      onClick={() => {
+                        setEditing(item);
+                        setForm(item);
+                        setShowForm(true);
+                      }}
                       className="text-blue-400 hover:text-blue-300"
                     >
                       <Pencil size={18} />
