@@ -2,10 +2,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
 import { createClient } from "@/lib/supabase/client";
 import { X, Check } from "lucide-react";
 
@@ -71,27 +70,22 @@ export default function ProductsSlider() {
         </div>
 
         <Swiper
-          modules={[Autoplay, Pagination, EffectCoverflow]}
-          effect="coverflow"
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView="auto"
+          modules={[Autoplay, Pagination]}
+          spaceBetween={20}
+          slidesPerView={1}
           loop={true}
-          loopAdditionalSlides={2}
           speed={600}
-          coverflowEffect={{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 2.5,
-            slideShadows: false,
-          }}
           autoplay={{ delay: 2500, disableOnInteraction: false }}
           pagination={{ clickable: true }}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
           className="pb-10"
         >
           {products.map((product) => (
-            <SwiperSlide key={product.id} className="!w-[280px] md:!w-[320px]">
+            <SwiperSlide key={product.id}>
               <div
                 className="group relative rounded-2xl overflow-hidden h-[380px] cursor-pointer shadow-xl bg-white border border-gray-200 hover:border-red-300 transition-all duration-300"
                 onMouseEnter={() => setActivePopup(product.id)}
