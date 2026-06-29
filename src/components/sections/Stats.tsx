@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Globe, Award, Users, Clock, Crown } from "lucide-react";
+import { Globe, Award, Users, Clock } from "lucide-react";
 
 const stats = [
   { icon: Globe, label: "Destinations", value: 120, suffix: "+" },
@@ -12,12 +12,8 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="relative py-24 px-6 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0e1a] via-[#111827] to-[#0a0e1a]"></div>
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent"></div>
-
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
+    <section className="relative py-16 px-4 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
         {stats.map((stat, i) => {
           const [count, setCount] = useState(0);
 
@@ -41,17 +37,17 @@ export default function Stats() {
           return (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.15 }}
-              className="flex flex-col items-center p-6 rounded-2xl border border-white/5 hover:border-amber-500/30 transition bg-white/5 backdrop-blur-sm"
+              transition={{ delay: i * 0.1 }}
+              className="flex flex-col items-center p-6 rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-xl transition"
             >
-              <stat.icon className="text-amber-400" size={40} />
-              <h3 className="text-4xl md:text-5xl font-bold text-white mt-3">
+              <stat.icon className="text-red-500" size={40} />
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
                 {count}
-                <span className="text-amber-400">{stat.suffix || ""}</span>
+                <span className="text-red-500">{stat.suffix || ""}</span>
               </h3>
-              <p className="text-slate-400 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
+              <p className="text-gray-500 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
             </motion.div>
           );
         })}

@@ -78,6 +78,7 @@ export default function ProductsSlider() {
           slidesPerView="auto"
           loop={true}
           loopAdditionalSlides={2}
+          speed={600}
           coverflowEffect={{
             rotate: 0,
             stretch: 0,
@@ -85,7 +86,7 @@ export default function ProductsSlider() {
             modifier: 2.5,
             slideShadows: false,
           }}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           className="pb-10"
         >
