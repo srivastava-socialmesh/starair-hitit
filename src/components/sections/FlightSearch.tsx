@@ -31,7 +31,6 @@ export default function FlightSearch() {
   const [departDate, setDepartDate] = useState('2026-07-06');
   const [returnDate, setReturnDate] = useState('');
   const [passengers, setPassengers] = useState(1);
-  const [currency, setCurrency] = useState('INR');
   const [passengerType, setPassengerType] = useState('');
   const [bookingRef, setBookingRef] = useState('');
   const [lastName, setLastName] = useState('');
@@ -58,7 +57,6 @@ export default function FlightSearch() {
     { id: 'govt', label: 'Govt. Employee', icon: Briefcase },
   ];
 
-  // API handlers (same as before)
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -74,7 +72,6 @@ export default function FlightSearch() {
           date: departDate,
           returnDate: tripType === 'roundtrip' ? returnDate : undefined,
           passengers,
-          currency,
           tripType,
           passengerType,
         }),
@@ -179,7 +176,6 @@ export default function FlightSearch() {
         transition={{ duration: 0.3 }}
         className="w-full"
       >
-        {/* SEARCH FLIGHTS */}
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-5">
             <div className="flex bg-black/20 rounded-xl p-1 w-fit mx-auto backdrop-blur-sm border border-white/10">
@@ -286,20 +282,7 @@ export default function FlightSearch() {
                   <span className="text-white/60 text-sm ml-2">Adult</span>
                 </div>
               </div>
-              <div>
-                <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">💱 Currency</label>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-white focus:border-red-500 outline-none transition appearance-none"
-                >
-                  <option value="INR">INR (₹)</option>
-                  <option value="USD">USD ($)</option>
-                  <option value="EUR">EUR (€)</option>
-                  <option value="GBP">GBP (£)</option>
-                  <option value="AED">AED (د.إ)</option>
-                </select>
-              </div>
+              <div></div> {/* empty spacer – currency removed */}
             </div>
 
             <div>

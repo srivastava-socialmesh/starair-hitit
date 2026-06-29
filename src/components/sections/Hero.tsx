@@ -30,11 +30,11 @@ export default function Hero() {
       {/* Bottom gradient for readability */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
 
-      {/* Red Accent Line (changed from amber to red) */}
+      {/* Red Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start lg:items-center mt-20 lg:mt-0">
-        {/* Left Column – Flight Search (fully transparent) */}
+      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
+        {/* Left: Flight Search */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -44,24 +44,24 @@ export default function Hero() {
           <FlightSearch />
         </motion.div>
 
-        {/* Right Column – Brand Messaging (justified to right edge) */}
+        {/* Right: Brand Content – centered */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col items-start lg:items-end justify-center space-y-4 h-full"
+          className="flex flex-col items-center lg:items-start justify-center text-center lg:text-left space-y-4 h-full"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight text-right">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the</span>
             <br />
             <span className="text-gradient-red drop-shadow-lg">Art of Travel</span>
           </h1>
 
-          <p className="text-white text-base sm:text-lg max-w-md lg:text-right leading-relaxed drop-shadow-lg">
+          <p className="text-white text-base sm:text-lg max-w-md leading-relaxed drop-shadow-lg">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap gap-6 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg justify-start lg:justify-end w-full">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-6 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg">
             <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-2">🏆 24 Awards</span>
@@ -69,7 +69,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Add custom CSS for red gradient */}
       <style jsx>{`
         .text-gradient-red {
           background: linear-gradient(to right, #dc2626, #b91c1c, #991b1b);
