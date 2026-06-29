@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -6,9 +7,8 @@ import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-
-// Supabase client (browser)
 import { createClient } from "@/lib/supabase/client";
+import { X, Check } from "lucide-react";
 
 interface Product {
   id: number;
@@ -18,11 +18,13 @@ interface Product {
   price: number;
   link?: string;
   category?: string;
+  features: string[];
 }
 
 export default function ProductsSlider() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activePopup, setActivePopup] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -54,76 +56,124 @@ export default function ProductsSlider() {
     );
   }
 
-  if (!products.length) {
-    return null; // or a fallback message
-  }
+  if (!products.length) return null;
 
   return (
-    <section className="py-20 px-4 bg-slate-900/50">
+    <section className="py-20 px-4 bg-gradient-to-b from-[#0a0e1a] to-slate-900/50">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
-          <span className="text-amber-400 text-sm font-semibold uppercase tracking-wider">
-            Featured
+          <span className="text-red-500 text-sm font-semibold uppercase tracking-wider">
+            ✈️ Fly Smart
           </span>
           <h2 className="text-4xl font-bold">
             Our <span className="text-gradient-gold">Products</span>
           </h2>
-          <p className="text-slate-400">Handpicked for your luxury experience</p>
+          <p className="text-slate-400">Choose the perfect fare for your journey</p>
         </div>
 
         <Swiper
-          modules={[Autoplay, Pagination, EffectCoverflow]}
-          effect="coverflow"
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView="auto"
-          coverflowEffect={{
-            rotate: 0,
-            stretch: 0,
-            depth: 100,
-            modifier: 2.5,
-            slideShadows: false,
+          modules={[Autoplay, Pagination]}
+          spaceBetween={30}
+          slidesPerView={1}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
           }}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           className="pb-12"
         >
           {products.map((product) => (
-            <SwiperSlide key={product.id} className="!w-[300px] md:!w-[400px]">
-              <div className="group relative rounded-2xl overflow-hidden h-[420px] cursor-pointer shadow-2xl bg-[#0a0e1a]">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a]/95 via-black/30 to-transparent z-10"></div>
-                <Image
-                  src={product.image_url}
-                  alt={product.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition duration-700"
-                />
-                <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
-                  <div className="flex items-center gap-2">
-                    {product.category && (
-                      <span className="px-3 py-1 bg-amber-500/20 backdrop-blur-sm rounded-full text-amber-300 text-xs font-bold border border-amber-500/30">
-                        {product.category}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-2xl font-bold mt-2">{product.name}</h3>
-                  <p className="text-slate-300 text-sm line-clamp-2">{product.description}</p>
+            <SwiperSlide key={product.id}>
+              <div
+                className="relative group rounded-2xl overflow-hidden bg-gradient-to-br from-[#1a1a2e] to-[#0a0e1a] border border-red-500/20 hover:border-red-500/50 transition-all duration-300 h-[420px] cursor-pointer shadow-2xl shadow-red-500/5"
+                onMouseEnter={() => setActivePopup(product.id)}
+                onMouseLeave={() => setActivePopup(null)}
+              >
+                {/* Background Image with dark overlay */}
+                <div className="absolute inset-0 -z-10">
+                  <Image
+                    src={product.image_url}
+                    alt={product.name}
+                    fill
+                    className="object-cover opacity-40"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-[#0a0e1a]/80"></div>
+                </div>
+
+                {/* Product Name */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-6">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
+                    {product.name}
+                  </h3>
                   {product.price && (
-                    <p className="text-amber-300 font-bold text-xl mt-2">
+                    <p className="text-amber-400 text-xl font-bold mt-2">
                       ${product.price}
                     </p>
                   )}
-                  <button className="mt-4 px-6 py-2 border border-amber-500/50 text-amber-300 rounded-full text-sm hover:bg-amber-500 hover:text-white transition group-hover:border-amber-400">
-                    Learn More →
-                  </button>
+                  <p className="text-slate-400 text-sm mt-1">
+                    {product.category || "Economy"}
+                  </p>
+                  <div className="mt-4 flex justify-center gap-2 text-xs text-slate-500">
+                    <span>•</span>
+                    <span>Fare Difference applicable</span>
+                    <span>•</span>
+                  </div>
                 </div>
-                {/* Gold Accent Line */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-30"></div>
+
+                {/* Hover Popup */}
+                {activePopup === product.id && (
+                  <div className="absolute inset-0 bg-[#0a0e1a]/95 backdrop-blur-sm flex flex-col justify-center p-6 animate-fadeIn">
+                    <button
+                      onClick={() => setActivePopup(null)}
+                      className="absolute top-4 right-4 text-slate-400 hover:text-white transition"
+                    >
+                      <X size={24} />
+                    </button>
+                    <h4 className="text-xl font-bold text-amber-400 mb-2">
+                      {product.name} Features
+                    </h4>
+                    <ul className="space-y-2 text-sm text-slate-300">
+                      {product.features && product.features.length > 0 ? (
+                        product.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <Check size={16} className="text-green-400 flex-shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="text-slate-400">No features listed</li>
+                      )}
+                    </ul>
+                    {product.link && (
+                      <a
+                        href={product.link}
+                        className="mt-4 inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-6 rounded-full text-center transition"
+                      >
+                        Learn More
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+      `}</style>
     </section>
   );
 }
