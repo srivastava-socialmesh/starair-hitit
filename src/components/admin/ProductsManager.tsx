@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -22,6 +21,7 @@ export default function ProductsManager() {
   const [editing, setEditing] = useState<Product | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<Partial<Product>>({});
+  const [featuresInput, setFeaturesInput] = useState(""); // separate state for textarea
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -54,7 +54,6 @@ export default function ProductsManager() {
   }, []);
 
   const handleSave = async () => {
-    // Validate required fields
     if (!form.name || !form.image_url) {
       alert("Name and Image URL are required");
       return;
@@ -65,24 +64,20 @@ export default function ProductsManager() {
     setSuccess(null);
 
     try {
-      // Prepare payload – features should be a JSON array
+      // Parse features from the textarea input
       let features: string[] = [];
-      if (form.features) {
-        if (typeof form.features === 'string') {
-          // If it's a string, try to parse it as JSON, or treat as comma-separated
-          try {
-            const parsed = JSON.parse(form.features);
-            if (Array.isArray(parsed)) {
-              features = parsed;
-            } else {
-              throw new Error('Not an array');
-            }
-          } catch {
-            // Fallback: split by comma
-            features = (form.features as string).split(',').map(s => s.trim()).filter(Boolean);
+      if (featuresInput.trim()) {
+        try {
+          // Try parsing as JSON array
+          const parsed = JSON.parse(featuresInput);
+          if (Array.isArray(parsed)) {
+            features = parsed;
+          } else {
+            throw new Error("Not an array");
           }
-        } else if (Array.isArray(form.features)) {
-          features = form.features;
+        } catch {
+          // Fallback: split by comma
+          features = featuresInput.split(",").map((s) => s.trim()).filter(Boolean);
         }
       }
 
@@ -98,7 +93,6 @@ export default function ProductsManager() {
       };
 
       if (editing) {
-        // Update
         const { error } = await supabase
           .from("products")
           .update(payload)
@@ -111,7 +105,6 @@ export default function ProductsManager() {
         }
         setSuccess("Product updated successfully!");
       } else {
-        // Insert
         const { error } = await supabase
           .from("products")
           .insert([payload]);
@@ -124,10 +117,10 @@ export default function ProductsManager() {
         setSuccess("Product added successfully!");
       }
 
-      // Reset form and refresh
       setShowForm(false);
       setEditing(null);
       setForm({});
+      setFeaturesInput("");
       fetchProducts();
     } catch (err) {
       console.error("Save error:", err);
@@ -181,6 +174,7 @@ export default function ProductsManager() {
           onClick={() => {
             setEditing(null);
             setForm({ is_active: true });
+            setFeaturesInput("");
             setShowForm(true);
             setError(null);
             setSuccess(null);
@@ -211,6 +205,7 @@ export default function ProductsManager() {
                 setShowForm(false);
                 setEditing(null);
                 setForm({});
+                setFeaturesInput("");
                 setError(null);
                 setSuccess(null);
               }}
@@ -263,8 +258,8 @@ export default function ProductsManager() {
               <label className="text-slate-400 text-sm block mb-1">Features (JSON array or comma-separated)</label>
               <textarea
                 placeholder='["Feature 1", "Feature 2"] or "Feature 1, Feature 2"'
-                value={Array.isArray(form.features) ? JSON.stringify(form.features) : (form.features || "")}
-                onChange={(e) => setForm({ ...form, features: e.target.value })}
+                value={featuresInput}
+                onChange={(e) => setFeaturesInput(e.target.value)}
                 className="w-full bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
                 rows={2}
               />
@@ -286,6 +281,7 @@ export default function ProductsManager() {
                 setShowForm(false);
                 setEditing(null);
                 setForm({});
+                setFeaturesInput("");
               }}
               className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg"
             >
@@ -335,6 +331,7 @@ export default function ProductsManager() {
                           ...p,
                           features: p.features || [],
                         });
+                        setFeaturesInput(Array.isArray(p.features) ? JSON.stringify(p.features) : "");
                         setShowForm(true);
                         setError(null);
                         setSuccess(null);
