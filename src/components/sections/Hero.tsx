@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/8f6833e6.png",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1782735068025.png",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1782735011290.png",
 ];
 
 export default function Hero() {
@@ -26,8 +27,11 @@ export default function Hero() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Bottom gradient for readability */}
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+      {/* DARK OVERLAY – improves text readability */}
+      <div className="absolute inset-0 bg-black/40 z-5"></div>
+
+      {/* Bottom gradient for extra readability */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
 
       {/* Red Accent Line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
@@ -43,12 +47,12 @@ export default function Hero() {
           <FlightSearch />
         </motion.div>
 
-        {/* Right: Brand Content – centered */}
+        {/* Right: Brand Content – now with a subtle glass background for readability */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col items-center lg:items-start justify-center text-center lg:text-left space-y-4 h-full"
+          className="flex flex-col items-center lg:items-start justify-center text-center lg:text-left space-y-4 p-6 rounded-2xl bg-black/20 backdrop-blur-sm border border-white/10"
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the</span>
