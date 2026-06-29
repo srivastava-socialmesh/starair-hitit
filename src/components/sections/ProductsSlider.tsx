@@ -1,12 +1,10 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectCoverflow } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
 import { createClient } from "@/lib/supabase/client";
 import { X, Check } from "lucide-react";
 
@@ -38,6 +36,9 @@ export default function ProductsSlider() {
       if (error) {
         console.error("Error fetching products:", error);
       } else {
+        console.log("Fetched products:", data);
+        // Log image URLs for debugging
+        data?.forEach(p => console.log(`Product: ${p.name}, Image URL: ${p.image_url}`));
         setProducts(data || []);
       }
       setLoading(false);
@@ -91,14 +92,26 @@ export default function ProductsSlider() {
                 onMouseEnter={() => setActivePopup(product.id)}
                 onMouseLeave={() => setActivePopup(null)}
               >
-                {/* Background Image with dark overlay */}
+                {/* Background Image */}
                 <div className="absolute inset-0 -z-10">
-                  <Image
-                    src={product.image_url}
-                    alt={product.name}
-                    fill
-                    className="object-cover opacity-40"
-                  />
+                  {product.image_url ? (
+                    <Image
+                      src={product.image_url}
+                      alt={product.name}
+                      fill
+                      className="object-cover opacity-40"
+                      onError={(e) => {
+                        console.error("Image failed to load:", product.image_url);
+                        // Instead of hiding, we'll let the gradient show
+                        // but we can also set a fallback color via style
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-amber-500/20 to-red-500/20"></div>
+                  )}
+                  {/* Gradient overlay (always visible) */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-[#0a0e1a]/80"></div>
                 </div>
 
