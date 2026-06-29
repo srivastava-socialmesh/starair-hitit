@@ -25,6 +25,8 @@ export default function DestinationsSlider({ destinations }: { destinations: Des
       grabCursor={true}
       centeredSlides={true}
       slidesPerView="auto"
+      loop={true}
+      speed={600}
       coverflowEffect={{
         rotate: 0,
         stretch: 0,
@@ -32,37 +34,26 @@ export default function DestinationsSlider({ destinations }: { destinations: Des
         modifier: 2.5,
         slideShadows: false,
       }}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
       pagination={{ clickable: true }}
-      className="pb-12"
+      className="pb-10"
     >
       {destinations.map((dest) => (
-        <SwiperSlide key={dest.id} className="!w-[300px] md:!w-[400px]">
-          <div className="group relative rounded-2xl overflow-hidden h-[420px] cursor-pointer shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a]/95 via-black/30 to-transparent z-10"></div>
+        <SwiperSlide key={dest.id} className="!w-[280px] md:!w-[320px]">
+          <div className="group relative rounded-2xl overflow-hidden h-[380px] cursor-pointer shadow-xl bg-white border border-gray-200 hover:border-red-300 transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10"></div>
             <Image
               src={dest.image_url}
               alt={dest.city}
               fill
               className="object-cover group-hover:scale-110 transition duration-700"
             />
-            <div className="absolute bottom-0 left-0 p-6 z-20">
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1 bg-amber-500/20 backdrop-blur-sm rounded-full text-amber-300 text-xs font-bold border border-amber-500/30">
-                  {dest.code}
-                </span>
-                <span className="text-slate-300 text-sm">{dest.country}</span>
-              </div>
-              <h3 className="text-3xl font-bold mt-2">{dest.city}</h3>
-              <p className="text-amber-300 font-bold text-2xl mt-2">
-                From ${dest.price}
-              </p>
-              <button className="mt-4 px-6 py-2 border border-amber-500/50 text-amber-300 rounded-full text-sm hover:bg-amber-500 hover:text-white transition group-hover:border-amber-400">
-                Book Now →
-              </button>
+            <div className="absolute bottom-0 left-0 p-5 z-20 w-full">
+              <h3 className="text-xl font-bold text-white">{dest.city}</h3>
+              <p className="text-gray-300 text-sm">{dest.country}</p>
+              <p className="text-amber-400 font-bold text-lg mt-1">From ${dest.price}</p>
             </div>
-            {/* Gold Accent Line */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent z-30"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-30"></div>
           </div>
         </SwiperSlide>
       ))}
