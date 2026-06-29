@@ -4,10 +4,8 @@ import { motion } from "framer-motion";
 import { Plane, Calendar, Search, Sparkles, ArrowRight } from "lucide-react";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_6.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl82LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMxODYsImV4cCI6MTgxNDE4OTE4Nn0.9eMaYkm8Vjdz_JrXCYcGL9GGkRQN3g1UYibxm_5US3w",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_5.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl81LmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyMTQsImV4cCI6MTgxNDE4OTIxNH0.bsbxU_WOXdPYe4k1SdkvZoUPYnqKJwUOEB84U4Qgrfs",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_3.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8zLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyNDMsImV4cCI6MTgxNDE4OTI0M30.ul05CrO3CYyZEqY280JTIWwM8PkT3bqjA6CddN-BULk",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/sign/banners/Banner_1.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84YWExMDJhMC1lOTJhLTRlOGUtOWQ0OS02MWZmMTJmYWEyMGYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJiYW5uZXJzL0Jhbm5lcl8xLmpwZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODI2NTMyNjMsImV4cCI6MTgxNDE4OTI2M30.GuGORT-Pu_1Cy7nsdYQILfpavhgoU6UlhBzm2baQpCY",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1782735068025.png",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1782735011290.png",
 ];
 
 export default function Hero() {
