@@ -36,7 +36,7 @@ export default function Hero() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Subtle gradient at the bottom for text readability */}
+      {/* Bottom gradient for readability */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
 
       {/* Gold Accent Line */}
@@ -73,12 +73,12 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* 🔽 TRANSPARENT SEARCH BAR – REPLACED `glass-gold` WITH `backdrop-blur-xl bg-white/5 border border-white/10` */}
+        {/* 🔽 FULLY TRANSPARENT SEARCH BAR – NO BACKGROUND, NO BLUR */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto mt-8 sm:mt-12 shadow-2xl"
+          className="rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto mt-8 sm:mt-12"
         >
           <div className="flex bg-black/30 rounded-xl p-1 mb-6 w-fit mx-auto">
             {["Round Trip", "One Way", "Multi-City"].map((tab) => (
@@ -105,7 +105,7 @@ export default function Hero() {
                   value={origin}
                   onChange={(e) => setOrigin(e.target.value)}
                   required
-                  className="w-full bg-white/5 border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-400 focus:border-amber-400 outline-none transition"
+                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-300 focus:border-amber-400 outline-none transition"
                 />
               </div>
             </div>
@@ -121,7 +121,7 @@ export default function Hero() {
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   required
-                  className="w-full bg-white/5 border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-400 focus:border-amber-400 outline-none transition"
+                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-300 focus:border-amber-400 outline-none transition"
                 />
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function Hero() {
                 <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
                 <input
                   type="date"
-                  className="w-full bg-white/5 border-b-2 border-amber-500/30 pl-10 py-2.5 text-white [color-scheme:dark] focus:border-amber-400 outline-none transition"
+                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white [color-scheme:dark] focus:border-amber-400 outline-none transition"
                   required
                 />
               </div>
@@ -148,7 +148,6 @@ export default function Hero() {
             </button>
           </form>
 
-          {/* Book Now CTA */}
           <div className="text-center mt-6">
             <p className="text-slate-400 text-sm">or</p>
             <button className="mt-2 text-amber-400 hover:text-amber-300 transition font-medium underline decoration-amber-500/30 hover:decoration-amber-400 underline-offset-4">
