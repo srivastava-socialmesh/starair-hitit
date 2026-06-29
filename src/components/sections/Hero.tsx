@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plane, Calendar, Search, Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import FlightSearch from "./FlightSearch";
 
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1782735068025.png",
@@ -9,8 +10,6 @@ const bannerImages = [
 ];
 
 export default function Hero() {
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -19,11 +18,6 @@ export default function Hero() {
     }, 4000);
     return () => clearInterval(interval);
   }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Searching flights... (Connect to Hitit)");
-  };
 
   return (
     <section
@@ -71,87 +65,14 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* 🔽 FULLY TRANSPARENT SEARCH BAR – NO BACKGROUND, NO BLUR */}
+        {/* FlightSearch Component – fully transparent container */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto mt-8 sm:mt-12"
+          className="w-full max-w-5xl mx-auto mt-8 sm:mt-12"
         >
-          <div className="flex bg-black/30 rounded-xl p-1 mb-6 w-fit mx-auto">
-            {["Round Trip", "One Way", "Multi-City"].map((tab) => (
-              <button
-                key={tab}
-                className="px-4 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all hover:text-white data-[active=true]:bg-amber-500 data-[active=true]:text-white data-[active=true]:shadow-lg"
-                data-active={tab === "Round Trip"}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="text-amber-300 text-xs uppercase tracking-widest font-bold flex items-center gap-1">
-                <span>✈️</span> From
-              </label>
-              <div className="relative mt-1">
-                <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
-                <input
-                  type="text"
-                  placeholder="City or Airport"
-                  value={origin}
-                  onChange={(e) => setOrigin(e.target.value)}
-                  required
-                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-300 focus:border-amber-400 outline-none transition"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-amber-300 text-xs uppercase tracking-widest font-bold flex items-center gap-1">
-                <span>🛬</span> To
-              </label>
-              <div className="relative mt-1">
-                <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60 rotate-90" />
-                <input
-                  type="text"
-                  placeholder="Destination"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  required
-                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white placeholder:text-slate-300 focus:border-amber-400 outline-none transition"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-amber-300 text-xs uppercase tracking-widest font-bold flex items-center gap-1">
-                <span>📅</span> Date
-              </label>
-              <div className="relative mt-1">
-                <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400/60" />
-                <input
-                  type="date"
-                  className="w-full bg-black/20 backdrop-blur-sm border-b-2 border-amber-500/30 pl-10 py-2.5 text-white [color-scheme:dark] focus:border-amber-400 outline-none transition"
-                  required
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition-all hover:scale-105 group"
-            >
-              <Search size={18} />
-              Explore Flights
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition" />
-            </button>
-          </form>
-
-          <div className="text-center mt-6">
-            <p className="text-slate-400 text-sm">or</p>
-            <button className="mt-2 text-amber-400 hover:text-amber-300 transition font-medium underline decoration-amber-500/30 hover:decoration-amber-400 underline-offset-4">
-              Book with your travel agent
-            </button>
-          </div>
+          <FlightSearch />
         </motion.div>
       </div>
     </section>
