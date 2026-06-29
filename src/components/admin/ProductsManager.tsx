@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -11,6 +12,7 @@ interface Product {
   price: number;
   link: string;
   category: string;
+  features: string[];
   is_active: boolean;
 }
 
@@ -20,17 +22,31 @@ export default function ProductsManager() {
   const [editing, setEditing] = useState<Product | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<Partial<Product>>({});
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const supabase = createClient();
 
   const fetchProducts = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) console.error(error);
-    else setProducts(data || []);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error("Fetch error:", error);
+        setError("Failed to load products");
+      } else {
+        setProducts(data || []);
+        setError(null);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("Unexpected error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -38,30 +54,123 @@ export default function ProductsManager() {
   }, []);
 
   const handleSave = async () => {
-    if (!form.name || !form.image_url) return alert("Name and Image URL are required");
-    if (editing) {
-      await supabase
-        .from("products")
-        .update({ ...form, updated_at: new Date() })
-        .eq("id", editing.id);
-    } else {
-      await supabase.from("products").insert([form]);
+    // Validate required fields
+    if (!form.name || !form.image_url) {
+      alert("Name and Image URL are required");
+      return;
     }
-    setShowForm(false);
-    setEditing(null);
-    setForm({});
-    fetchProducts();
+
+    setSaving(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      // Prepare payload – features should be a JSON array
+      let features: string[] = [];
+      if (form.features) {
+        if (typeof form.features === 'string') {
+          // If it's a string, try to parse it as JSON, or treat as comma-separated
+          try {
+            const parsed = JSON.parse(form.features);
+            if (Array.isArray(parsed)) {
+              features = parsed;
+            } else {
+              throw new Error('Not an array');
+            }
+          } catch {
+            // Fallback: split by comma
+            features = (form.features as string).split(',').map(s => s.trim()).filter(Boolean);
+          }
+        } else if (Array.isArray(form.features)) {
+          features = form.features;
+        }
+      }
+
+      const payload = {
+        name: form.name,
+        description: form.description || null,
+        image_url: form.image_url,
+        price: form.price ? parseFloat(form.price as any) : null,
+        link: form.link || null,
+        category: form.category || null,
+        features: features,
+        is_active: form.is_active !== undefined ? form.is_active : true,
+      };
+
+      if (editing) {
+        // Update
+        const { error } = await supabase
+          .from("products")
+          .update(payload)
+          .eq("id", editing.id);
+        if (error) {
+          console.error("Update error:", error);
+          setError("Update failed: " + error.message);
+          alert("Update failed: " + error.message);
+          return;
+        }
+        setSuccess("Product updated successfully!");
+      } else {
+        // Insert
+        const { error } = await supabase
+          .from("products")
+          .insert([payload]);
+        if (error) {
+          console.error("Insert error:", error);
+          setError("Insert failed: " + error.message);
+          alert("Insert failed: " + error.message);
+          return;
+        }
+        setSuccess("Product added successfully!");
+      }
+
+      // Reset form and refresh
+      setShowForm(false);
+      setEditing(null);
+      setForm({});
+      fetchProducts();
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("An unexpected error occurred");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Delete this item?")) return;
-    await supabase.from("products").delete().eq("id", id);
-    fetchProducts();
+    if (!confirm("Delete this product?")) return;
+    try {
+      const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", id);
+      if (error) {
+        console.error("Delete error:", error);
+        alert("Delete failed: " + error.message);
+        return;
+      }
+      fetchProducts();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("An unexpected error occurred");
+    }
   };
 
   const toggleActive = async (id: number, current: boolean) => {
-    await supabase.from("products").update({ is_active: !current }).eq("id", id);
-    fetchProducts();
+    try {
+      const { error } = await supabase
+        .from("products")
+        .update({ is_active: !current })
+        .eq("id", id);
+      if (error) {
+        console.error("Toggle error:", error);
+        alert("Toggle failed: " + error.message);
+        return;
+      }
+      fetchProducts();
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
   };
 
   return (
@@ -69,18 +178,44 @@ export default function ProductsManager() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-amber-400">Products</h2>
         <button
-          onClick={() => { setEditing(null); setForm({}); setShowForm(true); }}
+          onClick={() => {
+            setEditing(null);
+            setForm({ is_active: true });
+            setShowForm(true);
+            setError(null);
+            setSuccess(null);
+          }}
           className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg"
         >
           <Plus size={18} /> Add Product
         </button>
       </div>
 
+      {error && (
+        <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-4 rounded-lg mb-4">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-500/20 border border-green-500/50 text-green-300 p-4 rounded-lg mb-4">
+          {success}
+        </div>
+      )}
+
       {showForm && (
         <div className="bg-[#111827] p-6 rounded-xl border border-amber-500/20 mb-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">{editing ? "Edit" : "New"} Product</h3>
-            <button onClick={() => { setShowForm(false); setEditing(null); }} className="text-slate-400 hover:text-white">
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditing(null);
+                setForm({});
+                setError(null);
+                setSuccess(null);
+              }}
+              className="text-slate-400 hover:text-white"
+            >
               <X size={20} />
             </button>
           </div>
@@ -124,12 +259,36 @@ export default function ProductsManager() {
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white col-span-full"
               rows={3}
             />
+            <div className="col-span-full">
+              <label className="text-slate-400 text-sm block mb-1">Features (JSON array or comma-separated)</label>
+              <textarea
+                placeholder='["Feature 1", "Feature 2"] or "Feature 1, Feature 2"'
+                value={Array.isArray(form.features) ? JSON.stringify(form.features) : (form.features || "")}
+                onChange={(e) => setForm({ ...form, features: e.target.value })}
+                className="w-full bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+                rows={2}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                Enter as JSON array (e.g., ["Wi-Fi", "Meals"]) or comma-separated list.
+              </p>
+            </div>
           </div>
           <div className="mt-4 flex gap-3">
-            <button onClick={handleSave} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2">
-              <Save size={18} /> Save
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50"
+            >
+              <Save size={18} /> {saving ? "Saving..." : "Save"}
             </button>
-            <button onClick={() => { setShowForm(false); setEditing(null); }} className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg">
+            <button
+              onClick={() => {
+                setShowForm(false);
+                setEditing(null);
+                setForm({});
+              }}
+              className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg"
+            >
               Cancel
             </button>
           </div>
@@ -170,7 +329,16 @@ export default function ProductsManager() {
                   </td>
                   <td className="p-3 flex gap-2">
                     <button
-                      onClick={() => { setEditing(p); setForm(p); setShowForm(true); }}
+                      onClick={() => {
+                        setEditing(p);
+                        setForm({
+                          ...p,
+                          features: p.features || [],
+                        });
+                        setShowForm(true);
+                        setError(null);
+                        setSuccess(null);
+                      }}
                       className="text-blue-400 hover:text-blue-300"
                     >
                       <Pencil size={18} />
