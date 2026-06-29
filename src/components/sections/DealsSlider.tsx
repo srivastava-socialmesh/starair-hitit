@@ -1,4 +1,3 @@
-
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -45,7 +44,7 @@ export default function DealsSlider() {
 
   if (loading) {
     return (
-      <section className="py-12 px-4 bg-gray-50/50">
+      <section className="py-8 px-4 bg-gray-50/50">
         <div className="max-w-7xl mx-auto text-center text-gray-400">
           Loading deals...
         </div>
@@ -56,9 +55,9 @@ export default function DealsSlider() {
   if (deals.length === 0) return null;
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-8 px-4 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-6">
           <span className="text-red-500 text-sm font-semibold uppercase tracking-wider">
             🔥 Limited Time
           </span>
@@ -83,7 +82,7 @@ export default function DealsSlider() {
           }}
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          className="pb-12"
+          className="pb-10"
         >
           {deals.map((deal) => (
             <SwiperSlide key={deal.id} className="!w-[280px] md:!w-[320px]">
