@@ -1,4 +1,3 @@
-
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -44,7 +43,8 @@ export default function FlightSearch() {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const primaryTabs = [
+  // Primary tabs with explicit type
+  const primaryTabs: { id: PrimaryTab; label: string; icon: any }[] = [
     { id: 'search', label: 'Search Flights', icon: Search },
     { id: 'checkin', label: 'Check-in', icon: Ticket },
     { id: 'flightstatus', label: 'Flight Status', icon: Clock },
@@ -189,14 +189,14 @@ export default function FlightSearch() {
           <form onSubmit={handleSearch} className="space-y-5">
             <div className="flex bg-black/30 rounded-xl p-1 w-fit mx-auto">
               {[
-                { id: 'oneway', label: 'One Way', icon: Plane },
-                { id: 'roundtrip', label: 'Round Trip', icon: RotateCw },
-                { id: 'multicity', label: 'Multi-City', icon: Users },
+                { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
+                { id: 'roundtrip' as TripType, label: 'Round Trip', icon: RotateCw },
+                { id: 'multicity' as TripType, label: 'Multi-City', icon: Users },
               ].map((type) => (
                 <button
                   key={type.id}
                   type="button"
-                  onClick={() => setTripType(type.id as TripType)}
+                  onClick={() => setTripType(type.id)}
                   className={`flex items-center gap-1.5 px-4 sm:px-6 py-2 rounded-lg text-sm font-medium transition ${
                     tripType === type.id
                       ? 'bg-amber-500 text-white shadow-lg'
