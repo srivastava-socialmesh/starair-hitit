@@ -7,9 +7,16 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "StarAir - Powered by Hitit",
   description: "Luxury flights with real-time middleware.",
+  icons: {
+    icon: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/Star_Logo.ico",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
