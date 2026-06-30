@@ -41,7 +41,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const fareServicePages = cmsPages.filter(p => 
+  const fareServicePages = cmsPages.filter(p =>
     ['fare-rules', 'fraudulent-claims', 'privacy-policy', 'disclaimer'].includes(p.slug)
   );
 
@@ -49,15 +49,23 @@ export default function Navbar() {
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
       isHidden ? "-translate-y-full" : "translate-y-0"
     } ${
-      isScrolled 
-        ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" 
+      isScrolled
+        ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md"
         : "bg-transparent"
     }`}>
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
           {!logoError ? (
-            <Image src={LOGO_URL} alt="StarAir" fill className="object-contain" priority onError={() => setLogoError(true)} />
+            <Image
+              src={LOGO_URL}
+              alt="StarAir"
+              fill
+              className="object-contain"
+              priority
+              unoptimized   // <-- Add this to fix invalid_image_optimize_request
+              onError={() => setLogoError(true)}
+            />
           ) : (
             <span className="text-3xl font-bold text-red-500">✈️</span>
           )}
@@ -80,7 +88,7 @@ export default function Navbar() {
 
           {fareServicePages.length > 0 && (
             <li className="relative group">
-              <button 
+              <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className={`flex items-center gap-1 ${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 font-semibold transition-colors`}
               >
@@ -122,7 +130,7 @@ export default function Navbar() {
             <li className="text-gray-700 hover:text-red-600 font-semibold">Deals</li>
             <li className="text-gray-700 hover:text-red-600 font-semibold">Flight Status</li>
             <li className="text-gray-700 hover:text-red-600 font-semibold">About</li>
-            
+
             <li className="text-gray-700 font-semibold">Fares & Services</li>
             <ul className="pl-4 border-l-2 border-red-300 space-y-1">
               {fareServicePages.map((p) => (

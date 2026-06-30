@@ -99,6 +99,7 @@ export default function ProductsSlider() {
                       alt={product.name}
                       fill
                       className="object-cover group-hover:scale-110 transition duration-700"
+                      unoptimized   // <-- Add this to fix invalid_image_optimize_request
                       onError={(e) => {
                         console.error("Image failed to load:", product.image_url);
                         (e.target as HTMLImageElement).style.display = 'none';
