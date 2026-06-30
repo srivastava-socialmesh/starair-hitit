@@ -1,6 +1,6 @@
-
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
@@ -12,58 +12,60 @@ export default function Navbar() {
   const [logoError, setLogoError] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [cmsPages, setCmsPages] = useState<{ slug: string; title: string }[]>([]);
+
+  // Fetch CMS pages
+  useEffect(() => {
+    const fetchCMSPages = async () => {
+      const res = await fetch('/api/cms/pages');
+      if (res.ok) {
+        const data = await res.json();
+        setCmsPages(data);
+      }
+    };
+    fetchCMSPages();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Background change
       setIsScrolled(currentScrollY > 50);
-
-      // Auto-hide logic
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsHidden(true);
       } else if (currentScrollY < lastScrollY || currentScrollY <= 100) {
         setIsHidden(false);
       }
-
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  // Merge static and dynamic menu items
+  const staticMenu = ["Destinations", "Deals", "Flight Status", "About"];
+  const dynamicMenu = cmsPages.map(p => ({ label: p.title, href: `/${p.slug}` }));
+
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
-        isHidden ? "-translate-y-full" : "translate-y-0"
-      } ${
-        isScrolled
-          ? "bg-[#0a0e1a]/95 backdrop-blur-xl border-b border-red-500/10 shadow-2xl"
-          : "bg-transparent"
-      }`}
-    >
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isHidden ? "-translate-y-full" : "translate-y-0"} ${isScrolled ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
           {!logoError ? (
-            <Image
-              src={LOGO_URL}
-              alt="StarAir"
-              fill
-              className="object-contain"
-              priority
-              onError={() => setLogoError(true)}
-            />
+            <Image src={LOGO_URL} alt="StarAir" fill className="object-contain" priority onError={() => setLogoError(true)} />
           ) : (
             <span className="text-3xl font-bold text-red-500">✈️</span>
           )}
         </div>
 
-        <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
-          {["Destinations", "Deals", "Flight Status", "About"].map((item) => (
-            <li key={item} className="text-amber-400 hover:text-red-600 cursor-pointer transition-colors font-semibold">
+        <ul className="hidden md:flex items-center gap-6 text-sm font-medium">
+          {staticMenu.map((item) => (
+            <li key={item} className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
               {item}
+            </li>
+          ))}
+          {/* Dynamic CMS links */}
+          {dynamicMenu.map((item) => (
+            <li key={item.href} className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
+              <Link href={item.href}>{item.label}</Link>
             </li>
           ))}
           <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 rounded-full text-white font-bold shadow-lg shadow-red-700/30 transition-all hover:scale-105">
@@ -71,22 +73,23 @@ export default function Navbar() {
           </li>
         </ul>
 
-        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+        <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-[#0a0e1a]/95 backdrop-blur-xl border-t border-red-500/10 p-6">
+        <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 p-6">
           <ul className="flex flex-col gap-4">
-            {["Destinations", "Deals", "Flight Status", "About"].map((item) => (
-              <li key={item} className="text-amber-400 hover:text-red-600 cursor-pointer transition font-semibold">
-                {item}
+            {staticMenu.map((item) => (
+              <li key={item} className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">{item}</li>
+            ))}
+            {dynamicMenu.map((item) => (
+              <li key={item.href} className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">
+                <Link href={item.href}>{item.label}</Link>
               </li>
             ))}
-            <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">
-              Sign In
-            </li>
+            <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">Sign In</li>
           </ul>
         </div>
       )}

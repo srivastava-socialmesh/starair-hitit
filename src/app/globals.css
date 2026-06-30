@@ -95,3 +95,136 @@
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
+
+/* ============================================
+   CMS / Fare Table Styles (Light Theme)
+   ============================================ */
+
+/* Fare Rules Table */
+.fare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  background-color: #ffffff;
+  color: #1f2937;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.fare-table th,
+.fare-table td {
+  border: 1px solid #d1d5db;
+  padding: 0.6rem 0.8rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.fare-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.fare-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.fare-table tr:hover {
+  background-color: #f3f4f6;
+}
+
+.fare-table td[colspan] {
+  background-color: #f9fafb;
+  font-weight: 500;
+}
+
+.fare-table br {
+  display: block;
+  margin: 0.2rem 0;
+}
+
+/* Sub-headings inside table cells (e.g., "1st Change Free") */
+.fare-table td br + span {
+  display: block;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+/* Footnote styling (asterisk) */
+.fare-table .footnote {
+  font-size: 0.75rem;
+  color: #6b7280;
+  vertical-align: super;
+}
+
+/* For the "Change Fee" and "Cancellation Fee" table headers */
+.fare-table h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Prose improvements for CMS content */
+.prose {
+  color: #374151;
+  line-height: 1.8;
+}
+
+.prose h2 {
+  color: #1f2937;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose h3 {
+  color: #374151;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose p {
+  margin: 0.75rem 0;
+  line-height: 1.7;
+}
+
+.prose a {
+  color: #dc2626;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: #b91c1c;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin: 0.4rem 0;
+}
+
+/* Responsive tables on small screens */
+@media (max-width: 640px) {
+  .fare-table {
+    font-size: 0.75rem;
+  }
+  .fare-table th,
+  .fare-table td {
+    padding: 0.4rem 0.4rem;
+  }
+}
