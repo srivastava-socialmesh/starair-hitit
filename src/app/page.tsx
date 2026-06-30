@@ -7,6 +7,9 @@ import FlightStatus from "@/components/sections/FlightStatus";
 import Stats from "@/components/sections/Stats";
 import Footer from "@/components/sections/Footer";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function Home() {
   return (
     <main className="bg-white min-h-screen">

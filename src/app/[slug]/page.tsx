@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import { createServerClient } from "@/lib/supabase/server";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function CMSPage({ params }: { params: { slug: string } }) {
   // Debug: Log the slug
   console.log("Slug requested:", params.slug);
