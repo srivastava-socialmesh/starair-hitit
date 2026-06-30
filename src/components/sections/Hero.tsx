@@ -31,6 +31,7 @@ export default function Hero() {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
       <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pt-20 lg:pt-24 min-h-[80vh]">
+        {/* Left: Flight Search */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -40,27 +41,31 @@ export default function Hero() {
           <FlightSearch />
         </motion.div>
 
+        {/* Right: Brand Content – right-aligned */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col items-start justify-start text-left space-y-4"
+          className="flex flex-col items-end justify-start text-right space-y-2"
         >
+          {/* Title */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the</span>
             <br />
             <span className="text-red-500 drop-shadow-lg">Art of Travel</span>
           </h1>
 
-          <p className="text-white text-base sm:text-lg max-w-md leading-relaxed drop-shadow-lg">
+          {/* Trust Badges – directly under title */}
+          <div className="flex flex-wrap justify-end gap-4 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg">
+            <span className="flex items-center gap-1">⭐ 4.9/5 Rating</span>
+            <span className="flex items-center gap-1">✈️ 120+ Destinations</span>
+            <span className="flex items-center gap-1">🏆 24 Awards</span>
+          </div>
+
+          {/* Subtitle – aligned with search button (margin-top: auto to push to bottom) */}
+          <p className="text-white text-base sm:text-lg max-w-md leading-relaxed drop-shadow-lg mt-6 lg:mt-auto">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
-
-          <div className="flex flex-wrap gap-6 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg">
-            <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
-            <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
-            <span className="flex items-center gap-2">🏆 24 Awards</span>
-          </div>
         </motion.div>
       </div>
     </section>
