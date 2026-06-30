@@ -4,14 +4,7 @@ import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-<Image
-  src={https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png}
-  alt="Star Air"
-  width={56}
-  height={56}
-  priority
-  unoptimized
-/>
+const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,7 +63,7 @@ export default function Navbar() {
               fill
               className="object-contain"
               priority
-              unoptimized   // <-- Add this to fix invalid_image_optimize_request
+              unoptimized
               onError={() => setLogoError(true)}
             />
           ) : (
