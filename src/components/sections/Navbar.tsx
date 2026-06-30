@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logos/starair-logo.png";
@@ -13,6 +13,7 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cmsPages, setCmsPages] = useState<{ slug: string; title: string }[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Fetch CMS pages
   useEffect(() => {
@@ -41,9 +42,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Merge static and dynamic menu items
-  const staticMenu = ["Destinations", "Deals", "Flight Status", "About"];
-  const dynamicMenu = cmsPages.map(p => ({ label: p.title, href: `/${p.slug}` }));
+  // Separate CMS pages into categories if needed, but we'll just list them under "Fares & Services"
+  const farePages = cmsPages.filter(p => p.slug === 'fare-rules' || p.slug === 'fraudulent-claims' || p.slug === 'privacy-policy' || p.slug === 'disclaimer');
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isHidden ? "-translate-y-full" : "translate-y-0"} ${isScrolled ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" : "bg-transparent"}`}>
@@ -57,17 +57,35 @@ export default function Navbar() {
         </div>
 
         <ul className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {staticMenu.map((item) => (
-            <li key={item} className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
-              {item}
-            </li>
-          ))}
-          {/* Dynamic CMS links */}
-          {dynamicMenu.map((item) => (
-            <li key={item.href} className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
-              <Link href={item.href}>{item.label}</Link>
-            </li>
-          ))}
+          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Destinations</li>
+          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Deals</li>
+          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Flight Status</li>
+          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">About</li>
+          
+          {/* Fares & Services Dropdown */}
+          <li 
+            className="relative group"
+            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseLeave={() => setDropdownOpen(false)}
+          >
+            <button className="flex items-center gap-1 text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
+              Fares & Services <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                {farePages.map((page) => (
+                  <Link
+                    key={page.slug}
+                    href={`/${page.slug}`}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                  >
+                    {page.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </li>
+
           <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 rounded-full text-white font-bold shadow-lg shadow-red-700/30 transition-all hover:scale-105">
             Sign In
           </li>
@@ -81,14 +99,18 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 p-6">
           <ul className="flex flex-col gap-4">
-            {staticMenu.map((item) => (
-              <li key={item} className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">{item}</li>
-            ))}
-            {dynamicMenu.map((item) => (
-              <li key={item.href} className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">
-                <Link href={item.href}>{item.label}</Link>
-              </li>
-            ))}
+            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Destinations</li>
+            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Deals</li>
+            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Flight Status</li>
+            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">About</li>
+            <li className="text-gray-700 font-semibold">Fares & Services</li>
+            <ul className="pl-4 border-l-2 border-red-300 space-y-2">
+              {farePages.map((page) => (
+                <li key={page.slug} className="text-gray-600 hover:text-red-600 cursor-pointer transition">
+                  <Link href={`/${page.slug}`}>{page.title}</Link>
+                </li>
+              ))}
+            </ul>
             <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">Sign In</li>
           </ul>
         </div>

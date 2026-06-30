@@ -1,13 +1,6 @@
+// src/app/[slug]/page.tsx
 import { notFound } from "next/navigation";
 import { createServerClient } from "@/lib/supabase/server";
-
-interface CMSPage {
-  id: number;
-  slug: string;
-  title: string;
-  content: string;
-  category: string;
-}
 
 export default async function CMSPage({ params }: { params: { slug: string } }) {
   const supabase = await createServerClient();
@@ -23,10 +16,9 @@ export default async function CMSPage({ params }: { params: { slug: string } }) 
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      {/* Header breadcrumb? */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">{page.title}</h1>
+    <main className="min-h-screen bg-white pt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <h1 className="text-4xl font-bold text-gray-800 mb-6">{page.title}</h1>
         <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: page.content }} />
       </div>
     </main>
