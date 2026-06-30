@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/8f6833e6.png",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973868.jpg",
 ];
 
 export default function Hero() {
