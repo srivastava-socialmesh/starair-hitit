@@ -57,6 +57,7 @@ export default function FlightSearch() {
     { id: 'govt', label: 'Govt. Employee', icon: Briefcase },
   ];
 
+  // API handlers (unchanged)
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -147,8 +148,8 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-5xl mx-auto">
-      {/* Primary Tabs - transparent */}
-      <div className="flex flex-wrap gap-1 sm:gap-2 mb-6 p-1 bg-black/20 rounded-2xl border border-white/10 backdrop-blur-sm">
+      {/* Primary Tabs - centered */}
+      <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mb-6 p-1 bg-black/20 rounded-2xl border border-white/10 backdrop-blur-sm">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
           return (
@@ -168,7 +169,7 @@ export default function FlightSearch() {
         })}
       </div>
 
-      {/* Content Panel - fully transparent */}
+      {/* Content Panel */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
@@ -200,11 +201,11 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – Centered */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="text-center">
+            {/* FROM, TO, DEPARTURE – Centered with better layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+              <div className="w-full max-w-[200px] text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">✈️ From</label>
-                <div className="relative w-full max-w-[180px] mx-auto">
+                <div className="relative">
                   <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
                   <input
                     type="text"
@@ -215,9 +216,9 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="text-center">
+              <div className="w-full max-w-[200px] text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">🛬 To</label>
-                <div className="relative w-full max-w-[180px] mx-auto">
+                <div className="relative">
                   <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 rotate-90" />
                   <input
                     type="text"
@@ -228,29 +229,29 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="text-center">
+              <div className="w-full max-w-[200px] text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">📅 Departure</label>
-                <div className="relative w-full max-w-[180px] mx-auto">
+                <div className="relative">
                   <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
                   <input
                     type="date"
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[150px]"
+                    className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[140px]"
                     required
                   />
                 </div>
               </div>
               {tripType === 'roundtrip' && (
-                <div className="text-center">
+                <div className="w-full max-w-[200px] text-center">
                   <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">📅 Return</label>
-                  <div className="relative w-full max-w-[180px] mx-auto">
+                  <div className="relative">
                     <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
                     <input
                       type="date"
                       value={returnDate}
                       onChange={(e) => setReturnDate(e.target.value)}
-                      className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[150px]"
+                      className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[140px]"
                     />
                   </div>
                 </div>
@@ -258,12 +259,12 @@ export default function FlightSearch() {
             </div>
 
             {/* PASSENGERS – Centered */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="text-center">
+            <div className="flex justify-center">
+              <div className="text-center w-full max-w-[200px]">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">
                   <Users size={16} className="inline mr-1" /> Passengers
                 </label>
-                <div className="flex items-center justify-center gap-2 bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-2 max-w-[200px] mx-auto">
+                <div className="flex items-center justify-center gap-2 bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-2">
                   <button
                     type="button"
                     onClick={() => setPassengers(Math.max(1, passengers - 1))}
@@ -282,7 +283,6 @@ export default function FlightSearch() {
                   <span className="text-white/60 text-sm ml-2">Adult</span>
                 </div>
               </div>
-              <div></div> {/* empty spacer */}
             </div>
 
             {/* PASSENGER TYPE – Centered */}
@@ -327,7 +327,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* CHECK-IN */}
+        {/* Other tabs (Check-in, Flight Status, Manage Booking) – unchanged, but center form fields */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-5">
             <div className="text-center mb-4">
@@ -369,7 +369,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* FLIGHT STATUS */}
         {primaryTab === 'flightstatus' && (
           <form onSubmit={handleFlightStatus} className="space-y-5">
             <div className="text-center mb-4">
@@ -410,7 +409,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* MANAGE BOOKING */}
         {primaryTab === 'managebooking' && (
           <form onSubmit={handleManageBooking} className="space-y-5">
             <div className="text-center mb-4">

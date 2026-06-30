@@ -15,7 +15,6 @@ export default function Navbar() {
   const [cmsPages, setCmsPages] = useState<{ slug: string; title: string }[]>([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Fetch CMS pages
   useEffect(() => {
     const fetchCMSPages = async () => {
       const res = await fetch('/api/cms/pages');
@@ -42,12 +41,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Separate CMS pages into categories if needed, but we'll just list them under "Fares & Services"
-  const farePages = cmsPages.filter(p => p.slug === 'fare-rules' || p.slug === 'fraudulent-claims' || p.slug === 'privacy-policy' || p.slug === 'disclaimer');
+  const fareServicePages = cmsPages.filter(p => 
+    ['fare-rules', 'fraudulent-claims', 'privacy-policy', 'disclaimer'].includes(p.slug)
+  );
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${isHidden ? "-translate-y-full" : "translate-y-0"} ${isScrolled ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" : "bg-transparent"}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+      isHidden ? "-translate-y-full" : "translate-y-0"
+    } ${
+      isScrolled 
+        ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" 
+        : "bg-transparent"
+    }`}>
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        {/* Logo */}
         <div className="relative w-12 h-12 md:w-14 md:h-14 flex-shrink-0">
           {!logoError ? (
             <Image src={LOGO_URL} alt="StarAir" fill className="object-contain" priority onError={() => setLogoError(true)} />
@@ -56,61 +63,77 @@ export default function Navbar() {
           )}
         </div>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Destinations</li>
-          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Deals</li>
-          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">Flight Status</li>
-          <li className="text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">About</li>
-          
-          {/* Fares & Services Dropdown */}
-          <li 
-            className="relative group"
-            onMouseEnter={() => setDropdownOpen(true)}
-            onMouseLeave={() => setDropdownOpen(false)}
-          >
-            <button className="flex items-center gap-1 text-gray-700 hover:text-red-600 cursor-pointer transition-colors font-semibold">
-              Fares & Services <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
-            {dropdownOpen && (
-              <div className="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                {farePages.map((page) => (
+          <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
+            Destinations
+          </li>
+          <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
+            Deals
+          </li>
+          <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
+            Flight Status
+          </li>
+          <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
+            About
+          </li>
+
+          {fareServicePages.length > 0 && (
+            <li className="relative group">
+              <button 
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className={`flex items-center gap-1 ${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 font-semibold transition-colors`}
+              >
+                Fares & Services <ChevronDown size={16} />
+              </button>
+              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+                dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+              } group-hover:opacity-100 group-hover:visible`}>
+                {fareServicePages.map((p) => (
                   <Link
-                    key={page.slug}
-                    href={`/${page.slug}`}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                    key={p.slug}
+                    href={`/${p.slug}`}
+                    className="block px-5 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                    onClick={() => setDropdownOpen(false)}
                   >
-                    {page.title}
+                    {p.title}
                   </Link>
                 ))}
               </div>
-            )}
-          </li>
+            </li>
+          )}
 
           <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 rounded-full text-white font-bold shadow-lg shadow-red-700/30 transition-all hover:scale-105">
             Sign In
           </li>
         </ul>
 
-        <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
+        {/* Mobile toggle */}
+        <button className="md:hidden text-white drop-shadow-md" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 p-6">
           <ul className="flex flex-col gap-4">
-            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Destinations</li>
-            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Deals</li>
-            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">Flight Status</li>
-            <li className="text-gray-700 hover:text-red-600 cursor-pointer transition font-semibold">About</li>
+            <li className="text-gray-700 hover:text-red-600 font-semibold">Destinations</li>
+            <li className="text-gray-700 hover:text-red-600 font-semibold">Deals</li>
+            <li className="text-gray-700 hover:text-red-600 font-semibold">Flight Status</li>
+            <li className="text-gray-700 hover:text-red-600 font-semibold">About</li>
+            
             <li className="text-gray-700 font-semibold">Fares & Services</li>
-            <ul className="pl-4 border-l-2 border-red-300 space-y-2">
-              {farePages.map((page) => (
-                <li key={page.slug} className="text-gray-600 hover:text-red-600 cursor-pointer transition">
-                  <Link href={`/${page.slug}`}>{page.title}</Link>
+            <ul className="pl-4 border-l-2 border-red-300 space-y-1">
+              {fareServicePages.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/${p.slug}`} className="text-sm text-gray-600 hover:text-red-600" onClick={() => setIsOpen(false)}>
+                    {p.title}
+                  </Link>
                 </li>
               ))}
             </ul>
+
             <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">Sign In</li>
           </ul>
         </div>
