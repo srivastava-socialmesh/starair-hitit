@@ -201,9 +201,9 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – Centered with better layout */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
-              <div className="w-full max-w-[200px] text-center">
+            {/* FROM, TO, DEPARTURE – Centered with proper width */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center items-start">
+              <div className="w-full max-w-[200px] mx-auto text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">✈️ From</label>
                 <div className="relative">
                   <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
@@ -216,7 +216,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full max-w-[200px] text-center">
+              <div className="w-full max-w-[200px] mx-auto text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">🛬 To</label>
                 <div className="relative">
                   <Plane size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 rotate-90" />
@@ -229,7 +229,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full max-w-[200px] text-center">
+              <div className="w-full max-w-[200px] mx-auto text-center">
                 <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">📅 Departure</label>
                 <div className="relative">
                   <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
@@ -237,13 +237,13 @@ export default function FlightSearch() {
                     type="date"
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
-                    className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[140px]"
+                    className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[160px]"
                     required
                   />
                 </div>
               </div>
               {tripType === 'roundtrip' && (
-                <div className="w-full max-w-[200px] text-center">
+                <div className="w-full max-w-[200px] mx-auto text-center">
                   <label className="text-white/80 text-xs uppercase tracking-widest font-bold block mb-1 drop-shadow-md">📅 Return</label>
                   <div className="relative">
                     <Calendar size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" />
@@ -251,7 +251,7 @@ export default function FlightSearch() {
                       type="date"
                       value={returnDate}
                       onChange={(e) => setReturnDate(e.target.value)}
-                      className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[140px]"
+                      className="w-full bg-black/20 backdrop-blur-sm border border-white/20 rounded-xl pl-10 pr-2 py-2.5 text-white [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-[160px]"
                     />
                   </div>
                 </div>
@@ -327,7 +327,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs (Check-in, Flight Status, Manage Booking) – unchanged, but center form fields */}
+        {/* Other tabs (Check-in, Flight Status, Manage Booking) – unchanged */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-5">
             <div className="text-center mb-4">

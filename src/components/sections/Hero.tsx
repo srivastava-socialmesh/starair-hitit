@@ -41,18 +41,17 @@ export default function Hero() {
           <FlightSearch />
         </motion.div>
 
-        {/* Right column: content aligned right, pushed to edges */}
+        {/* Right column: content aligned right */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col justify-between items-end text-right h-full py-4"
         >
-          {/* Top: Title & Trust badges */}
+          {/* Top: Title (single line) & Trust badges */}
           <div className="w-full">
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
-              <span className="text-white drop-shadow-lg">Discover the</span>
-              <br />
+              <span className="text-white drop-shadow-lg">Discover the </span>
               <span className="text-red-500 drop-shadow-lg">Art of Travel</span>
             </h1>
 
@@ -63,8 +62,8 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Bottom: Description (aligned with Search Flight button) */}
-          <p className="text-white text-base sm:text-lg max-w-md leading-relaxed drop-shadow-lg mt-4 lg:mt-0">
+          {/* Bottom: Description – justified text */}
+          <p className="text-white text-base sm:text-lg max-w-md leading-relaxed drop-shadow-lg mt-4 lg:mt-0 text-justify">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
         </motion.div>
