@@ -1,15 +1,10 @@
 import { notFound } from "next/navigation";
 import { createServerClient } from "@/lib/supabase/server";
 
-interface CMSPage {
-  id: number;
-  slug: string;
-  title: string;
-  content: string;
-  category: string;
-}
-
 export default async function CMSPage({ params }: { params: { slug: string } }) {
+  // Debug: Log the slug
+  console.log("Slug requested:", params.slug);
+
   const supabase = await createServerClient();
   const { data: page, error } = await supabase
     .from("cms_pages")
@@ -19,15 +14,14 @@ export default async function CMSPage({ params }: { params: { slug: string } }) 
     .maybeSingle();
 
   if (error || !page) {
+    console.log("Page not found:", params.slug);
     notFound();
   }
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-6">{page.title}</h1>
-        <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: page.content }} />
-      </div>
-    </main>
+    <div className="min-h-screen bg-white p-8">
+      <h1 className="text-4xl font-bold mb-4">{page.title}</h1>
+      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: page.content }} />
+    </div>
   );
 }
