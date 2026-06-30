@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logos/starair-logo.png";
+const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/StarAir_Logo.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
