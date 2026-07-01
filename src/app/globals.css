@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+// In src/app/layout.tsx, add:
+import "leaflet/dist/leaflet.css";
+
 @layer base {
   * {
     @apply scroll-smooth;

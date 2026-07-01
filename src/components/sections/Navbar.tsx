@@ -80,7 +80,7 @@ export default function Navbar() {
             Deals
           </li>
           <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
-            Flight Status
+          <Link href="/flight-status">Flight Status</Link>
           </li>
           <li className={`${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 cursor-pointer transition-colors font-semibold`}>
             About
@@ -93,8 +93,7 @@ export default function Navbar() {
                 className={`flex items-center gap-1 ${isScrolled ? 'text-gray-700' : 'text-white drop-shadow-md'} hover:text-red-600 font-semibold transition-colors`}
               >
                 Fares & Services <ChevronDown size={16} />
-              </button>
-              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+              </button>              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                 dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
               } group-hover:opacity-100 group-hover:visible`}>
                 {fareServicePages.map((p) => (
