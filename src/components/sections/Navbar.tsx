@@ -99,7 +99,7 @@ export default function Navbar() {
                 {fareServicePages.map((p) => (
                   <Link
                     key={p.slug}
-                    href={`/${p.slug}`}
+                    href={`/cms/${p.slug}`}
                     className="block px-5 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                     onClick={() => setDropdownOpen(false)}
                   >
