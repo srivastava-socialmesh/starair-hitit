@@ -1,7 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import FlightMap from "./FlightMap";
+import dynamic from "next/dynamic";
 import { Plane } from "lucide-react";
+
+// Dynamically import FlightMap with SSR disabled
+const FlightMap = dynamic(() => import("./FlightMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[500px] w-full rounded-xl bg-gray-100 animate-pulse flex items-center justify-center text-gray-400">
+      Loading map...
+    </div>
+  ),
+});
 
 interface Flight {
   id: number;
