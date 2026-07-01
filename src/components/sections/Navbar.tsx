@@ -52,8 +52,8 @@ export default function Navbar() {
       } bg-transparent`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo – larger size */}
-        <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+        {/* Logo – now much larger */}
+        <div className="relative w-32 h-32 md:w-36 md:h-36 flex-shrink-0">
           {!logoError ? (
             <Image
               src={LOGO_URL}
@@ -65,7 +65,7 @@ export default function Navbar() {
               onError={() => setLogoError(true)}
             />
           ) : (
-            <span className="text-4xl font-bold text-red-500">✈️</span>
+            <span className="text-6xl font-bold text-red-500">✈️</span>
           )}
         </div>
 
