@@ -51,9 +51,9 @@ export default function Navbar() {
         isHidden ? "-translate-y-full" : "translate-y-0"
       } bg-transparent`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-1 flex justify-between items-center">
-        {/* Logo – much larger */}
-        <div className="relative w-40 h-40 md:w-48 md:h-48 flex-shrink-0">
+      <div className="max-w-7xl mx-auto px-6 py-0.5 flex justify-between items-center">
+        {/* Logo – slightly smaller to reduce overall height */}
+        <div className="relative w-28 h-28 md:w-32 md:h-32 flex-shrink-0">
           {!logoError ? (
             <Image
               src={LOGO_URL}
@@ -65,7 +65,7 @@ export default function Navbar() {
               onError={() => setLogoError(true)}
             />
           ) : (
-            <span className="text-7xl font-bold text-red-500">✈️</span>
+            <span className="text-5xl font-bold text-red-500">✈️</span>
           )}
         </div>
 
