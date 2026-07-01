@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { Plane } from "lucide-react";
+import { Plane, AlertCircle } from "lucide-react";
 
 // Dynamically import FlightMap with SSR disabled
 const FlightMap = dynamic(() => import("./FlightMap"), {
@@ -25,16 +25,23 @@ interface Flight {
 export default function FlightStatusClient() {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const fetchFlights = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const res = await fetch(`/api/flights/status?flightNumber=${filter}`);
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status}`);
+        }
         const data = await res.json();
         setFlights(Array.isArray(data) ? data : []);
-      } catch (e) {
-        console.error(e);
+      } catch (e: any) {
+        console.error("Fetch error:", e);
+        setError("Failed to load flight data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -58,6 +65,13 @@ export default function FlightStatusClient() {
           className="w-full max-w-md bg-white border border-gray-300 rounded-xl px-4 py-2 text-gray-700 focus:border-red-500 outline-none transition"
         />
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-2 mb-4">
+          <AlertCircle size={20} />
+          <span>{error}</span>
+        </div>
+      )}
 
       {loading ? (
         <div className="text-center text-gray-400 py-12">Loading flights...</div>

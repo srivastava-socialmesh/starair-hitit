@@ -7,7 +7,7 @@ const mockFlights = [
     flight_no: "AI-101",
     origin: "DEL",
     destination: "LHR",
-    departure_time: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 min ago
+    departure_time: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     status: "On Time",
   },
   {
@@ -15,7 +15,7 @@ const mockFlights = [
     flight_no: "AI-202",
     origin: "BOM",
     destination: "DXB",
-    departure_time: new Date(Date.now() + 1000 * 60 * 45).toISOString(), // 45 min later
+    departure_time: new Date(Date.now() + 1000 * 60 * 45).toISOString(),
     status: "Boarding",
   },
   {
