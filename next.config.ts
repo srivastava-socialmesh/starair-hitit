@@ -6,13 +6,14 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "uuepctepzesuvvjmvkrz.supabase.co",
-        pathname: "/storage/v1/object/public",
+        protocol: 'https',
+        hostname: 'uuepctepzesuvvjmvkrz.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
       },
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
       // Add any other external image hosts you use
       // For example:
