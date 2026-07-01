@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
       //   protocol: "https",
       //   hostname: "cdn.shopify.com",
       // },
+      async rewrites() {
+    return [
+      {
+        source: '/flight-status',
+        destination: '/flight-status', // no-op but ensures it's treated as a static route
+      },
     ],
   },
 };
