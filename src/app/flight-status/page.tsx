@@ -5,6 +5,7 @@ import { Plane } from "lucide-react";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
+// Force dynamic rendering (no static generation)
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
