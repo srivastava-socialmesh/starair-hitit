@@ -30,7 +30,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full h-full grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4 sm:px-6 pt-20 pb-8">
+      <div className="relative z-10 max-w-7xl mx-auto w-full h-full grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4 sm:px-6 pt-16 pb-8">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
