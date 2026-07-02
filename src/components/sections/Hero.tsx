@@ -22,9 +22,13 @@ export default function Hero() {
       className="relative min-h-[100svh] overflow-hidden"
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
+        // Use "cover" to fill the container without stretching
         backgroundSize: "cover",
+        // Center the image to avoid clipping the aircraft
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
+        // Fallback color in case the image fails to load
+        backgroundColor: "#0a0e1a",
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/55 to-black/25"></div>
