@@ -23,7 +23,7 @@ export default function Hero() {
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
         // Use "cover" to fill the container without stretching
-        backgroundSize: "cover",
+        backgroundSize: "center",
         // Center the image to avoid clipping the aircraft
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
