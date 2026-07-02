@@ -19,7 +19,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden transition-all duration-1000 ease-in-out"
+      className="relative h-screen overflow-hidden"
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
         backgroundSize: 'cover',
@@ -30,7 +30,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
-      <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start pt-16 lg:pt-32 min-h-[80vh]">
+      <div className="relative z-10 max-w-7xl mx-auto w-full h-full grid lg:grid-cols-2 items-center gap-8 lg:gap-12 px-4 sm:px-6 pt-20 pb-8">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -44,7 +44,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col items-start justify-start text-left space-y-4"
+          className="flex flex-col items-start justify-center text-left space-y-4"
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the </span>
