@@ -47,82 +47,84 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
         isHidden ? "-translate-y-full" : "translate-y-0"
-      } bg-transparent`}
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        {/* Logo – large and prominent */}
-        <div className="relative w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
-          {!logoError ? (
-            <Image
-              src={LOGO_URL}
-              alt="StarAir"
-              fill
-              className="object-contain"
-              priority
-              unoptimized
-              onError={() => setLogoError(true)}
-            />
-          ) : (
-            <span className="text-7xl font-bold text-red-500">✈️</span>
-          )}
-        </div>
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="h-24 flex items-center justify-between">
+          {/* Logo – larger, properly proportioned */}
+          <div className="relative w-48 h-16 flex-shrink-0">
+            {!logoError ? (
+              <Image
+                src={LOGO_URL}
+                alt="Star Air"
+                fill
+                priority
+                unoptimized
+                className="object-contain object-left"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <span className="text-5xl font-bold text-red-500">✈️</span>
+            )}
+          </div>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-6 text-sm font-medium">
-          <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors font-semibold">
-            <Link href="/">Destinations</Link>
-          </li>
-          <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors font-semibold">
-            <Link href="/">Deals</Link>
-          </li>
-          <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors font-semibold">
-            <Link href="/flight-status">Flight Status</Link>
-          </li>
-          <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors font-semibold">
-            <Link href="/">About</Link>
-          </li>
-
-          {fareServicePages.length > 0 && (
-            <li className="relative group">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-1 text-white drop-shadow-lg hover:text-red-600 font-semibold transition-colors"
-              >
-                Fares & Services <ChevronDown size={16} />
-              </button>
-              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-              } group-hover:opacity-100 group-hover:visible`}>
-                {fareServicePages.map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/cms/${p.slug}`}
-                    className="block px-5 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    {p.title}
-                  </Link>
-                ))}
-              </div>
+          {/* Desktop Menu */}
+          <ul className="hidden lg:flex items-center gap-10 text-[15px] font-semibold">
+            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+              <Link href="/">Destinations</Link>
             </li>
-          )}
+            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+              <Link href="/">Deals</Link>
+            </li>
+            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+              <Link href="/flight-status">Flight Status</Link>
+            </li>
+            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+              <Link href="/">About</Link>
+            </li>
 
-          <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 rounded-full text-white font-bold shadow-lg shadow-red-700/30 transition-all hover:scale-105">
-            Sign In
-          </li>
-        </ul>
+            {fareServicePages.length > 0 && (
+              <li className="relative group">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center gap-1 text-white drop-shadow-lg hover:text-red-600 transition-colors"
+                >
+                  Fares & Services <ChevronDown size={16} />
+                </button>
+                <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+                  dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                } group-hover:opacity-100 group-hover:visible`}>
+                  {fareServicePages.map((p) => (
+                    <Link
+                      key={p.slug}
+                      href={`/cms/${p.slug}`}
+                      className="block px-5 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      {p.title}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+            )}
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-white drop-shadow-lg" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+            <li className="h-12 px-8 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
+              Sign In
+            </li>
+          </ul>
+
+          {/* Mobile toggle */}
+          <button className="lg:hidden text-white drop-shadow-lg" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-6">
+        <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-6">
           <ul className="flex flex-col gap-4">
             <li className="text-white hover:text-red-600 font-semibold">
               <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
