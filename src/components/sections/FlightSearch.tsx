@@ -148,7 +148,7 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {/* Primary Tabs – more transparent */}
+      {/* Primary Tabs */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-3 sm:mb-4 p-1 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
@@ -169,7 +169,7 @@ export default function FlightSearch() {
         })}
       </div>
 
-      {/* Content Panel – even more transparent */}
+      {/* Content Panel */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
@@ -201,7 +201,7 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE */}
+            {/* FROM, TO, DEPARTURE – mobile stack */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 items-start">
               <div className="w-full text-center">
                 <div className="relative">
@@ -235,7 +235,7 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[90px] sm:min-w-[110px]"
+                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                     required
                   />
                 </div>
@@ -251,7 +251,7 @@ export default function FlightSearch() {
                     value={returnDate}
                     onChange={(e) => setReturnDate(e.target.value)}
                     placeholder="Return"
-                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[90px] sm:min-w-[110px]"
+                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
