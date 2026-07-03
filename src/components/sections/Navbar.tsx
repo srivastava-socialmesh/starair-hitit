@@ -53,7 +53,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-8">
         <div className="h-24 flex items-center justify-between">
-          {/* Logo – larger, properly proportioned */}
+          {/* Logo */}
           <div className="relative w-48 h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -66,22 +66,22 @@ export default function Navbar() {
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-5xl font-bold text-red-500">✈️</span>
+              <span className="text-4xl font-bold text-red-500">✈️</span>
             )}
           </div>
 
-          {/* Desktop Menu */}
-          <ul className="hidden lg:flex items-center gap-10 text-[15px] font-semibold">
-            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+          {/* Desktop Menu – smaller font */}
+          <ul className="hidden lg:flex items-center gap-8 text-xs font-medium uppercase tracking-wider">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/">Destinations</Link>
             </li>
-            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/">Deals</Link>
             </li>
-            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/flight-status">Flight Status</Link>
             </li>
-            <li className="text-white drop-shadow-lg hover:text-red-600 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/">About</Link>
             </li>
 
@@ -89,9 +89,9 @@ export default function Navbar() {
               <li className="relative group">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 text-white drop-shadow-lg hover:text-red-600 transition-colors"
+                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors"
                 >
-                  Fares & Services <ChevronDown size={16} />
+                  Fares & Services <ChevronDown size={14} />
                 </button>
                 <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                   dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -100,7 +100,7 @@ export default function Navbar() {
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      className="block px-5 py-3 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {p.title}
@@ -110,13 +110,13 @@ export default function Navbar() {
               </li>
             )}
 
-            <li className="h-12 px-8 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
+            <li className="h-10 px-6 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs font-semibold uppercase tracking-wider shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
               Sign In
             </li>
           </ul>
 
           {/* Mobile toggle */}
-          <button className="lg:hidden text-white drop-shadow-lg" onClick={() => setIsOpen(!isOpen)}>
+          <button className="lg:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -125,20 +125,20 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-6">
-          <ul className="flex flex-col gap-4">
-            <li className="text-white hover:text-red-600 font-semibold">
+          <ul className="flex flex-col gap-4 text-sm">
+            <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
             </li>
-            <li className="text-white hover:text-red-600 font-semibold">
+            <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Deals</Link>
             </li>
-            <li className="text-white hover:text-red-600 font-semibold">
+            <li className="text-white/90 hover:text-red-500">
               <Link href="/flight-status" onClick={() => setIsOpen(false)}>Flight Status</Link>
             </li>
-            <li className="text-white hover:text-red-600 font-semibold">
+            <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>About</Link>
             </li>
-            <li className="text-white font-semibold">Fares & Services</li>
+            <li className="text-white/90">Fares & Services</li>
             <ul className="pl-4 border-l-2 border-red-300 space-y-1">
               {fareServicePages.map((p) => (
                 <li key={p.slug}>
@@ -148,7 +148,7 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <li className="px-6 py-2.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">
+            <li className="px-6 py-2 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">
               Sign In
             </li>
           </ul>

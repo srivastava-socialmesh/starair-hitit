@@ -44,9 +44,9 @@ export default function Hero() {
           grid-cols-1
           lg:grid-cols-2
           items-center
-          gap-20
+          gap-16
           px-8
-          pt-16          // Reduced from pt-28
+          pt-16
           pb-12
         "
       >
@@ -54,7 +54,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full mt-0 lg:mt-0"   // Removed top margin
+          className="w-full mt-0 lg:mt-0"
         >
           <FlightSearch />
         </motion.div>
@@ -63,18 +63,18 @@ export default function Hero() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col justify-center items-start text-left space-y-8 pt-16"
+          className="flex flex-col justify-center items-start text-left space-y-4 pt-16"
         >
-          <h1 className="text-5xl md:text-6xl xl:text-7xl font-extrabold leading-[0.95] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the </span>
             <span className="text-red-500 drop-shadow-lg">Art of Travel</span>
           </h1>
 
-          <p className="text-white/95 text-xl max-w-xl leading-9 drop-shadow-lg">
+          <p className="text-white/90 text-base max-w-xl leading-7 drop-shadow-lg">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap gap-10 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg">
+          <div className="flex flex-wrap gap-6 text-[10px] sm:text-xs text-white uppercase tracking-wider drop-shadow-lg">
             <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-2">🏆 24 Awards</span>
