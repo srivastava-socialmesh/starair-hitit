@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
+import Image from "next/image";
 
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
@@ -18,20 +19,23 @@ export default function Hero() {
   }, []);
 
   return (
-    <section
-      className="relative min-h-[100svh] overflow-hidden"
-      style={{
-        backgroundImage: `url(${bannerImages[currentIndex]})`,
-        // Use "cover" to fill the container without stretching
-        backgroundSize: "cover",
-        // Center the image to avoid clipping the aircraft
-        backgroundPosition: "center center",
-        backgroundRepeat: "no-repeat",
-        // Fallback color in case the image fails to load
-        backgroundColor: "#0a0e1a",
-      }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/55 to-black/25"></div>
+    <section className="relative min-h-[100svh] overflow-hidden">
+      {/* Background image container */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src={bannerImages[currentIndex]}
+          alt="Aircraft"
+          fill
+          priority
+          unoptimized
+          className="object-contain object-center"
+          style={{ objectFit: "contain" }}
+        />
+        {/* Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/60 to-black/30"></div>
+      </div>
+
+      {/* Additional gradient at bottom */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
