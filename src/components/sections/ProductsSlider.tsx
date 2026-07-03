@@ -103,12 +103,13 @@ export default function ProductsSlider() {
                       onError={(e) => {
                         console.error("Product image failed:", product.image_url);
                         // Show a fallback gradient instead of hiding
-                        const parent = e.target.parentElement;
+                        const target = e.target as HTMLImageElement;
+                        const parent = target.parentElement;
                         if (parent) {
                           const fallback = document.createElement('div');
                           fallback.className = 'w-full h-full bg-gradient-to-br from-gray-200 to-gray-300';
                           parent.appendChild(fallback);
-                          e.target.style.display = 'none';
+                          target.style.display = 'none';
                         }
                       }}
                     />
