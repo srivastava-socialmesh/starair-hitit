@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/9a678ddc.png",
 ];
 
 export default function Hero() {
@@ -36,8 +36,6 @@ export default function Hero() {
         className="
           relative
           z-10
-          max-w-full
-          mx-auto
           w-full
           min-h-[100svh]
           grid
@@ -46,8 +44,9 @@ export default function Hero() {
           items-start
           gap-6 sm:gap-8 lg:gap-12
           px-4 sm:px-8 lg:px-16 xl:px-24
-          pt-24 sm:pt-28 lg:pt-24
+          pt-20 sm:pt-24 lg:pt-20
           pb-8
+          max-w-[1600px] mx-auto
         "
       >
         <motion.div
@@ -70,11 +69,11 @@ export default function Hero() {
             <span className="text-red-500 drop-shadow-lg block text-right">Art of Travel</span>
           </h1>
 
-          <p className="text-white/90 text-sm sm:text-base max-w-xl leading-6 drop-shadow-lg">
+          <p className="text-white/90 text-sm sm:text-sm max-w-xl leading-6 drop-shadow-lg">
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap gap-4 sm:gap-6 text-[10px] sm:text-xs text-white uppercase tracking-wider drop-shadow-lg">
+          <div className="flex flex-wrap gap-4 sm:gap-6 text-[10px] sm:text-[11px] text-white uppercase tracking-wider drop-shadow-lg">
             <span className="flex items-center gap-1.5">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-1.5">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-1.5">🏆 24 Awards</span>
