@@ -51,10 +51,10 @@ export default function Navbar() {
         isHidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="h-24 flex items-center justify-between">
-          {/* Logo */}
-          <div className="relative w-48 h-16 flex-shrink-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
+          {/* Logo – responsive size */}
+          <div className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
                 src={LOGO_URL}
@@ -66,12 +66,12 @@ export default function Navbar() {
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-4xl font-bold text-red-500">✈️</span>
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-500">✈️</span>
             )}
           </div>
 
-          {/* Desktop Menu – smaller font */}
-          <ul className="hidden lg:flex items-center gap-8 text-xs font-medium uppercase tracking-wider">
+          {/* Desktop Menu – hidden on mobile */}
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] xl:text-xs font-medium uppercase tracking-wider">
             <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/">Destinations</Link>
             </li>
@@ -91,7 +91,7 @@ export default function Navbar() {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors"
                 >
-                  Fares & Services <ChevronDown size={14} />
+                  Fares & Services <ChevronDown size={12} />
                 </button>
                 <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                   dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -100,7 +100,7 @@ export default function Navbar() {
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-3 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      className="block px-5 py-2.5 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {p.title}
@@ -110,22 +110,22 @@ export default function Navbar() {
               </li>
             )}
 
-            <li className="h-10 px-6 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs font-semibold uppercase tracking-wider shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
+            <li className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-[10px] font-semibold uppercase tracking-wider shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
               Sign In
             </li>
           </ul>
 
           {/* Mobile toggle */}
           <button className="lg:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-6">
-          <ul className="flex flex-col gap-4 text-sm">
+        <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-4">
+          <ul className="flex flex-col gap-3 text-xs">
             <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
             </li>
@@ -139,16 +139,16 @@ export default function Navbar() {
               <Link href="/" onClick={() => setIsOpen(false)}>About</Link>
             </li>
             <li className="text-white/90">Fares & Services</li>
-            <ul className="pl-4 border-l-2 border-red-300 space-y-1">
+            <ul className="pl-3 border-l border-red-300 space-y-1">
               {fareServicePages.map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/cms/${p.slug}`} className="text-sm text-gray-300 hover:text-red-400" onClick={() => setIsOpen(false)}>
+                  <Link href={`/cms/${p.slug}`} className="text-gray-300 hover:text-red-400" onClick={() => setIsOpen(false)}>
                     {p.title}
                   </Link>
                 </li>
               ))}
             </ul>
-            <li className="px-6 py-2 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">
+            <li className="px-4 py-1.5 bg-gradient-to-r from-red-700 to-red-800 rounded-full text-center text-white font-bold">
               Sign In
             </li>
           </ul>
