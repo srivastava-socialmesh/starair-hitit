@@ -5,7 +5,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { createClient } from "@/lib/supabase/client";
-import { X, Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 interface Product {
   id: number;
@@ -18,13 +18,12 @@ interface Product {
   features: string[];
 }
 
-// Placeholder image
 const PLACEHOLDER_IMAGE = "https://via.placeholder.com/600x400/cccccc/666666?text=Product";
 
 export default function ProductsSlider() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activePopup, setActivePopup] = useState<number | null>(null);
+  const [activeDrawer, setActiveDrawer] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -91,14 +90,20 @@ export default function ProductsSlider() {
               ? product.image_url 
               : PLACEHOLDER_IMAGE;
 
+            const isOpen = activeDrawer === product.id;
+
             return (
               <SwiperSlide key={product.id}>
                 <div
-                  className="group relative rounded-2xl overflow-hidden h-[380px] cursor-pointer shadow-xl bg-white border border-gray-200 hover:border-red-300 transition-all duration-300"
-                  onMouseEnter={() => setActivePopup(product.id)}
-                  onMouseLeave={() => setActivePopup(null)}
+                  className="group relative rounded-2xl overflow-hidden h-[400px] cursor-pointer shadow-xl bg-white border border-gray-200 hover:border-red-300 transition-all duration-300"
+                  onMouseEnter={() => setActiveDrawer(product.id)}
+                  onMouseLeave={() => setActiveDrawer(null)}
+                  onClick={() => {
+                    // Toggle drawer on mobile
+                    setActiveDrawer(isOpen ? null : product.id);
+                  }}
                 >
-                  {/* Background Image – using plain <img> */}
+                  {/* Background Image */}
                   <div className="absolute inset-0 z-0">
                     <img
                       src={imgSrc}
@@ -111,39 +116,47 @@ export default function ProductsSlider() {
                         }
                       }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                   </div>
 
-                  {/* Product Name */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-full px-6 z-10">
+                  {/* Product Name (always visible) */}
+                  <div className="absolute bottom-24 left-0 w-full px-6 z-10 transition-all duration-300">
                     <h3 className="text-2xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
                       {product.name}
                     </h3>
                     {product.price && (
-                      <p className="text-amber-400 text-xl font-bold mt-2">
+                      <p className="text-amber-400 text-xl font-bold mt-1">
                         ${product.price}
                       </p>
                     )}
                     <p className="text-gray-300 text-sm mt-1">
                       {product.category || "Economy"}
                     </p>
-                    <div className="mt-3 flex justify-center gap-2 text-xs text-gray-400">
-                      <span>•</span>
-                      <span>Fare Difference applicable</span>
-                      <span>•</span>
-                    </div>
                   </div>
 
-                  {/* Hover Popup */}
-                  {activePopup === product.id && (
-                    <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col justify-center p-6 animate-fadeIn z-20">
+                  {/* Drawer – slides up from bottom */}
+                  <div
+                    className={`
+                      absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-md 
+                      rounded-t-2xl shadow-2xl z-20 
+                      transition-all duration-400 ease-in-out 
+                      overflow-hidden
+                      ${isOpen ? 'max-h-[75%] opacity-100 translate-y-0' : 'max-h-0 opacity-0 translate-y-full'}
+                    `}
+                  >
+                    <div className="p-5 pt-8">
+                      {/* Close button (mobile) */}
                       <button
-                        onClick={() => setActivePopup(null)}
-                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveDrawer(null);
+                        }}
+                        className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 transition lg:hidden"
                       >
-                        <X size={24} />
+                        <X size={20} />
                       </button>
-                      <h4 className="text-xl font-bold text-red-600 mb-2">
+
+                      <h4 className="text-lg font-bold text-red-600 mb-2">
                         {product.name} Features
                       </h4>
                       <ul className="space-y-2 text-sm text-gray-700">
@@ -158,16 +171,19 @@ export default function ProductsSlider() {
                           <li className="text-gray-400">No features listed</li>
                         )}
                       </ul>
+                      <div className="mt-4 text-xs text-gray-500 italic">
+                        *Fare Difference applicable
+                      </div>
                       {product.link && (
                         <a
                           href={product.link}
-                          className="mt-4 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full text-center transition"
+                          className="mt-4 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full text-sm text-center transition"
                         >
                           Learn More
                         </a>
                       )}
                     </div>
-                  )}
+                  </div>
 
                   {/* Bottom accent line */}
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
@@ -177,16 +193,6 @@ export default function ProductsSlider() {
           })}
         </Swiper>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-      `}</style>
     </section>
   );
 }
