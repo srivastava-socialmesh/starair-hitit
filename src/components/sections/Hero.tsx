@@ -28,7 +28,6 @@ export default function Hero() {
         backgroundColor: "#0a0e1a",
       }}
     >
-      {/* Lighter overlays for brighter background */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/40 via-[#06224a]/30 to-black/10 z-5"></div>
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
@@ -47,7 +46,7 @@ export default function Hero() {
           items-start
           gap-4 sm:gap-6 lg:gap-8
           px-3 sm:px-6 lg:px-8 xl:px-12
-          pt-16 sm:pt-20 lg:pt-16
+          pt-28 sm:pt-32 lg:pt-28
           pb-6
         "
       >
@@ -64,7 +63,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col justify-start items-start text-left space-y-2 sm:space-y-3 pt-6 sm:pt-10"
+          className="flex flex-col justify-start items-start text-left space-y-2 sm:space-y-3 pt-0"
         >
           <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg block text-left">Discover the</span>
