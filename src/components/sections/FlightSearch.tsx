@@ -235,7 +235,7 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/50 border border-gray-200 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                     required
                   />
                 </div>
