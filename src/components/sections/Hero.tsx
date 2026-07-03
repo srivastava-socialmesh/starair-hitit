@@ -36,7 +36,7 @@ export default function Hero() {
         className="
           relative
           z-10
-          max-w-7xl
+          max-w-full
           mx-auto
           w-full
           min-h-[100svh]
@@ -44,8 +44,8 @@ export default function Hero() {
           grid-cols-1
           lg:grid-cols-2
           items-center
-          gap-6 sm:gap-10 lg:gap-16
-          px-4 sm:px-6 lg:px-8
+          gap-4 sm:gap-8 lg:gap-12
+          px-4 sm:px-8 lg:px-12
           pt-16 sm:pt-20 lg:pt-16
           pb-8
         "

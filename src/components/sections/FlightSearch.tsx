@@ -42,10 +42,10 @@ export default function FlightSearch() {
   const [error, setError] = useState<string | null>(null);
 
   const primaryTabs: { id: PrimaryTab; label: string; icon: any }[] = [
-    { id: 'search', label: 'Search Flights', icon: Search },
+    { id: 'search', label: 'Search', icon: Search },
     { id: 'checkin', label: 'Check-in', icon: Ticket },
-    { id: 'flightstatus', label: 'Flight Status', icon: Clock },
-    { id: 'managebooking', label: 'Manage Booking', icon: Briefcase },
+    { id: 'flightstatus', label: 'Status', icon: Clock },
+    { id: 'managebooking', label: 'Manage', icon: Briefcase },
   ];
 
   const passengerTypes = [
@@ -148,7 +148,7 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* Primary Tabs */}
+      {/* Primary Tabs – shorter labels */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 sm:mb-6 p-1 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
@@ -163,24 +163,23 @@ export default function FlightSearch() {
               }`}
             >
               <tab.icon size={12} className="sm:w-4 sm:h-4" />
-              <span className="hidden xs:inline">{tab.label}</span>
-              <span className="xs:hidden">{tab.label.slice(0,3)}</span>
+              <span>{tab.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Content Panel */}
+      {/* Content Panel – more transparent */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white/20 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20"
+        className="w-full bg-white/10 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20"
       >
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-4">
-            <div className="flex bg-white/30 rounded-xl p-1 w-fit mx-auto border border-white/30">
+            <div className="flex bg-white/20 rounded-xl p-1 w-fit mx-auto border border-white/20">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
                 { id: 'roundtrip' as TripType, label: 'Round Trip', icon: RotateCw },
@@ -202,70 +201,66 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – Responsive grid */}
+            {/* FROM, TO, DEPARTURE – with placeholders */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 justify-items-center items-start">
               <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
-                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">✈️ From</label>
                 <div className="relative">
-                  <Plane size={12} className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Plane size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
                     type="text"
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
-                    placeholder="City"
-                    className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl pl-6 pr-2 py-1.5 text-gray-800 text-[10px] sm:text-xs placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                    placeholder="From"
+                    className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-gray-800 text-[10px] sm:text-xs placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
               <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
-                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">🛬 To</label>
                 <div className="relative">
-                  <Plane size={12} className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500 rotate-90" />
+                  <Plane size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 rotate-90" />
                   <input
                     type="text"
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
-                    placeholder="Dest"
-                    className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl pl-6 pr-2 py-1.5 text-gray-800 text-[10px] sm:text-xs placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                    placeholder="To"
+                    className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-gray-800 text-[10px] sm:text-xs placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
               <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
-                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">📅 Departure</label>
                 <div className="relative">
-                  <Calendar size={12} className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                  <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
                     type="date"
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
-                    className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl pl-6 pr-1 py-1.5 text-gray-800 text-[10px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
+                    placeholder="Departure"
+                    className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-800 text-[10px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
                     required
                   />
                 </div>
               </div>
               {tripType === 'roundtrip' && (
                 <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
-                  <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">📅 Return</label>
                   <div className="relative">
-                    <Calendar size={12} className="absolute left-1.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                     <input
                       type="date"
                       value={returnDate}
                       onChange={(e) => setReturnDate(e.target.value)}
-                      className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl pl-6 pr-1 py-1.5 text-gray-800 text-[10px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
+                      placeholder="Return"
+                      className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-800 text-[10px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
                     />
                   </div>
                 </div>
               )}
             </div>
 
-            {/* PASSENGERS */}
+            {/* PASSENGERS – icon only */}
             <div className="flex justify-center">
-              <div className="text-center w-full max-w-[160px] sm:max-w-[180px]">
-                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">
-                  <Users size={12} className="inline mr-1" /> Passengers
-                </label>
-                <div className="flex items-center justify-center gap-2 bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-2 py-1">
+              <div className="text-center w-full max-w-[120px] sm:max-w-[140px]">
+                <div className="flex items-center justify-center gap-2 bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-2 py-1">
+                  <Users size={14} className="text-gray-600" />
                   <button
                     type="button"
                     onClick={() => setPassengers(Math.max(1, passengers - 1))}
@@ -281,7 +276,6 @@ export default function FlightSearch() {
                   >
                     +
                   </button>
-                  <span className="text-gray-500 text-[8px] sm:text-[10px] ml-0.5">Adult</span>
                 </div>
               </div>
             </div>
@@ -328,7 +322,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs (Check-in, Flight Status, Manage Booking) – similarly compressed */}
+        {/* Other tabs – similarly cleaned */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3">
             <div className="text-center mb-2">
@@ -343,7 +337,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -354,7 +348,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -384,7 +378,7 @@ export default function FlightSearch() {
                   placeholder="e.g., AI-101"
                   value={flightNumber}
                   onChange={(e) => setFlightNumber(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -394,7 +388,7 @@ export default function FlightSearch() {
                   type="date"
                   value={statusDate}
                   onChange={(e) => setStatusDate(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -424,7 +418,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -435,7 +429,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/90 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-gray-800 text-xs sm:text-sm placeholder:text-gray-400 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
