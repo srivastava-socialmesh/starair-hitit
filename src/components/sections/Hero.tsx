@@ -36,17 +36,17 @@ export default function Hero() {
         className="
           relative
           z-10
-          max-w-full
+          max-w-7xl
           mx-auto
           w-full
           min-h-[100svh]
           grid
           grid-cols-1
           lg:grid-cols-2
-          items-center
-          gap-4 sm:gap-8 lg:gap-12
-          px-4 sm:px-8 lg:px-12
-          pt-16 sm:pt-20 lg:pt-16
+          items-start
+          gap-6 sm:gap-8 lg:gap-12
+          px-4 sm:px-6 lg:px-8
+          pt-20 sm:pt-24 lg:pt-16
           pb-8
         "
       >
@@ -63,7 +63,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-col justify-center items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12 lg:pt-16"
+          className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-0"
         >
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
             <span className="text-white drop-shadow-lg">Discover the </span>

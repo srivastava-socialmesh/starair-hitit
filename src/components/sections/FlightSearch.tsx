@@ -148,7 +148,7 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      {/* Primary Tabs – shorter labels */}
+      {/* Primary Tabs */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 sm:mb-6 p-1 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
@@ -169,7 +169,7 @@ export default function FlightSearch() {
         })}
       </div>
 
-      {/* Content Panel – more transparent */}
+      {/* Content Panel */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
@@ -201,9 +201,9 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – with placeholders */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 justify-items-center items-start">
-              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
+            {/* FROM, TO, DEPARTURE – even columns */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 justify-items-center items-start">
+              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[180px] mx-auto text-center">
                 <div className="relative">
                   <Plane size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -215,7 +215,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
+              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[180px] mx-auto text-center">
                 <div className="relative">
                   <Plane size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 rotate-90" />
                   <input
@@ -227,7 +227,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
+              <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[180px] mx-auto text-center">
                 <div className="relative">
                   <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input
@@ -241,7 +241,7 @@ export default function FlightSearch() {
                 </div>
               </div>
               {tripType === 'roundtrip' && (
-                <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[170px] mx-auto text-center">
+                <div className="w-full max-w-[140px] sm:max-w-[160px] lg:max-w-[180px] mx-auto text-center">
                   <div className="relative">
                     <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500" />
                     <input
@@ -256,7 +256,7 @@ export default function FlightSearch() {
               )}
             </div>
 
-            {/* PASSENGERS – icon only */}
+            {/* PASSENGERS */}
             <div className="flex justify-center">
               <div className="text-center w-full max-w-[120px] sm:max-w-[140px]">
                 <div className="flex items-center justify-center gap-2 bg-white/80 border border-gray-300 rounded-lg sm:rounded-xl px-2 py-1">
@@ -302,9 +302,9 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Special Assistance */}
-            <div className="flex items-center justify-center gap-2 pt-1">
-              <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold">♿ Special Assistance</label>
+            {/* Special Assistance – now aligned with passenger type as a full row */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <span className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold">♿ Special Assistance</span>
               <label className="flex items-center gap-1 text-[10px] sm:text-xs text-gray-700">
                 <input type="checkbox" className="accent-red-500" /> Need assistance
               </label>
@@ -322,7 +322,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs – similarly cleaned */}
+        {/* Other tabs (unchanged) */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3">
             <div className="text-center mb-2">
