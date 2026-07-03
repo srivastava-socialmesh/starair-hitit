@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
 const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/IMG_20260702_183703.jpg",
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
 ];
 
 export default function Hero() {
@@ -23,7 +23,7 @@ export default function Hero() {
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
         // Use "cover" to fill the container without stretching
-        backgroundSize: "center",
+        backgroundSize: "cover",
         // Center the image to avoid clipping the aircraft
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
