@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
-// Add multiple images – your Supabase image and a fallback
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
 ];
@@ -26,10 +25,9 @@ export default function Hero() {
         backgroundSize: "contain",
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#0a0e1a", // fallback color
+        backgroundColor: "#0a0e1a",
       }}
     >
-      {/* Gradient overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/60 to-black/30"></div>
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
@@ -48,7 +46,7 @@ export default function Hero() {
           items-center
           gap-20
           px-8
-          pt-28
+          pt-16          // Reduced from pt-28
           pb-12
         "
       >
@@ -56,7 +54,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full mt-12 lg:mt-20"
+          className="w-full mt-0 lg:mt-0"   // Removed top margin
         >
           <FlightSearch />
         </motion.div>
