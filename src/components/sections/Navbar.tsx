@@ -53,7 +53,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
-          {/* Logo – responsive size */}
+          {/* Logo */}
           <div className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -70,18 +70,18 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Desktop Menu – hidden on mobile */}
-          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] xl:text-xs font-medium uppercase tracking-wider">
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+          {/* Desktop Menu – larger text, capitalize */}
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">Destinations</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">Deals</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/flight-status">Flight Status</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">About</Link>
             </li>
 
@@ -89,9 +89,9 @@ export default function Navbar() {
               <li className="relative group">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors"
+                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors capitalize"
                 >
-                  Fares & Services <ChevronDown size={12} />
+                  Fares & Services <ChevronDown size={14} />
                 </button>
                 <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                   dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -100,7 +100,7 @@ export default function Navbar() {
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-2.5 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {p.title}
@@ -110,7 +110,7 @@ export default function Navbar() {
               </li>
             )}
 
-            <li className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-[10px] font-semibold uppercase tracking-wider shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
+            <li className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
               Sign In
             </li>
           </ul>
@@ -125,7 +125,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-4">
-          <ul className="flex flex-col gap-3 text-xs">
+          <ul className="flex flex-col gap-3 text-sm capitalize">
             <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
             </li>

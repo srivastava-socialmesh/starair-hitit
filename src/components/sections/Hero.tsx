@@ -74,7 +74,7 @@ export default function Hero() {
             Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
           </p>
 
-          <div className="flex flex-wrap gap-3 sm:gap-4 text-[9px] sm:text-[10px] text-white uppercase tracking-wider drop-shadow-lg">
+          <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-white uppercase tracking-wider drop-shadow-lg">
             <span className="flex items-center gap-1.5">⭐ 4.9/5 Rating</span>
             <span className="flex items-center gap-1.5">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-1.5">🏆 24 Awards</span>
