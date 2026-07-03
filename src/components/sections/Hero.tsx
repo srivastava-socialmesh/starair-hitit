@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
-import Image from "next/image";
 
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
@@ -10,6 +9,7 @@ const bannerImages = [
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,15 +22,17 @@ export default function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden">
       {/* Background image container */}
       <div className="absolute inset-0 -z-10">
-        <Image
-          src={bannerImages[currentIndex]}
-          alt="Aircraft"
-          fill
-          priority
-          unoptimized
-          className="object-contain object-center"
-          style={{ objectFit: "contain" }}
-        />
+        {/* Use plain img tag instead of Next.js Image */}
+        {!imageError ? (
+          <img
+            src={bannerImages[currentIndex]}
+            alt="Aircraft"
+            className="w-full h-full object-contain object-center"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-r from-[#03142e] to-[#0a0e1a]"></div>
+        )}
         {/* Overlay to ensure text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/60 to-black/30"></div>
       </div>
