@@ -46,7 +46,7 @@ export default function ProductsSlider() {
 
   if (loading) {
     return (
-      <section className="py-8 px-4 bg-white">
+      <section className="py-12 px-4 bg-white">
         <div className="max-w-7xl mx-auto text-center text-gray-400">
           Loading products...
         </div>
@@ -57,7 +57,7 @@ export default function ProductsSlider() {
   if (!products.length) return null;
 
   return (
-    <section className="py-8 px-4 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <span className="text-red-500 text-sm font-semibold uppercase tracking-wider">
@@ -99,10 +99,17 @@ export default function ProductsSlider() {
                       alt={product.name}
                       fill
                       className="object-cover group-hover:scale-110 transition duration-700"
-                      unoptimized   // <-- Add this to fix invalid_image_optimize_request
+                      unoptimized
                       onError={(e) => {
-                        console.error("Image failed to load:", product.image_url);
-                        (e.target as HTMLImageElement).style.display = 'none';
+                        console.error("Product image failed:", product.image_url);
+                        // Show a fallback gradient instead of hiding
+                        const parent = e.target.parentElement;
+                        if (parent) {
+                          const fallback = document.createElement('div');
+                          fallback.className = 'w-full h-full bg-gradient-to-br from-gray-200 to-gray-300';
+                          parent.appendChild(fallback);
+                          e.target.style.display = 'none';
+                        }
                       }}
                     />
                   ) : (
