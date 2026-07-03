@@ -147,38 +147,38 @@ export default function FlightSearch() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      {/* Primary Tabs – transparent but with readable text */}
-      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 sm:mb-6 p-1 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/20">
+    <div className="w-full max-w-3xl mx-auto">
+      {/* Primary Tabs */}
+      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-3 sm:mb-4 p-1 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => { setPrimaryTab(tab.id); setResult(null); setError(null); }}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-medium transition-all ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-[10px] sm:text-xs font-medium transition-all ${
                 isActive
                   ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
-                  : 'text-gray-900 hover:text-red-600 hover:bg-white/20'
+                  : 'text-gray-800 hover:text-red-600 hover:bg-white/20'
               }`}
             >
               <tab.icon size={12} className="sm:w-4 sm:h-4" />
-              <span>{tab.label}</span>
+              <span className="truncate">{tab.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Content Panel – 90% transparent (bg-white/5) */}
+      {/* Content Panel – Crystal Clear */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white/5 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20"
+        className="w-full bg-white/5 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-2xl border border-white/20"
       >
         {primaryTab === 'search' && (
-          <form onSubmit={handleSearch} className="space-y-4">
+          <form onSubmit={handleSearch} className="space-y-3">
             <div className="flex bg-white/10 rounded-xl p-1 w-fit mx-auto border border-white/20">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
@@ -189,20 +189,20 @@ export default function FlightSearch() {
                   key={type.id}
                   type="button"
                   onClick={() => setTripType(type.id)}
-                  className={`flex items-center gap-1 px-2.5 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition ${
+                  className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition ${
                     tripType === type.id
                       ? 'bg-red-600 text-white shadow-lg'
-                      : 'text-gray-900 hover:text-red-600 hover:bg-white/20'
+                      : 'text-gray-800 hover:text-red-600 hover:bg-white/20'
                   }`}
                 >
                   <type.icon size={12} className="sm:w-4 sm:h-4" />
-                  <span>{type.label}</span>
+                  <span className="truncate">{type.label}</span>
                 </button>
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – even grid, no max-width constraints */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 items-start">
+            {/* FROM, TO, DEPARTURE – Uniform grid, no max-width constraints */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 items-start">
               <div className="w-full text-center">
                 <div className="relative">
                   <Plane size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-700" />
@@ -235,24 +235,26 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white/70 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
+                    className="w-full bg-white/70 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[90px] sm:min-w-[110px]"
                     required
                   />
                 </div>
               </div>
               {tripType === 'roundtrip' && (
-                <div className="w-full text-center">
-                  <div className="relative">
-                    <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-700" />
-                    <input
-                      type="date"
-                      value={returnDate}
-                      onChange={(e) => setReturnDate(e.target.value)}
-                      placeholder="Return"
-                      className="w-full bg-white/70 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[100px] sm:min-w-[120px] lg:min-w-[140px]"
-                    />
+                <>
+                  <div className="w-full text-center col-span-3">
+                    <div className="relative max-w-[140px] mx-auto">
+                      <Calendar size={14} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-700" />
+                      <input
+                        type="date"
+                        value={returnDate}
+                        onChange={(e) => setReturnDate(e.target.value)}
+                        placeholder="Return"
+                        className="w-full bg-white/70 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-1 py-1.5 text-gray-900 text-[11px] sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center min-w-[90px] sm:min-w-[110px]"
+                      />
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </div>
 
@@ -282,21 +284,21 @@ export default function FlightSearch() {
 
             {/* PASSENGER TYPE */}
             <div className="text-center">
-              <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-1.5">👤 Passenger Type</label>
+              <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-1">👤 Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5">
                 {passengerTypes.map((type) => (
                   <button
                     key={type.id}
                     type="button"
                     onClick={() => setPassengerType(type.id)}
-                    className={`flex items-center gap-0.5 px-2 py-1 rounded-full text-[9px] sm:text-[11px] font-medium transition border ${
+                    className={`flex items-center gap-0.5 px-2 py-1 rounded-full text-[8px] sm:text-[10px] font-medium transition border ${
                       passengerType === type.id
                         ? 'bg-red-500/20 border-red-500 text-red-700'
                         : 'bg-white/30 border-gray-300 text-gray-800 hover:bg-white/60 hover:border-red-300'
                     }`}
                   >
                     <type.icon size={10} className="sm:w-3 sm:h-3" />
-                    <span className="truncate max-w-[50px] sm:max-w-none">{type.label}</span>
+                    <span className="truncate max-w-[40px] sm:max-w-none">{type.label}</span>
                   </button>
                 ))}
               </div>
@@ -304,8 +306,8 @@ export default function FlightSearch() {
 
             {/* Special Assistance */}
             <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-              <span className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold">♿ Special Assistance</span>
-              <label className="flex items-center gap-1 text-[11px] sm:text-xs text-gray-700">
+              <span className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold">♿ Special Assistance</span>
+              <label className="flex items-center gap-1 text-[10px] sm:text-xs text-gray-700">
                 <input type="checkbox" className="accent-red-500" /> Need assistance
               </label>
             </div>
@@ -313,7 +315,7 @@ export default function FlightSearch() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-xs sm:text-sm"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-[11px] sm:text-sm"
             >
               {loading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} />}
               {loading ? 'Searching...' : 'Search Flight'}
@@ -322,7 +324,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs – same style */}
+        {/* Other tabs – same styling */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3">
             <div className="text-center mb-2">
@@ -331,7 +333,7 @@ export default function FlightSearch() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
                 <input
                   type="text"
                   placeholder="e.g., ABC123"
@@ -342,7 +344,7 @@ export default function FlightSearch() {
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
                 <input
                   type="text"
                   placeholder="Your surname"
@@ -372,7 +374,7 @@ export default function FlightSearch() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Flight Number</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Flight Number</label>
                 <input
                   type="text"
                   placeholder="e.g., AI-101"
@@ -383,7 +385,7 @@ export default function FlightSearch() {
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Date</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Date</label>
                 <input
                   type="date"
                   value={statusDate}
@@ -412,7 +414,7 @@ export default function FlightSearch() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
                 <input
                   type="text"
                   placeholder="e.g., ABC123"
@@ -423,7 +425,7 @@ export default function FlightSearch() {
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[9px] sm:text-[11px] uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
+                <label className="text-gray-800 text-[8px] sm:text-[10px] uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
                 <input
                   type="text"
                   placeholder="Your surname"
