@@ -6,7 +6,6 @@ import FlightSearch from "./FlightSearch";
 // Add multiple images – your Supabase image and a fallback
 const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1000973926.jpg",
-  "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1920&h=1080&fit=crop",
 ];
 
 export default function Hero() {
