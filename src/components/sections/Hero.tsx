@@ -36,7 +36,7 @@ export default function Hero() {
         className="
           relative
           z-10
-          max-w-[1440px]
+          max-w-full
           mx-auto
           w-full
           min-h-[100svh]
@@ -45,8 +45,8 @@ export default function Hero() {
           lg:grid-cols-2
           items-start
           gap-6 sm:gap-8 lg:gap-12
-          px-4 sm:px-8 lg:px-12
-          pt-20 sm:pt-24 lg:pt-20
+          px-4 sm:px-8 lg:px-16 xl:px-24
+          pt-24 sm:pt-28 lg:pt-24
           pb-8
         "
       >
@@ -65,10 +65,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12"
         >
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
-            <span className="text-white drop-shadow-lg">Discover the</span>
-            <br />
-            <span className="text-red-500 drop-shadow-lg">Art of Travel</span>
+          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
+            <span className="text-white drop-shadow-lg block text-left">Discover the</span>
+            <span className="text-red-500 drop-shadow-lg block text-right">Art of Travel</span>
           </h1>
 
           <p className="text-white/90 text-sm sm:text-base max-w-xl leading-6 drop-shadow-lg">
