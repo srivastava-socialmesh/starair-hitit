@@ -53,8 +53,8 @@ export default function Navbar() {
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
-          {/* Logo */}
-          <div className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
+          {/* Logo – now clickable */}
+          <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
                 src={LOGO_URL}
@@ -68,7 +68,7 @@ export default function Navbar() {
             ) : (
               <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-red-500">✈️</span>
             )}
-          </div>
+          </Link>
 
           {/* Desktop Menu */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium">
@@ -140,6 +140,9 @@ export default function Navbar() {
             </li>
             <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>About</Link>
+            </li>
+            <li className="text-white/90 hover:text-red-500">
+              <Link href="/news" onClick={() => setIsOpen(false)}>News</Link>
             </li>
             <li className="text-white/90">Fares & Services</li>
             <ul className="pl-3 border-l border-red-300 space-y-1">

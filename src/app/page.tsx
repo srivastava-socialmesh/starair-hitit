@@ -3,12 +3,9 @@ import Navbar from "@/components/sections/Navbar";
 import Destinations from "@/components/sections/Destinations";
 import DealsSlider from "@/components/sections/DealsSlider";
 import ProductsSlider from "@/components/sections/ProductsSlider";
-import FlightStatus from "@/components/sections/FlightStatus";
+import NewsFeed from "@/components/sections/NewsFeed";
 import Stats from "@/components/sections/Stats";
 import Footer from "@/components/sections/Footer";
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export default function Home() {
   return (
@@ -18,7 +15,7 @@ export default function Home() {
       <Destinations />
       <DealsSlider />
       <ProductsSlider />
-      <FlightStatus />
+      <NewsFeed />
       <Stats />
       <Footer />
     </main>
