@@ -54,8 +54,8 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
-          {/* Logo – clickable */}
+        <div className="h-16 sm:h-20 lg:h-24 flex items-center">
+          {/* Logo – left */}
           <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -72,31 +72,31 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Menu – lowercase, smaller font */}
-          <ul className="hidden lg:flex items-center gap-4 xl:gap-6 text-[10px] lg:text-xs font-medium ml-4">
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors lowercase tracking-wider">
-              <Link href="/">destinations</Link>
+          {/* Desktop Menu – aligned right with ml-auto, larger font, capitalize */}
+          <ul className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm lg:text-base font-medium ml-auto capitalize">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+              <Link href="/">Destinations</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors lowercase tracking-wider">
-              <Link href="/">deals</Link>
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+              <Link href="/">Deals</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors lowercase tracking-wider">
-              <Link href="/flight-status">flight status</Link>
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+              <Link href="/flight-status">Flight Status</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors lowercase tracking-wider">
-              <Link href="/">about</Link>
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+              <Link href="/">About</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors lowercase tracking-wider">
-              <Link href="/news">news</Link>
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+              <Link href="/news">News</Link>
             </li>
 
             {fareServicePages.length > 0 && (
               <li className="relative group">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors lowercase tracking-wider"
+                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors capitalize"
                 >
-                  fares & services <ChevronDown size={12} />
+                  Fares & Services <ChevronDown size={14} />
                 </button>
                 <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                   dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -105,7 +105,7 @@ export default function Navbar() {
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-2.5 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {p.title}
@@ -116,14 +116,12 @@ export default function Navbar() {
             )}
           </ul>
 
-          {/* Right side: Sign In (small) + Udan Logo (larger) */}
-          <div className="flex items-center gap-3 lg:gap-4">
-            {/* Sign In button – smaller */}
-            <button className="h-7 px-3 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-[10px] lg:text-xs font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer">
+          {/* Right side: Sign In + Udan */}
+          <div className="flex items-center gap-3 lg:gap-4 ml-4">
+            <button className="h-7 px-3 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer">
               Sign In
             </button>
 
-            {/* Udan Logo – larger */}
             <div className="relative w-12 h-10 sm:w-16 sm:h-12 flex-shrink-0">
               {!udanError ? (
                 <Image
@@ -141,7 +139,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile toggle */}
-          <button className="lg:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+          <button className="lg:hidden text-white ml-auto" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -150,23 +148,23 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-4">
-          <ul className="flex flex-col gap-3 text-xs lowercase tracking-wider">
+          <ul className="flex flex-col gap-3 text-sm capitalize">
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/" onClick={() => setIsOpen(false)}>destinations</Link>
+              <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
             </li>
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/" onClick={() => setIsOpen(false)}>deals</Link>
+              <Link href="/" onClick={() => setIsOpen(false)}>Deals</Link>
             </li>
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/flight-status" onClick={() => setIsOpen(false)}>flight status</Link>
+              <Link href="/flight-status" onClick={() => setIsOpen(false)}>Flight Status</Link>
             </li>
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/" onClick={() => setIsOpen(false)}>about</Link>
+              <Link href="/" onClick={() => setIsOpen(false)}>About</Link>
             </li>
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/news" onClick={() => setIsOpen(false)}>news</Link>
+              <Link href="/news" onClick={() => setIsOpen(false)}>News</Link>
             </li>
-            <li className="text-white/90">fares & services</li>
+            <li className="text-white/90">Fares & Services</li>
             <ul className="pl-3 border-l border-red-300 space-y-1">
               {fareServicePages.map((p) => (
                 <li key={p.slug}>
