@@ -201,9 +201,9 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – date input now properly rounded */}
+            {/* FROM, TO, DEPARTURE – no overflow-hidden to preserve rounding */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 items-start">
-              <div className="w-full overflow-hidden">
+              <div className="w-full">
                 <div className="relative">
                   <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
                   <input
@@ -215,7 +215,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full overflow-hidden">
+              <div className="w-full">
                 <div className="relative">
                   <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 rotate-90" />
                   <input
@@ -227,7 +227,7 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
-              <div className="w-full overflow-hidden">
+              <div className="w-full">
                 <div className="relative">
                   <Calendar size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
                   <input
@@ -243,7 +243,7 @@ export default function FlightSearch() {
             </div>
 
             {tripType === 'roundtrip' && (
-              <div className="w-full max-w-xs mx-auto sm:max-w-full sm:col-span-3 text-center overflow-hidden">
+              <div className="w-full max-w-xs mx-auto sm:max-w-full sm:col-span-3 text-center">
                 <div className="relative">
                   <Calendar size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
                   <input
@@ -257,9 +257,9 @@ export default function FlightSearch() {
               </div>
             )}
 
-            {/* PASSENGERS */}
+            {/* PASSENGERS – now same width as other inputs */}
             <div className="flex justify-center">
-              <div className="text-center w-full max-w-xs sm:max-w-sm">
+              <div className="w-full max-w-[200px] sm:max-w-[240px]">
                 <div className="flex items-center justify-center gap-2 bg-white/60 border border-gray-300 rounded-lg px-4 py-1.5">
                   <Users size={16} className="text-gray-600" />
                   <button
@@ -311,19 +311,22 @@ export default function FlightSearch() {
               </label>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-2 sm:py-3 px-4 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm sm:text-xs"
-            >
-              {loading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} />}
-              {loading ? 'Searching...' : 'Search Flight'}
-              {!loading && <ArrowRight size={14} className="group-hover:translate-x-1 transition" />}
-            </button>
+            {/* Search Button – shorter, centered */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-2 sm:py-3 px-4 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm sm:text-xs"
+              >
+                {loading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} />}
+                {loading ? 'Searching...' : 'Search Flight'}
+                {!loading && <ArrowRight size={14} className="group-hover:translate-x-1 transition" />}
+              </button>
+            </div>
           </form>
         )}
 
-        {/* Other tabs */}
+        {/* Other tabs – unchanged */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3 sm:space-y-4">
             <div className="text-center mb-1 sm:mb-2">
