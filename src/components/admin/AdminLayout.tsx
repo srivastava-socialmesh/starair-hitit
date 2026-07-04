@@ -25,6 +25,7 @@ const navItems = [
   { name: "Deals", href: "/admin/deals", icon: Percent },
   { name: "Products", href: "/admin/products", icon: Package },
   { name: "Blogs", href: "/admin/blogs", icon: FileText },
+  { name: "News", href: "/admin/news", icon: Newspaper },
   { name: "Media Coverage", href: "/admin/media", icon: Newspaper },
   { name: "Magazines", href: "/admin/magazines", icon: BookOpen },
   { name: "Fare Sheets", href: "/admin/fare-sheets", icon: Table },

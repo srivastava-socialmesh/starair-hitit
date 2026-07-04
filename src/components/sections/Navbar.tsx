@@ -84,6 +84,9 @@ export default function Navbar() {
             <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">About</Link>
             </li>
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+              <Link href="/news">News</Link>
+            </li>
 
             {fareServicePages.length > 0 && (
               <li className="relative group">
