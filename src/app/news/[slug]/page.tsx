@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createServerClient } from "@/lib/supabase/server";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
