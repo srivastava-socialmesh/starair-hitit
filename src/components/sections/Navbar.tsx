@@ -72,21 +72,21 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Menu */}
-          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium ml-4">
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+          {/* Desktop Menu – smaller font */}
+          <ul className="hidden lg:flex items-center gap-4 xl:gap-6 text-[10px] lg:text-xs font-medium ml-4">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors uppercase tracking-wider">
               <Link href="/">Destinations</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors uppercase tracking-wider">
               <Link href="/">Deals</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors uppercase tracking-wider">
               <Link href="/flight-status">Flight Status</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors uppercase tracking-wider">
               <Link href="/">About</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors uppercase tracking-wider">
               <Link href="/news">News</Link>
             </li>
 
@@ -94,9 +94,9 @@ export default function Navbar() {
               <li className="relative group">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors capitalize"
+                  className="flex items-center gap-1 text-white/90 hover:text-red-500 transition-colors uppercase tracking-wider"
                 >
-                  Fares & Services <ChevronDown size={14} />
+                  Fares & Services <ChevronDown size={12} />
                 </button>
                 <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                   dropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -105,7 +105,7 @@ export default function Navbar() {
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
+                      className="block px-5 py-2.5 text-xs text-gray-700 hover:bg-red-50 hover:text-red-600 transition"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {p.title}
@@ -116,14 +116,19 @@ export default function Navbar() {
             )}
           </ul>
 
-          {/* Right side: Tagline + Udan Logo + Sign In */}
+          {/* Right side: Tagline + Sign In (small) + Udan Logo (larger) */}
           <div className="flex items-center gap-3 lg:gap-4">
-            <span className="hidden sm:inline text-white/80 text-xs sm:text-sm lg:text-base font-medium tracking-wide">
+            <span className="hidden sm:inline text-white/80 text-[10px] sm:text-xs lg:text-sm font-medium tracking-wide">
               Connecting Real India
             </span>
 
-            {/* Udan Logo */}
-            <div className="relative w-10 h-8 sm:w-12 sm:h-10 flex-shrink-0">
+            {/* Sign In button – smaller */}
+            <button className="h-7 px-3 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-[10px] lg:text-xs font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer">
+              Sign In
+            </button>
+
+            {/* Udan Logo – larger */}
+            <div className="relative w-12 h-10 sm:w-16 sm:h-12 flex-shrink-0">
               {!udanError ? (
                 <Image
                   src={UDAN_LOGO_URL}
@@ -137,10 +142,6 @@ export default function Navbar() {
                 <span className="text-xs text-white/50">UDAN</span>
               )}
             </div>
-
-            <button className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
-              Sign In
-            </button>
           </div>
 
           {/* Mobile toggle */}
@@ -153,7 +154,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-4">
-          <ul className="flex flex-col gap-3 text-sm capitalize">
+          <ul className="flex flex-col gap-3 text-xs uppercase tracking-wider">
             <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
             </li>
