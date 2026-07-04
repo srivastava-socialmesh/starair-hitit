@@ -217,7 +217,7 @@ export default function FlightSearch() {
               </div>
               <div className="w-full overflow-hidden">
                 <div className="relative">
-                  <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 rotate-90" />
+                  <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
                   <input
                     type="text"
                     value={to}
