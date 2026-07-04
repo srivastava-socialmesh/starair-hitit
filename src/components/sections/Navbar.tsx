@@ -5,11 +5,13 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
+const UDAN_LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/udan.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [udanError, setUdanError] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cmsPages, setCmsPages] = useState<{ slug: string; title: string }[]>([]);
@@ -53,7 +55,7 @@ export default function Navbar() {
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
-          {/* Logo – now clickable */}
+          {/* Logo – clickable */}
           <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -71,7 +73,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium">
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium ml-4">
             <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">Destinations</Link>
             </li>
@@ -112,11 +114,34 @@ export default function Navbar() {
                 </div>
               </li>
             )}
-
-            <li className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
-              Sign In
-            </li>
           </ul>
+
+          {/* Right side: Tagline + Udan Logo + Sign In */}
+          <div className="flex items-center gap-3 lg:gap-4">
+            <span className="hidden sm:inline text-white/80 text-xs sm:text-sm lg:text-base font-medium tracking-wide">
+              Connecting Real India
+            </span>
+
+            {/* Udan Logo */}
+            <div className="relative w-10 h-8 sm:w-12 sm:h-10 flex-shrink-0">
+              {!udanError ? (
+                <Image
+                  src={UDAN_LOGO_URL}
+                  alt="Udan"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                  onError={() => setUdanError(true)}
+                />
+              ) : (
+                <span className="text-xs text-white/50">UDAN</span>
+              )}
+            </div>
+
+            <button className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-xl hover:scale-105 transition duration-300 cursor-pointer">
+              Sign In
+            </button>
+          </div>
 
           {/* Mobile toggle */}
           <button className="lg:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
