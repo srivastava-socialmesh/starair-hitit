@@ -51,7 +51,7 @@ export default function Navbar() {
         isHidden ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
           {/* Logo */}
           <div className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
@@ -70,7 +70,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Desktop Menu – larger text, capitalize */}
+          {/* Desktop Menu */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium">
             <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">Destinations</Link>
