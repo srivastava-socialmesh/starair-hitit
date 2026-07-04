@@ -65,9 +65,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col justify-start items-start text-left space-y-2 sm:space-y-3 pt-0"
         >
-          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
+          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[0.9] tracking-tight">
             <span className="text-white drop-shadow-lg block text-left">Discover the</span>
-            <span className="text-red-500 drop-shadow-lg block text-right">Art of Travel</span>
+            <span className="text-red-500 drop-shadow-lg block text-right mt-0">Art of Travel</span>
           </h1>
 
           <p className="text-white/95 text-xs sm:text-sm max-w-xl leading-5 drop-shadow-lg">

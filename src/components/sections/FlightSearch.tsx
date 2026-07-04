@@ -211,7 +211,7 @@ export default function FlightSearch() {
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     placeholder="From"
-                    className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
@@ -223,7 +223,7 @@ export default function FlightSearch() {
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
                     placeholder="To"
-                    className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
@@ -235,7 +235,7 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                     required
                   />
                 </div>
@@ -251,7 +251,7 @@ export default function FlightSearch() {
                     value={returnDate}
                     onChange={(e) => setReturnDate(e.target.value)}
                     placeholder="Return"
-                    className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs – same as before */}
+        {/* Other tabs */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3 sm:space-y-4">
             <div className="text-center mb-1 sm:mb-2">
@@ -338,7 +338,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -349,7 +349,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -379,7 +379,7 @@ export default function FlightSearch() {
                   placeholder="e.g., AI-101"
                   value={flightNumber}
                   onChange={(e) => setFlightNumber(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -389,7 +389,7 @@ export default function FlightSearch() {
                   type="date"
                   value={statusDate}
                   onChange={(e) => setStatusDate(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -419,7 +419,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -430,7 +430,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
