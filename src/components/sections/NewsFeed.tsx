@@ -29,6 +29,9 @@ export default async function NewsFeed() {
                     src={item.image_url}
                     alt={item.title}
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
                   />
                 </div>
               )}

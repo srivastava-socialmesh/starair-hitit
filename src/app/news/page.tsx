@@ -1,6 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
@@ -35,12 +34,13 @@ export default async function NewsPage() {
                 <div className="flex flex-col md:flex-row gap-4">
                   {item.image_url && (
                     <div className="md:w-48 h-32 relative flex-shrink-0">
-                      <Image
+                      <img
                         src={item.image_url}
                         alt={item.title}
-                        fill
-                        className="object-cover rounded-lg"
-                        unoptimized
+                        className="w-full h-full object-cover rounded-lg"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
                       />
                     </div>
                   )}
