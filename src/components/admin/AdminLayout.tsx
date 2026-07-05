@@ -17,18 +17,17 @@ import {
   Crown
 } from "lucide-react";
 
-// 🔁 Replace with your actual logo URL
-const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logos/starair-logo.png";
+const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Deals", href: "/admin/deals", icon: Percent },
   { name: "Products", href: "/admin/products", icon: Package },
   { name: "Blogs", href: "/admin/blogs", icon: FileText },
-  { name: "News", href: "/admin/news", icon: Newspaper },
   { name: "Media Coverage", href: "/admin/media", icon: Newspaper },
   { name: "Magazines", href: "/admin/magazines", icon: BookOpen },
   { name: "Fare Sheets", href: "/admin/fare-sheets", icon: Table },
+  { name: "News", href: "/admin/news", icon: Newspaper },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -58,10 +57,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               {!logoError ? (
                 <Image
                   src={LOGO_URL}
-                  alt="StarAir"
+                  alt="StarAir Admin"
                   fill
                   className="object-contain"
                   priority
+                  unoptimized
                   onError={() => setLogoError(true)}
                 />
               ) : (
@@ -127,7 +127,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
           <div className="flex items-center gap-2">
             <div className="relative w-8 h-8">
-              <Image src={LOGO_URL} alt="StarAir" fill className="object-contain" />
+              <Image src={LOGO_URL} alt="StarAir Admin" fill className="object-contain" unoptimized />
             </div>
             <h1 className="text-lg font-bold text-amber-400">StarAir</h1>
           </div>
