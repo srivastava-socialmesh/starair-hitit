@@ -32,24 +32,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
-      <div
-        className="
-          relative
-          z-10
-          w-full
-          max-w-[1600px]
-          mx-auto
-          min-h-[100svh]
-          grid
-          grid-cols-1
-          lg:grid-cols-2
-          items-start
-          gap-4 sm:gap-6 lg:gap-8
-          px-3 sm:px-6 lg:px-8 xl:px-12
-          pt-28 sm:pt-32 lg:pt-28
-          pb-6
-        "
-      >
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-4 sm:gap-6 lg:gap-8 px-3 sm:px-6 lg:px-8 xl:px-12 pt-28 sm:pt-32 lg:pt-28 pb-6">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -65,7 +48,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col justify-start items-start text-left space-y-2 sm:space-y-3 pt-0"
         >
-          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[0.9] tracking-tight">
+          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1] tracking-tight">
             <span className="text-white drop-shadow-lg block text-left">Discover the</span>
             <span className="text-red-500 drop-shadow-lg block text-right mt-0">Art of Travel</span>
           </h1>

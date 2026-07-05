@@ -50,9 +50,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         } md:translate-x-0 md:static md:flex-shrink-0 shadow-2xl shadow-black/50`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo – larger, less padding */}
-          <div className="py-3 px-2 border-b border-white/5 flex justify-center items-center bg-gradient-to-b from-amber-500/10 to-transparent">
-            <div className="relative w-48 h-48 md:w-52 md:h-52 flex-shrink-0">
+          {/* Logo – compact padding, larger logo */}
+          <div className="py-2 px-2 border-b border-white/5 flex justify-center items-center bg-gradient-to-b from-amber-500/10 to-transparent">
+            <div className="relative w-44 h-44 md:w-48 md:h-48 flex-shrink-0">
               {!logoError ? (
                 <Image
                   src={LOGO_URL}
@@ -105,10 +105,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* Main content */}
@@ -126,11 +123,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="w-6"></div>
         </header>
 
-        {/* Page content */}
         <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
+          <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>
     </div>

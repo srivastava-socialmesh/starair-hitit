@@ -148,7 +148,7 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {/* Primary Tabs – reduced width, compact */}
+      {/* Primary Tabs */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-2 sm:mb-4 p-1 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 w-fit mx-auto">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
@@ -281,7 +281,7 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* PASSENGER TYPE – smaller buttons on mobile */}
+            {/* PASSENGER TYPE – smaller on mobile */}
             <div className="text-center">
               <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-1">👤 Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
@@ -311,7 +311,7 @@ export default function FlightSearch() {
               </label>
             </div>
 
-            {/* Search Button – shorter, centered */}
+            {/* Search Button */}
             <div className="flex justify-center">
               <button
                 type="submit"
@@ -326,7 +326,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs – same compact style */}
+        {/* Other tabs */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3 sm:space-y-4">
             <div className="text-center mb-1 sm:mb-2">
