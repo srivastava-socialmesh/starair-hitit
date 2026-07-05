@@ -38,9 +38,6 @@ export default async function NewsPage() {
                         src={item.image_url}
                         alt={item.title}
                         className="w-full h-full object-cover rounded-lg"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
                       />
                     </div>
                   )}
