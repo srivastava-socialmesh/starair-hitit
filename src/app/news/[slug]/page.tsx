@@ -9,6 +9,8 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function NewsDetailPage({ params }: { params: { slug: string } }) {
+  console.log("Fetching news for slug:", params.slug);
+
   const supabase = await createServerClient();
   const { data: item, error } = await supabase
     .from("news")
@@ -17,7 +19,13 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
     .eq("is_active", true)
     .maybeSingle();
 
-  if (error || !item) {
+  if (error) {
+    console.error("Supabase error:", error);
+    notFound();
+  }
+
+  if (!item) {
+    console.log("No news found for slug:", params.slug);
     notFound();
   }
 
@@ -39,12 +47,10 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
         {item.image_url && (
           <div className="relative w-full h-64 md:h-96 mt-4">
-            <Image
+            <img
               src={item.image_url}
               alt={item.title}
-              fill
-              className="object-cover rounded-xl"
-              unoptimized
+              className="w-full h-full object-cover rounded-xl"
             />
           </div>
         )}

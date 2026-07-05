@@ -1,3 +1,4 @@
+
 "use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -52,17 +53,24 @@ export default function NewsManager() {
   }, []);
 
   const handleSave = async () => {
-    if (!form.slug || !form.title || !form.content || !form.published_date) {
-      alert("Slug, Title, Content, and Published Date are required");
+    // Require title, content, and published_date
+    if (!form.title || !form.content || !form.published_date) {
+      alert("Title, Content, and Published Date are required");
       return;
     }
+
     setSaving(true);
     setError(null);
     setSuccess(null);
 
     try {
+      // Auto-generate slug from title if slug is empty
+      const slug = form.slug && form.slug.trim() !== ""
+        ? form.slug.trim().toLowerCase().replace(/\s+/g, '-')
+        : form.title.trim().toLowerCase().replace(/\s+/g, '-');
+
       const payload = {
-        slug: form.slug.trim().toLowerCase().replace(/\s+/g, '-'),
+        slug: slug,
         title: form.title,
         excerpt: form.excerpt || null,
         content: form.content,
@@ -175,20 +183,20 @@ export default function NewsManager() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              placeholder="Slug (e.g., star-air-expands)"
+              placeholder="Slug (auto-generated if left empty)"
               value={form.slug || ""}
               onChange={(e) => setForm({ ...form, slug: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
-              placeholder="Title"
+              placeholder="Title *"
               value={form.title || ""}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
               type="date"
-              placeholder="Published Date"
+              placeholder="Published Date *"
               value={form.published_date || ""}
               onChange={(e) => setForm({ ...form, published_date: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
@@ -207,7 +215,7 @@ export default function NewsManager() {
               rows={2}
             />
             <textarea
-              placeholder="Content (HTML allowed)"
+              placeholder="Content (HTML allowed) *"
               value={form.content || ""}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white col-span-full"
