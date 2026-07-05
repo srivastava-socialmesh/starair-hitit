@@ -42,17 +42,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!isMounted) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0e1a] via-[#111827] to-[#0a0e1a] text-white flex">
+    <div className="min-h-screen bg-[#0a0e1a] text-white flex">
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111827]/95 backdrop-blur-xl border-r border-amber-500/10 transform transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#111827] border-r border-white/5 transform transition-transform duration-300 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:static md:flex-shrink-0 shadow-2xl shadow-amber-500/5`}
+        } md:translate-x-0 md:static md:flex-shrink-0 shadow-2xl shadow-black/50`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo – large, centered, no text */}
-          <div className="p-6 border-b border-amber-500/10 flex justify-center items-center">
-            <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
+          {/* Logo – larger, centered, with subtle gradient background */}
+          <div className="p-4 pb-2 border-b border-white/5 flex justify-center items-center bg-gradient-to-b from-amber-500/5 to-transparent">
+            <div className="relative w-32 h-32 md:w-36 md:h-36 flex-shrink-0">
               {!logoError ? (
                 <Image
                   src={LOGO_URL}
@@ -77,16 +77,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
                     isActive
-                      ? "bg-gradient-to-r from-amber-500/20 to-amber-600/10 text-amber-400 shadow-lg shadow-amber-500/10"
+                      ? "bg-gradient-to-r from-amber-500/20 to-amber-600/10 text-amber-400 shadow-lg shadow-amber-500/10 border border-amber-500/20"
                       : "text-slate-400 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   <item.icon size={20} className={isActive ? "text-amber-400" : "group-hover:text-amber-400"} />
-                  <span className="font-medium">{item.name}</span>
+                  <span className="font-medium text-sm">{item.name}</span>
                   {isActive && (
-                    <span className="ml-auto w-1.5 h-8 bg-amber-400 rounded-full"></span>
+                    <span className="ml-auto w-1.5 h-6 bg-amber-400 rounded-full shadow-lg shadow-amber-400/50"></span>
                   )}
                 </Link>
               );
@@ -94,10 +94,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </nav>
 
           {/* Sign Out */}
-          <div className="p-4 border-t border-amber-500/10">
-            <button className="flex items-center gap-3 text-slate-400 hover:text-red-400 transition w-full px-4 py-3 rounded-lg hover:bg-red-500/10 group">
+          <div className="p-4 border-t border-white/5">
+            <button className="flex items-center gap-3 text-slate-400 hover:text-red-400 transition w-full px-4 py-3 rounded-xl hover:bg-red-500/10 group">
               <LogOut size={20} className="group-hover:text-red-400" />
-              <span>Sign Out</span>
+              <span className="text-sm font-medium">Sign Out</span>
             </button>
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main content */}
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Mobile header */}
-        <header className="md:hidden flex items-center justify-between p-4 border-b border-amber-500/10 bg-[#0a0e1a]/95 backdrop-blur-xl sticky top-0 z-30">
+        <header className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#0a0e1a]/95 backdrop-blur-xl sticky top-0 z-30">
           <button onClick={() => setSidebarOpen(true)}>
             <Menu size={24} className="text-amber-400" />
           </button>
