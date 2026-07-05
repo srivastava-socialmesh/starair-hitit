@@ -13,8 +13,7 @@ import {
   Table, 
   LogOut,
   Menu,
-  X,
-  Crown
+  X
 } from "lucide-react";
 
 const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
@@ -51,9 +50,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         } md:translate-x-0 md:static md:flex-shrink-0 shadow-2xl shadow-amber-500/5`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo + Brand */}
-          <div className="p-6 border-b border-amber-500/10 flex items-center gap-3">
-            <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+          {/* Logo – large, centered, no text */}
+          <div className="p-6 border-b border-amber-500/10 flex justify-center items-center">
+            <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
               {!logoError ? (
                 <Image
                   src={LOGO_URL}
@@ -65,14 +64,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <Crown className="text-amber-400" size={32} />
+                <span className="text-6xl font-bold text-amber-400">✈️</span>
               )}
-            </div>
-            <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-                StarAir
-              </h1>
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest">Admin Panel</p>
             </div>
           </div>
 
@@ -126,10 +119,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Menu size={24} className="text-amber-400" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8">
+            <div className="relative w-12 h-12">
               <Image src={LOGO_URL} alt="StarAir Admin" fill className="object-contain" unoptimized />
             </div>
-            <h1 className="text-lg font-bold text-amber-400">StarAir</h1>
           </div>
           <div className="w-6"></div>
         </header>
