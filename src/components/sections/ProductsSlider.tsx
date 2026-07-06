@@ -45,7 +45,14 @@ export default function ProductsSlider() {
     fetchProducts();
   }, []);
 
-  if (loading) return <div className="py-12 px-4 bg-gray-50 text-center text-gray-400">Loading products...</div>;
+  if (loading) {
+    return (
+      <section className="py-12 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto text-center text-gray-400">Loading products...</div>
+      </section>
+    );
+  }
+
   if (!products.length) return null;
 
   return (
@@ -65,7 +72,11 @@ export default function ProductsSlider() {
           speed={600}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          breakpoints={{ 640: 1, 768: 2, 1024: 3 }}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
           className="pb-10"
         >
           {products.map((product) => {
@@ -85,7 +96,10 @@ export default function ProductsSlider() {
                       src={imgSrc}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      onError={(e) => { const t = e.target as HTMLImageElement; if (t.src !== PLACEHOLDER_IMAGE) t.src = PLACEHOLDER_IMAGE; }}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== PLACEHOLDER_IMAGE) target.src = PLACEHOLDER_IMAGE;
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
                   </div>
@@ -102,7 +116,10 @@ export default function ProductsSlider() {
                     }`}
                   >
                     <div className="p-5 pt-8">
-                      <button onClick={(e) => { e.stopPropagation(); setActiveDrawer(null); }} className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 transition lg:hidden">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setActiveDrawer(null); }}
+                        className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 transition lg:hidden"
+                      >
                         <X size={20} />
                       </button>
                       <h4 className="text-lg font-bold text-accent mb-2">{product.name} Features</h4>
