@@ -1,4 +1,3 @@
-import { Plane, Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -41,11 +40,26 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Investors */}
+          <div>
+            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Investors</h4>
+            <ul className="space-y-2 text-slate-400 text-sm">
+              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Governance</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Financial Information</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Notices</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Announcements</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Shareholding Pattern</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Investor Services</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Disclosure Regulation 46</li>
+            </ul>
+          </div>
+        </div>
+
         {/* Contact Details & Payment Logos */}
         <div className="border-t border-white/5 mt-8 pt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
-            <p className="text-slate-300 text-sm">+91 (0)80 5079 9555 </p>
+            <p className="text-slate-300 text-sm">+91 (0)80 5079 9555</p>
             <p className="text-rose-400 text-sm mt-1">customercare@starair.in</p>
             <div className="flex gap-4 mt-3 text-xl">
               <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">🐦</span>
@@ -66,7 +80,8 @@ export default function Footer() {
               <span className="bg-white/10 px-3 py-1 rounded-full">RuPay</span>
               <span className="bg-white/10 px-3 py-1 rounded-full">NET BANKING</span>
             </div>
-         </div>
+          </div>
+        </div>
 
         {/* Copyright */}
         <div className="border-t border-white/5 mt-8 pt-6 text-center text-slate-600 text-xs">
