@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Twitter, Instagram, Youtube, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -48,11 +48,11 @@ export default function Footer() {
             <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
             <p className="text-slate-300 text-sm">+91 (0)80 5079 9555</p>
             <p className="text-rose-400 text-sm mt-1">customercare@starair.in</p>
-            <div className="flex gap-4 mt-3">
-              <Twitter size={20} className="text-slate-400 hover:text-rose-400 cursor-pointer transition" />
-              <Instagram size={20} className="text-slate-400 hover:text-rose-400 cursor-pointer transition" />
-              <Youtube size={20} className="text-slate-400 hover:text-rose-400 cursor-pointer transition" />
-              <Facebook size={20} className="text-slate-400 hover:text-rose-400 cursor-pointer transition" />
+            <div className="flex gap-4 mt-3 text-2xl">
+              <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">🐦</span>
+              <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">📸</span>
+              <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">▶️</span>
+              <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">📘</span>
             </div>
             <p className="text-slate-500 text-xs mt-3">Download our mobile app</p>
           </div>
