@@ -89,6 +89,15 @@ export default function Navbar() {
             <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
               <Link href="/news">News</Link>
             </li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/loyalty">Loyalty</Link>
+            </li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/cargo">Cargo</Link>
+            </li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/charter">Charter</Link>
+            </li>
 
             {fareServicePages.length > 0 && (
               <li className="relative group">
@@ -165,6 +174,16 @@ export default function Navbar() {
               <Link href="/news" onClick={() => setIsOpen(false)}>News</Link>
             </li>
             <li className="text-white/90">Fares & Services</li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/loyalty">Loyalty</Link>
+            </li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/cargo">Cargo</Link>
+            </li>
+            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
+              <Link href="/charter">Charter</Link>
+            </li>
+
             <ul className="pl-3 border-l border-red-300 space-y-1">
               {fareServicePages.map((p) => (
                 <li key={p.slug}>
