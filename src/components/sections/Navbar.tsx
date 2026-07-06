@@ -54,8 +54,8 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
-        <div className="h-16 sm:h-20 lg:h-24 flex items-center">
-          {/* Logo – left */}
+        <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
+          {/* Logo */}
           <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -72,31 +72,16 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Menu – aligned right with ml-auto, larger font, capitalize */}
-          <ul className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm lg:text-base font-medium ml-auto capitalize">
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
-              <Link href="/">Destinations</Link>
-            </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+          {/* Desktop Menu – removed Destinations & News */}
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium ml-auto">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">Deals</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/flight-status">Flight Status</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
+            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors capitalize">
               <Link href="/">About</Link>
-            </li>
-            <li className="text-white/90 hover:text-red-500 cursor-pointer transition-colors">
-              <Link href="/news">News</Link>
-            </li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/loyalty">Loyalty</Link>
-            </li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/cargo">Cargo</Link>
-            </li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/charter">Charter</Link>
             </li>
 
             {fareServicePages.length > 0 && (
@@ -127,7 +112,7 @@ export default function Navbar() {
 
           {/* Right side: Sign In + Udan */}
           <div className="flex items-center gap-3 lg:gap-4 ml-4">
-            <button className="h-7 px-3 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer">
+            <button className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-red-700 to-red-600 text-white text-xs lg:text-sm font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer">
               Sign In
             </button>
 
@@ -159,9 +144,6 @@ export default function Navbar() {
         <div className="lg:hidden bg-black/80 backdrop-blur-xl border-t border-white/10 p-4">
           <ul className="flex flex-col gap-3 text-sm capitalize">
             <li className="text-white/90 hover:text-red-500">
-              <Link href="/" onClick={() => setIsOpen(false)}>Destinations</Link>
-            </li>
-            <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>Deals</Link>
             </li>
             <li className="text-white/90 hover:text-red-500">
@@ -170,20 +152,7 @@ export default function Navbar() {
             <li className="text-white/90 hover:text-red-500">
               <Link href="/" onClick={() => setIsOpen(false)}>About</Link>
             </li>
-            <li className="text-white/90 hover:text-red-500">
-              <Link href="/news" onClick={() => setIsOpen(false)}>News</Link>
-            </li>
             <li className="text-white/90">Fares & Services</li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/loyalty">Loyalty</Link>
-            </li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/cargo">Cargo</Link>
-            </li>
-            <li className="text-white/90 hover:text-rose-500 cursor-pointer transition-colors capitalize">
-              <Link href="/charter">Charter</Link>
-            </li>
-
             <ul className="pl-3 border-l border-red-300 space-y-1">
               {fareServicePages.map((p) => (
                 <li key={p.slug}>
