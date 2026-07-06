@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
-// Replace these with your actual Supabase public URLs
 const banners = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1783333.png",
@@ -13,7 +12,6 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  // Auto-slide every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length);
@@ -21,7 +19,6 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
-  // Preload images
   useEffect(() => {
     let loaded = 0;
     banners.forEach((src) => {
@@ -40,7 +37,7 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[90vh] overflow-hidden flex items-center bg-slate-900">
-      {/* Background banner images */}
+      {/* Background banner images – NO OVERLAY */}
       <div className="absolute inset-0 -z-10">
         {banners.map((src, index) => (
           <div
@@ -54,7 +51,6 @@ export default function Hero() {
               alt={`Banner ${index + 1}`}
               className="w-full h-full object-cover"
               onError={(e) => {
-                // If image fails, replace with a solid color
                 const target = e.target as HTMLImageElement;
                 target.style.display = "none";
                 const parent = target.parentElement;
@@ -65,8 +61,7 @@ export default function Hero() {
             />
           </div>
         ))}
-        {/* Lighter overlay to keep images visible */}
-        <div className="absolute inset-0 bg-black/30 z-5"></div>
+        {/* Remove overlay or keep very light – we'll remove entirely */}
       </div>
 
       {/* Decorative accent line */}
@@ -74,28 +69,28 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Brand Message */}
+          {/* Left: Brand Message – with text shadow for readability */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] drop-shadow-lg">
               <span className="block">Discover the</span>
               <span className="block text-rose-500 mt-1">Art of Travel</span>
             </h1>
-            <p className="text-lg text-slate-200 max-w-lg leading-relaxed drop-shadow-lg">
+            <p className="text-lg text-white max-w-lg leading-relaxed drop-shadow-lg">
               Experience luxury at 35,000 feet. Real‑time global inventory powered by Hitit middleware.
             </p>
-            <div className="flex flex-wrap gap-6 text-sm text-white/90 tracking-wider drop-shadow-md">
+            <div className="flex flex-wrap gap-6 text-sm text-white tracking-wider drop-shadow-md">
               <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
               <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
               <span className="flex items-center gap-2">🏆 24 Awards</span>
             </div>
           </motion.div>
 
-          {/* Right: Flight Search (sits on top of banners) */}
+          {/* Right: Flight Search – sits on top of banners */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
