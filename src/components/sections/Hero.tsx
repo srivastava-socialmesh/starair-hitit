@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
-const banners = [
+const bannerImages = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1783333.png",
 ];
@@ -12,86 +12,90 @@ export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % banners.length);
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
     }, 4000);
-    return () => clearInterval(timer);
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] overflow-hidden flex items-center">
-      {/* Background image container – no parent background color */}
+    <section
+      className="relative min-h-[100svh] overflow-hidden"
+      style={{ backgroundColor: "#0a0e1a" }}
+    >
+      {/* Background image container – carousel with fade transition */}
       <div className="absolute inset-0 -z-10">
-        {banners.map((src, index) => (
+        {bannerImages.map((img, index) => (
           <div
-            key={src}
+            key={index}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
             style={{
-              backgroundImage: `url(${src})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              backgroundImage: `url(${img})`,
+              backgroundSize: "contain",
+              backgroundPosition: "center center",
               backgroundRepeat: "no-repeat",
             }}
           />
         ))}
-        {/* Fallback background color if images fail */}
-        <div className="absolute inset-0 bg-slate-900 -z-20"></div>
+        {/* Fallback if images fail */}
+        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
       </div>
 
-      {/* Decorative accent line */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent z-10"></div>
+      {/* Dark gradient overlay for readability (same as old code) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/60 to-black/30"></div>
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Brand Message */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] drop-shadow-lg">
-              <span className="block">Discover the</span>
-              <span className="block text-rose-500 mt-1">Art of Travel</span>
-            </h1>
-            <p className="text-lg text-white max-w-lg leading-relaxed drop-shadow-lg">
-              Experience luxury at 35,000 feet. Real‑time global inventory powered by Hitit middleware.
-            </p>
-            <div className="flex flex-wrap gap-6 text-sm text-white tracking-wider drop-shadow-md">
-              <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
-              <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
-              <span className="flex items-center gap-2">🏆 24 Awards</span>
-            </div>
-          </motion.div>
+      <div
+        className="
+          relative
+          z-10
+          w-full
+          min-h-[100svh]
+          grid
+          grid-cols-1
+          lg:grid-cols-2
+          items-start
+          gap-6 sm:gap-8 lg:gap-12
+          px-4 sm:px-8 lg:px-16 xl:px-24
+          pt-20 sm:pt-24 lg:pt-20
+          pb-8
+          max-w-[1600px] mx-auto
+        "
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="w-full mt-0"
+        >
+          <FlightSearch />
+        </motion.div>
 
-          {/* Right: Flight Search */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full"
-          >
-            <FlightSearch />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12"
+        >
+          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
+            <span className="text-white drop-shadow-lg block text-left">Discover the</span>
+            <span className="text-red-500 drop-shadow-lg block text-right">Art of Travel</span>
+          </h1>
+
+          <p className="text-white/90 text-sm sm:text-sm max-w-xl leading-6 drop-shadow-lg">
+            Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
+          </p>
+
+          <div className="flex flex-wrap gap-4 sm:gap-6 text-[10px] sm:text-[11px] text-white uppercase tracking-wider drop-shadow-lg">
+            <span className="flex items-center gap-1.5">⭐ 4.9/5 Rating</span>
+            <span className="flex items-center gap-1.5">✈️ 120+ Destinations</span>
+            <span className="flex items-center gap-1.5">🏆 24 Awards</span>
+          </div>
+        </motion.div>
       </div>
-
-      {/* Navigation dots */}
-      {banners.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
-          {banners.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                index === currentIndex ? "bg-rose-500 w-8" : "bg-white/40 hover:bg-white/60"
-              }`}
-            />
-          ))}
-        </div>
-      )}
     </section>
   );
 }
