@@ -23,13 +23,13 @@ import {
 
 type PrimaryTab = 'search' | 'checkin' | 'flightstatus' | 'managebooking';
 type TripType = 'oneway' | 'roundtrip';
-type CabinClass = 'economy' | 'business' | 'first';
+type CabinClass = 'economy' | 'business' | 'all';
 
 export default function FlightSearch() {
   const [primaryTab, setPrimaryTab] = useState<PrimaryTab>('search');
   const [tripType, setTripType] = useState<TripType>('oneway');
   const [cabinClass, setCabinClass] = useState<CabinClass>('economy');
-  const [from, setFrom] = useState('DEL');
+  const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [departDate, setDepartDate] = useState('2026-07-06');
   const [returnDate, setReturnDate] = useState('');
@@ -53,19 +53,17 @@ export default function FlightSearch() {
     { id: 'managebooking', label: 'Manage', icon: Briefcase },
   ];
 
+  // Removed Armed Forces, Govt. Employee, Students
   const passengerTypes = [
     { id: 'family', label: 'Family & Friends', icon: UsersRound },
     { id: 'senior', label: 'Senior Citizen', icon: User },
     { id: 'unaccompanied', label: 'Unaccompanied Minor', icon: Heart },
-    { id: 'student', label: 'Students', icon: GraduationCap },
-    { id: 'armed', label: 'Armed Forces', icon: Shield },
-    { id: 'govt', label: 'Govt. Employee', icon: Briefcase },
   ];
 
   const cabinOptions: { value: CabinClass; label: string }[] = [
+    { value: 'all', label: 'All Class' },
     { value: 'economy', label: 'Economy' },
     { value: 'business', label: 'Business' },
-    { value: 'first', label: 'First Class' },
   ];
 
   // API handlers (unchanged)
@@ -79,7 +77,7 @@ export default function FlightSearch() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          origin: from,
+          origin: from || 'DEL',
           destination: to,
           date: departDate,
           returnDate: tripType === 'roundtrip' ? returnDate : undefined,
@@ -183,7 +181,6 @@ export default function FlightSearch() {
         })}
       </div>
 
-      {/* Content Panel */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
@@ -193,7 +190,6 @@ export default function FlightSearch() {
       >
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-5">
-            {/* Trip type – removed Multi-City */}
             <div className="flex bg-white/5 rounded-xl p-1 w-fit mx-auto border border-white/10">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
@@ -215,7 +211,6 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* From / To / Departure */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
@@ -271,9 +266,7 @@ export default function FlightSearch() {
               </div>
             )}
 
-            {/* Cabin Class + Passengers dropdowns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Cabin Class */}
               <div className="w-full">
                 <label className="block text-white/70 text-xs uppercase tracking-wider font-semibold mb-1">Cabin Class</label>
                 <div className="relative">
@@ -292,7 +285,6 @@ export default function FlightSearch() {
                 </div>
               </div>
 
-              {/* Passengers dropdown */}
               <div className="w-full">
                 <label className="block text-white/70 text-xs uppercase tracking-wider font-semibold mb-1">Passengers</label>
                 <div className="grid grid-cols-3 gap-2">
@@ -360,7 +352,6 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Passenger Type */}
             <div className="text-center">
               <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-2">Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
@@ -382,7 +373,6 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Special Assistance */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
               <span className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">♿ Special Assistance</span>
               <label className="flex items-center gap-1.5 text-xs sm:text-sm text-white/70">
@@ -390,7 +380,6 @@ export default function FlightSearch() {
               </label>
             </div>
 
-            {/* Search button */}
             <div className="flex justify-center">
               <button
                 type="submit"
@@ -405,7 +394,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Check-in tab */}
+        {/* Other tabs unchanged */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-4">
             <div className="text-center mb-2">
@@ -449,7 +438,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Flight Status tab */}
         {primaryTab === 'flightstatus' && (
           <form onSubmit={handleFlightStatus} className="space-y-4">
             <div className="text-center mb-2">
@@ -492,7 +480,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Manage Booking tab */}
         {primaryTab === 'managebooking' && (
           <form onSubmit={handleManageBooking} className="space-y-4">
             <div className="text-center mb-2">
@@ -536,7 +523,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Result / Error */}
         {error && (
           <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 flex items-center gap-2.5 text-sm">
             <AlertCircle size={18} />

@@ -4,6 +4,7 @@ import Destinations from "@/components/sections/Destinations";
 import DealsSlider from "@/components/sections/DealsSlider";
 import ProductsSlider from "@/components/sections/ProductsSlider";
 import Loyalty from "@/components/sections/Loyalty";
+import NewsFeed from "@/components/sections/NewsFeed";
 import Stats from "@/components/sections/Stats";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
@@ -44,6 +45,7 @@ export default function Home() {
         </div>
       </section>
 
+      <NewsFeed />
       <Stats />
       <Footer />
     </main>
