@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import FlightSearch from "./FlightSearch";
 
+// Replace these with your actual Supabase public URLs
 const banners = [
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1783333.png",
@@ -10,8 +11,9 @@ const banners = [
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
+  // Auto-slide every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length);
@@ -27,14 +29,18 @@ export default function Hero() {
       img.src = src;
       img.onload = () => {
         loaded++;
-        if (loaded === banners.length) setIsLoaded(true);
+        if (loaded === banners.length) setImagesLoaded(true);
+      };
+      img.onerror = () => {
+        loaded++;
+        if (loaded === banners.length) setImagesLoaded(true);
       };
     });
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] overflow-hidden flex items-center">
-      {/* Background banner carousel */}
+    <section className="relative min-h-[90vh] overflow-hidden flex items-center bg-slate-900">
+      {/* Background banner images */}
       <div className="absolute inset-0 -z-10">
         {banners.map((src, index) => (
           <div
@@ -42,15 +48,25 @@ export default function Hero() {
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
-            style={{
-              backgroundImage: `url(${src})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center center",
-            }}
-          />
+          >
+            <img
+              src={src}
+              alt={`Banner ${index + 1}`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // If image fails, replace with a solid color
+                const target = e.target as HTMLImageElement;
+                target.style.display = "none";
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.style.backgroundColor = "#1e293b";
+                }
+              }}
+            />
+          </div>
         ))}
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/50 z-5"></div>
+        {/* Lighter overlay to keep images visible */}
+        <div className="absolute inset-0 bg-black/30 z-5"></div>
       </div>
 
       {/* Decorative accent line */}
@@ -69,17 +85,17 @@ export default function Hero() {
               <span className="block">Discover the</span>
               <span className="block text-rose-500 mt-1">Art of Travel</span>
             </h1>
-            <p className="text-lg text-slate-300 max-w-lg leading-relaxed">
+            <p className="text-lg text-slate-200 max-w-lg leading-relaxed drop-shadow-lg">
               Experience luxury at 35,000 feet. Real‑time global inventory powered by Hitit middleware.
             </p>
-            <div className="flex flex-wrap gap-6 text-sm text-white/80 tracking-wider">
+            <div className="flex flex-wrap gap-6 text-sm text-white/90 tracking-wider drop-shadow-md">
               <span className="flex items-center gap-2">⭐ 4.9/5 Rating</span>
               <span className="flex items-center gap-2">✈️ 120+ Destinations</span>
               <span className="flex items-center gap-2">🏆 24 Awards</span>
             </div>
           </motion.div>
 
-          {/* Right: Flight Search (on top of banners) */}
+          {/* Right: Flight Search (sits on top of banners) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -91,7 +107,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Banner navigation dots (optional) – placed at bottom of hero */}
+      {/* Navigation dots */}
       {banners.length > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
           {banners.map((_, index) => (
