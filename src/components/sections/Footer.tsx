@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">About Us</h4>
             <ul className="space-y-2 text-slate-400 text-sm">
-              <li className="hover:text-rose-400 cursor-pointer transition">Spice Route Magazine</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Star Air Magazine</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Corporate Overview</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Fleet</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Careers</li>
@@ -24,10 +24,7 @@ export default function Footer() {
             <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Contact Us</h4>
             <ul className="space-y-2 text-slate-400 text-sm">
               <li className="hover:text-rose-400 cursor-pointer transition">Airports</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">International Offices</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Corporate Head Office</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Advertise with Us</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">RFP</li>
             </ul>
           </div>
 
@@ -37,36 +34,19 @@ export default function Footer() {
             <ul className="space-y-2 text-slate-400 text-sm">
               <li className="hover:text-rose-400 cursor-pointer transition">Citizen's Charter</li>
               <li className="hover:text-rose-400 cursor-pointer transition">FAQ</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Fitness To Fly Guideline</li>
+              <li className="hover:text-rose-400 cursor-pointer transition">Fly Guidelines</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Flight Schedules</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Terms of Carriage</li>
               <li className="hover:text-rose-400 cursor-pointer transition">Fees and Charges</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Know Your Rights</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Book Any Test From Any Lab</li>
             </ul>
           </div>
-
-          {/* Investors */}
-          <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Investors</h4>
-            <ul className="space-y-2 text-slate-400 text-sm">
-              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Governance</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Financial Information</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Notices</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Announcements</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Shareholding Pattern</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Investor Services</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Disclosure Regulation 46</li>
-            </ul>
-          </div>
-        </div>
 
         {/* Contact Details & Payment Logos */}
         <div className="border-t border-white/5 mt-8 pt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <h4 className="font-bold text-white mb-3 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
-            <p className="text-slate-300 text-sm">+91 (0)124 4983410 / +91 (0)124 1234567</p>
-            <p className="text-rose-400 text-sm mt-1">custrelations@starair.com</p>
+            <p className="text-slate-300 text-sm">+91 (0)80 5079 9555 </p>
+            <p className="text-rose-400 text-sm mt-1">customercare@starair.in</p>
             <div className="flex gap-4 mt-3 text-xl">
               <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">🐦</span>
               <span className="text-slate-400 hover:text-rose-400 cursor-pointer transition">📸</span>
@@ -86,14 +66,12 @@ export default function Footer() {
               <span className="bg-white/10 px-3 py-1 rounded-full">RuPay</span>
               <span className="bg-white/10 px-3 py-1 rounded-full">NET BANKING</span>
             </div>
-            <p className="text-slate-500 text-xs mt-4">Note: We log the IP addresses of the visitors on our website for security reasons.</p>
-          </div>
-        </div>
+         </div>
 
         {/* Copyright */}
         <div className="border-t border-white/5 mt-8 pt-6 text-center text-slate-600 text-xs">
           <p>© 2026 StarAir. All Rights Reserved</p>
-          <p className="mt-1">Registered Office: StarAir Ltd, 319, Udyog Vihar, Phase IV, Gurgaon, Haryana - 122016</p>
+          <p className="mt-1">Registered Office: StarAir, KIADB Aerospace Park, Bangalore - 560064</p>
           <p className="mt-2 flex justify-center gap-4">
             <Link href="/privacy-policy" className="hover:text-rose-400 transition">Privacy Policy</Link>
             <span>·</span>
