@@ -12,11 +12,10 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="relative py-16 px-4 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+    <section className="py-16 px-4 bg-slate-950">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, i) => {
           const [count, setCount] = useState(0);
-
           useEffect(() => {
             const duration = 2000;
             const steps = 60;
@@ -40,14 +39,14 @@ export default function Stats() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="flex flex-col items-center p-6 rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-xl transition"
+              className="flex flex-col items-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-rose-500/30 transition"
             >
-              <stat.icon className="text-red-500" size={40} />
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+              <stat.icon className="text-rose-400" size={36} />
+              <h3 className="text-4xl font-bold text-white mt-3">
                 {count}
-                <span className="text-red-500">{stat.suffix || ""}</span>
+                <span className="text-rose-400">{stat.suffix || ""}</span>
               </h3>
-              <p className="text-gray-500 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
+              <p className="text-slate-400 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
             </motion.div>
           );
         })}
