@@ -33,7 +33,7 @@ export default function Hero() {
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent z-10"></div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-20 pb-8 min-w-0">
+      <div className="relative z-10 w-full max-w-7xl mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 lg:px-8 pt-22 sm:pt-26 lg:pt-22 pb-8 min-w-0">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
