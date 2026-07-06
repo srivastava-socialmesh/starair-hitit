@@ -10,7 +10,6 @@ const banners = [
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,25 +18,9 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    let loaded = 0;
-    banners.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loaded++;
-        if (loaded === banners.length) setImagesLoaded(true);
-      };
-      img.onerror = () => {
-        loaded++;
-        if (loaded === banners.length) setImagesLoaded(true);
-      };
-    });
-  }, []);
-
   return (
-    <section className="relative min-h-[90vh] overflow-hidden flex items-center bg-slate-900">
-      {/* Background banner images – NO OVERLAY */}
+    <section className="relative min-h-[90vh] overflow-hidden flex items-center">
+      {/* Background image container – no parent background color */}
       <div className="absolute inset-0 -z-10">
         {banners.map((src, index) => (
           <div
@@ -45,23 +28,16 @@ export default function Hero() {
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
-          >
-            <img
-              src={src}
-              alt={`Banner ${index + 1}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = "none";
-                const parent = target.parentElement;
-                if (parent) {
-                  parent.style.backgroundColor = "#1e293b";
-                }
-              }}
-            />
-          </div>
+            style={{
+              backgroundImage: `url(${src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
         ))}
-        {/* Remove overlay or keep very light – we'll remove entirely */}
+        {/* Fallback background color if images fail */}
+        <div className="absolute inset-0 bg-slate-900 -z-20"></div>
       </div>
 
       {/* Decorative accent line */}
@@ -69,7 +45,7 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Brand Message – with text shadow for readability */}
+          {/* Left: Brand Message */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -90,7 +66,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right: Flight Search – sits on top of banners */}
+          {/* Right: Flight Search */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
