@@ -19,30 +19,28 @@ import {
   Loader2,
   AlertCircle,
   ChevronDown,
-  X
 } from "lucide-react";
 
 type PrimaryTab = 'search' | 'checkin' | 'flightstatus' | 'managebooking';
 type TripType = 'oneway' | 'roundtrip';
+type CabinClass = 'economy' | 'business' | 'first';
 
 export default function FlightSearch() {
   const [primaryTab, setPrimaryTab] = useState<PrimaryTab>('search');
   const [tripType, setTripType] = useState<TripType>('oneway');
+  const [cabinClass, setCabinClass] = useState<CabinClass>('economy');
   const [from, setFrom] = useState('DEL');
   const [to, setTo] = useState('');
   const [departDate, setDepartDate] = useState('2026-07-06');
   const [returnDate, setReturnDate] = useState('');
+  const [adults, setAdults] = useState(1);
+  const [children, setChildren] = useState(0);
+  const [infants, setInfants] = useState(0);
   const [passengerType, setPassengerType] = useState('');
   const [bookingRef, setBookingRef] = useState('');
   const [lastName, setLastName] = useState('');
   const [flightNumber, setFlightNumber] = useState('');
   const [statusDate, setStatusDate] = useState('');
-
-  const [adults, setAdults] = useState(1);
-  const [children, setChildren] = useState(0);
-  const [infants, setInfants] = useState(0);
-  const [cabinClass, setCabinClass] = useState('Economy');
-  const [showPassengerDropdown, setShowPassengerDropdown] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -56,12 +54,19 @@ export default function FlightSearch() {
   ];
 
   const passengerTypes = [
-    { id: 'student', label: 'Student' },
-    { id: 'senior', label: 'Senior' },
-    { id: 'military', label: 'Military' },
+    { id: 'family', label: 'Family & Friends', icon: UsersRound },
+    { id: 'senior', label: 'Senior Citizen', icon: User },
+    { id: 'unaccompanied', label: 'Unaccompanied Minor', icon: Heart },
+    { id: 'student', label: 'Students', icon: GraduationCap },
+    { id: 'armed', label: 'Armed Forces', icon: Shield },
+    { id: 'govt', label: 'Govt. Employee', icon: Briefcase },
   ];
 
-  const cabinClasses = ['Economy', 'Business'];
+  const cabinOptions: { value: CabinClass; label: string }[] = [
+    { value: 'economy', label: 'Economy' },
+    { value: 'business', label: 'Business' },
+    { value: 'first', label: 'First Class' },
+  ];
 
   // API handlers (unchanged)
   const handleSearch = async (e: React.FormEvent) => {
@@ -82,6 +87,7 @@ export default function FlightSearch() {
           children,
           infants,
           cabinClass,
+          tripType,
           passengerType,
         }),
       });
@@ -154,8 +160,6 @@ export default function FlightSearch() {
     }
   };
 
-  const totalPassengers = adults + children + infants;
-
   return (
     <div className="w-full max-w-3xl mx-auto">
       {/* Primary Tabs */}
@@ -189,7 +193,7 @@ export default function FlightSearch() {
       >
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-5">
-            {/* Trip Type – removed Multi-City */}
+            {/* Trip type – removed Multi-City */}
             <div className="flex bg-white/5 rounded-xl p-1 w-fit mx-auto border border-white/10">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
@@ -211,7 +215,7 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE */}
+            {/* From / To / Departure */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
@@ -267,101 +271,126 @@ export default function FlightSearch() {
               </div>
             )}
 
-            {/* Passengers + Cabin Class */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {/* Passenger Dropdown */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setShowPassengerDropdown(!showPassengerDropdown)}
-                  className="w-full flex items-center justify-between bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm"
-                >
-                  <span className="flex items-center gap-2">
-                    <Users size={16} className="text-white/50" />
-                    {totalPassengers} Passenger{totalPassengers > 1 ? 's' : ''}
-                    {passengerType && ` · ${passengerType}`}
-                  </span>
-                  <ChevronDown size={16} className="text-white/50" />
-                </button>
-
-                {showPassengerDropdown && (
-                  <div className="absolute left-0 top-full mt-2 w-full bg-slate-800 border border-white/15 rounded-xl shadow-2xl z-20 p-4 space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-white text-sm">Adults</span>
-                      <div className="flex items-center gap-3">
-                        <button type="button" onClick={() => setAdults(Math.max(1, adults - 1))} className="text-white/60 hover:text-white text-xl">−</button>
-                        <span className="text-white text-sm w-6 text-center">{adults}</span>
-                        <button type="button" onClick={() => setAdults(adults + 1)} className="text-white/60 hover:text-white text-xl">+</button>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-white text-sm">Children (2-11)</span>
-                      <div className="flex items-center gap-3">
-                        <button type="button" onClick={() => setChildren(Math.max(0, children - 1))} className="text-white/60 hover:text-white text-xl">−</button>
-                        <span className="text-white text-sm w-6 text-center">{children}</span>
-                        <button type="button" onClick={() => setChildren(children + 1)} className="text-white/60 hover:text-white text-xl">+</button>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-white text-sm">Infants (0-2)</span>
-                      <div className="flex items-center gap-3">
-                        <button type="button" onClick={() => setInfants(Math.max(0, infants - 1))} className="text-white/60 hover:text-white text-xl">−</button>
-                        <span className="text-white text-sm w-6 text-center">{infants}</span>
-                        <button type="button" onClick={() => setInfants(infants + 1)} className="text-white/60 hover:text-white text-xl">+</button>
-                      </div>
-                    </div>
-                    <div className="border-t border-white/10 pt-3 flex flex-wrap gap-2">
-                      {passengerTypes.map((type) => (
-                        <button
-                          key={type.id}
-                          type="button"
-                          onClick={() => setPassengerType(passengerType === type.id ? '' : type.id)}
-                          className={`px-3 py-1 rounded-full text-xs font-medium transition border ${
-                            passengerType === type.id
-                              ? 'bg-rose-500/20 border-rose-500 text-rose-400'
-                              : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10'
-                          }`}
-                        >
-                          {type.label}
-                        </button>
-                      ))}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setShowPassengerDropdown(false)}
-                      className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-1.5 rounded-lg text-sm transition"
-                    >
-                      Done
-                    </button>
-                  </div>
-                )}
-              </div>
-
+            {/* Cabin Class + Passengers dropdowns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Cabin Class */}
-              <div className="relative">
-                <select
-                  value={cabinClass}
-                  onChange={(e) => setCabinClass(e.target.value)}
-                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm appearance-none focus:border-rose-500 outline-none transition"
-                >
-                  {cabinClasses.map((cls) => (
-                    <option key={cls} value={cls} className="bg-slate-800">{cls}</option>
-                  ))}
-                </select>
-                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none" />
+              <div className="w-full">
+                <label className="block text-white/70 text-xs uppercase tracking-wider font-semibold mb-1">Cabin Class</label>
+                <div className="relative">
+                  <select
+                    value={cabinClass}
+                    onChange={(e) => setCabinClass(e.target.value as CabinClass)}
+                    className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm appearance-none focus:border-rose-500 outline-none transition"
+                  >
+                    {cabinOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value} className="bg-slate-800">
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Passengers dropdown */}
+              <div className="w-full">
+                <label className="block text-white/70 text-xs uppercase tracking-wider font-semibold mb-1">Passengers</label>
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="block text-white/50 text-[10px] uppercase">Adults</label>
+                    <div className="flex items-center gap-1 mt-1">
+                      <button
+                        type="button"
+                        onClick={() => setAdults(Math.max(1, adults - 1))}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        −
+                      </button>
+                      <span className="w-6 text-center text-white text-sm font-semibold">{adults}</span>
+                      <button
+                        type="button"
+                        onClick={() => setAdults(adults + 1)}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-white/50 text-[10px] uppercase">Children</label>
+                    <div className="flex items-center gap-1 mt-1">
+                      <button
+                        type="button"
+                        onClick={() => setChildren(Math.max(0, children - 1))}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        −
+                      </button>
+                      <span className="w-6 text-center text-white text-sm font-semibold">{children}</span>
+                      <button
+                        type="button"
+                        onClick={() => setChildren(children + 1)}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-white/50 text-[10px] uppercase">Infants</label>
+                    <div className="flex items-center gap-1 mt-1">
+                      <button
+                        type="button"
+                        onClick={() => setInfants(Math.max(0, infants - 1))}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        −
+                      </button>
+                      <span className="w-6 text-center text-white text-sm font-semibold">{infants}</span>
+                      <button
+                        type="button"
+                        onClick={() => setInfants(infants + 1)}
+                        className="w-6 h-6 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Promo Code (optional) – shown in screenshot */}
-            <div>
-              <input
-                type="text"
-                placeholder="Promo Code"
-                className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition"
-              />
+            {/* Passenger Type */}
+            <div className="text-center">
+              <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-2">Passenger Type</label>
+              <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+                {passengerTypes.map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setPassengerType(type.id)}
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium transition border ${
+                      passengerType === type.id
+                        ? 'bg-rose-500/20 border-rose-500 text-rose-400'
+                        : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10 hover:border-rose-500/30'
+                    }`}
+                  >
+                    <type.icon size={12} className="sm:w-3 sm:h-3" />
+                    <span className="truncate max-w-[40px] sm:max-w-none">{type.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Search Button */}
+            {/* Special Assistance */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <span className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">♿ Special Assistance</span>
+              <label className="flex items-center gap-1.5 text-xs sm:text-sm text-white/70">
+                <input type="checkbox" className="accent-rose-500" /> Need assistance
+              </label>
+            </div>
+
+            {/* Search button */}
             <div className="flex justify-center">
               <button
                 type="submit"
@@ -376,16 +405,137 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs unchanged */}
+        {/* Check-in tab */}
         {primaryTab === 'checkin' && (
-          // ... (same as before)
+          <form onSubmit={handleCheckin} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Web Check-in</h3>
+              <p className="text-white/50 text-sm">Check in online and save time at the airport</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Booking Reference / PNR</label>
+                <input
+                  type="text"
+                  placeholder="e.g., ABC123"
+                  value={bookingRef}
+                  onChange={(e) => setBookingRef(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Last Name</label>
+                <input
+                  type="text"
+                  placeholder="Your surname"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Ticket size={18} />}
+                {loading ? 'Processing...' : 'Check In Now'}
+              </button>
+            </div>
+          </form>
         )}
+
+        {/* Flight Status tab */}
         {primaryTab === 'flightstatus' && (
-          // ... (same as before)
+          <form onSubmit={handleFlightStatus} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Real-time Flight Status</h3>
+              <p className="text-white/50 text-sm">Track your flight with live updates</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Flight Number</label>
+                <input
+                  type="text"
+                  placeholder="e.g., AI-101"
+                  value={flightNumber}
+                  onChange={(e) => setFlightNumber(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Date</label>
+                <input
+                  type="date"
+                  value={statusDate}
+                  onChange={(e) => setStatusDate(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Clock size={18} />}
+                {loading ? 'Checking...' : 'Check Status'}
+              </button>
+            </div>
+          </form>
         )}
+
+        {/* Manage Booking tab */}
         {primaryTab === 'managebooking' && (
-          // ... (same as before)
+          <form onSubmit={handleManageBooking} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Manage Your Booking</h3>
+              <p className="text-white/50 text-sm">View, modify or cancel your reservation</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Booking Reference / PNR</label>
+                <input
+                  type="text"
+                  placeholder="e.g., ABC123"
+                  value={bookingRef}
+                  onChange={(e) => setBookingRef(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Last Name</label>
+                <input
+                  type="text"
+                  placeholder="Your surname"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Briefcase size={18} />}
+                {loading ? 'Retrieving...' : 'Retrieve Booking'}
+              </button>
+            </div>
+          </form>
         )}
+
         {/* Result / Error */}
         {error && (
           <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 flex items-center gap-2.5 text-sm">
