@@ -53,7 +53,6 @@ export default function FlightSearch() {
     { id: 'managebooking', label: 'Manage', icon: Briefcase },
   ];
 
-  // Removed Armed Forces, Govt. Employee, Students
   const passengerTypes = [
     { id: 'family', label: 'Family & Friends', icon: UsersRound },
     { id: 'senior', label: 'Senior Citizen', icon: User },
@@ -66,7 +65,6 @@ export default function FlightSearch() {
     { value: 'business', label: 'Business' },
   ];
 
-  // API handlers (unchanged)
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -160,7 +158,6 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {/* Primary Tabs */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 p-1 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 w-fit mx-auto">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
@@ -211,7 +208,8 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start min-w-0">
+            {/* Row 1: From and To */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
                   <Plane size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
@@ -236,6 +234,10 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Row 2: Departure and Return (if roundtrip) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
                   <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
@@ -249,23 +251,23 @@ export default function FlightSearch() {
                   />
                 </div>
               </div>
+              {tripType === 'roundtrip' && (
+                <div className="w-full min-w-0">
+                  <div className="relative">
+                    <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
+                    <input
+                      type="date"
+                      value={returnDate}
+                      onChange={(e) => setReturnDate(e.target.value)}
+                      placeholder="Return"
+                      className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center min-w-0"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
-            {tripType === 'roundtrip' && (
-              <div className="w-full max-w-xs mx-auto sm:max-w-full text-center">
-                <div className="relative">
-                  <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
-                  <input
-                    type="date"
-                    value={returnDate}
-                    onChange={(e) => setReturnDate(e.target.value)}
-                    placeholder="Return"
-                    className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center min-w-0"
-                  />
-                </div>
-              </div>
-            )}
-
+            {/* Cabin Class and Passengers */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="w-full">
                 <label className="block text-white/70 text-xs uppercase tracking-wider font-semibold mb-1">Cabin Class</label>
@@ -394,7 +396,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs unchanged */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-4">
             <div className="text-center mb-2">
