@@ -148,37 +148,38 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {/* Primary Tabs */}
-      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-2 sm:mb-4 p-1 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 w-fit mx-auto">
+      {/* Primary Tabs – futuristic glass bar */}
+      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 p-1 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl shadow-black/20 w-fit mx-auto">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => { setPrimaryTab(tab.id); setResult(null); setError(null); }}
-              className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl text-sm sm:text-xs font-medium transition-all ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'bg-red-600 text-white shadow-lg shadow-red-500/30'
-                  : 'text-gray-800 hover:text-red-600 hover:bg-white/10'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/30'
+                  : 'text-white/60 hover:text-white hover:bg-white/10'
               }`}
             >
-              <tab.icon size={14} className="sm:w-4 sm:h-4" />
-              <span>{tab.label}</span>
+              <tab.icon size={16} className="sm:w-4 sm:h-4" />
+              <span className="tracking-wider">{tab.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Content Panel */}
+      {/* Content Panel – crystal clear glass */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white/[0.04] backdrop-blur-sm rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-2xl border border-white/10"
+        className="w-full bg-white/5 backdrop-blur-xl rounded-3xl p-5 sm:p-7 shadow-2xl shadow-black/30 border border-white/10"
       >
         {primaryTab === 'search' && (
-          <form onSubmit={handleSearch} className="space-y-3 sm:space-y-4">
+          <form onSubmit={handleSearch} className="space-y-5">
+            {/* Trip type selector */}
             <div className="flex bg-white/10 rounded-xl p-1 w-fit mx-auto border border-white/10">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
@@ -189,53 +190,53 @@ export default function FlightSearch() {
                   key={type.id}
                   type="button"
                   onClick={() => setTripType(type.id)}
-                  className={`flex items-center gap-1 px-2 sm:px-3 py-1 rounded-lg text-sm sm:text-xs font-medium transition ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition ${
                     tripType === type.id
                       ? 'bg-red-600 text-white shadow-lg'
-                      : 'text-gray-800 hover:text-red-600 hover:bg-white/10'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <type.icon size={14} className="sm:w-4 sm:h-4" />
+                  <type.icon size={15} className="sm:w-4 sm:h-4" />
                   <span>{type.label}</span>
                 </button>
               ))}
             </div>
 
-            {/* FROM, TO, DEPARTURE – with min-w-0 to prevent overflow */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4 items-start min-w-0">
+            {/* Input row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
-                  <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
+                  <Plane size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
                   <input
                     type="text"
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     placeholder="From"
-                    className="w-full min-w-0 bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
               <div className="w-full min-w-0">
                 <div className="relative">
-                  <Plane size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600 rotate-90" />
+                  <Plane size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50 rotate-90" />
                   <input
                     type="text"
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
                     placeholder="To"
-                    className="w-full min-w-0 bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   />
                 </div>
               </div>
               <div className="w-full min-w-0">
                 <div className="relative">
-                  <Calendar size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
+                  <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
                   <input
                     type="date"
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full min-w-0 bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-0"
                     required
                   />
                 </div>
@@ -243,37 +244,37 @@ export default function FlightSearch() {
             </div>
 
             {tripType === 'roundtrip' && (
-              <div className="w-full max-w-xs mx-auto sm:max-w-full sm:col-span-3 text-center min-w-0">
+              <div className="w-full max-w-xs mx-auto sm:max-w-full text-center">
                 <div className="relative">
-                  <Calendar size={16} className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-600" />
+                  <Calendar size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" />
                   <input
                     type="date"
                     value={returnDate}
                     onChange={(e) => setReturnDate(e.target.value)}
                     placeholder="Return"
-                    className="w-full min-w-0 bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl pl-7 pr-2 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-0"
                   />
                 </div>
               </div>
             )}
 
-            {/* PASSENGERS – same height as FROM */}
+            {/* Passengers */}
             <div className="flex justify-center">
               <div className="w-full max-w-[200px] sm:max-w-[240px]">
-                <div className="flex items-center justify-center gap-2 bg-white/60 border border-gray-300 rounded-lg px-4 py-1.5">
-                  <Users size={16} className="text-gray-600" />
+                <div className="flex items-center justify-center gap-3 bg-white/10 border border-white/15 rounded-xl px-4 py-2">
+                  <Users size={16} className="text-white/60" />
                   <button
                     type="button"
                     onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                    className="text-gray-700 hover:text-red-600 text-lg font-bold px-2"
+                    className="text-white/60 hover:text-white text-xl font-bold px-2"
                   >
                     −
                   </button>
-                  <span className="flex-1 text-center text-gray-900 text-base font-semibold min-w-[24px]">{passengers}</span>
+                  <span className="flex-1 text-center text-white text-base font-semibold min-w-[24px]">{passengers}</span>
                   <button
                     type="button"
                     onClick={() => setPassengers(Math.min(9, passengers + 1))}
-                    className="text-gray-700 hover:text-red-600 text-lg font-bold px-2"
+                    className="text-white/60 hover:text-white text-xl font-bold px-2"
                   >
                     +
                   </button>
@@ -281,183 +282,189 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* PASSENGER TYPE – smaller on mobile */}
+            {/* Passenger type */}
             <div className="text-center">
-              <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-1">👤 Passenger Type</label>
-              <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
+              <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-2">Passenger Type</label>
+              <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
                 {passengerTypes.map((type) => (
                   <button
                     key={type.id}
                     type="button"
                     onClick={() => setPassengerType(type.id)}
-                    className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] sm:text-xs font-medium transition border ${
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium transition border ${
                       passengerType === type.id
-                        ? 'bg-red-500/20 border-red-500 text-red-700'
-                        : 'bg-white/30 border-gray-300 text-gray-800 hover:bg-white/60 hover:border-red-300'
+                        ? 'bg-red-500/20 border-red-500 text-red-400'
+                        : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10 hover:border-red-500/30'
                     }`}
                   >
-                    <type.icon size={10} className="sm:w-3 sm:h-3" />
+                    <type.icon size={12} className="sm:w-3 sm:h-3" />
                     <span className="truncate max-w-[40px] sm:max-w-none">{type.label}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Special Assistance */}
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-              <span className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold">♿ Special Assistance</span>
-              <label className="flex items-center gap-1 text-xs sm:text-sm text-gray-700">
+            {/* Assistance */}
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <span className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">♿ Special Assistance</span>
+              <label className="flex items-center gap-1.5 text-xs sm:text-sm text-white/70">
                 <input type="checkbox" className="accent-red-500" /> Need assistance
               </label>
             </div>
 
-            {/* Search Button */}
+            {/* Search button */}
             <div className="flex justify-center">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-2 sm:py-3 px-4 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm sm:text-xs"
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm tracking-wide"
               >
-                {loading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} />}
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} />}
                 {loading ? 'Searching...' : 'Search Flight'}
-                {!loading && <ArrowRight size={14} className="group-hover:translate-x-1 transition" />}
+                {!loading && <ArrowRight size={16} className="group-hover:translate-x-1 transition" />}
               </button>
             </div>
           </form>
         )}
 
-        {/* Other tabs */}
+        {/* Other tabs – same futuristic style */}
         {primaryTab === 'checkin' && (
-          <form onSubmit={handleCheckin} className="space-y-3 sm:space-y-4">
-            <div className="text-center mb-1 sm:mb-2">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Web Check-in</h3>
-              <p className="text-gray-600 text-xs sm:text-sm">Check in online and save time at the airport</p>
+          <form onSubmit={handleCheckin} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Web Check-in</h3>
+              <p className="text-white/50 text-sm">Check in online and save time at the airport</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Booking Reference / PNR</label>
                 <input
                   type="text"
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Last Name</label>
                 <input
                   type="text"
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full max-w-md mx-auto block bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all text-sm sm:text-xs"
-            >
-              {loading ? <Loader2 className="animate-spin" size={16} /> : <Ticket size={16} />}
-              {loading ? 'Processing...' : 'Check In Now'}
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Ticket size={18} />}
+                {loading ? 'Processing...' : 'Check In Now'}
+              </button>
+            </div>
           </form>
         )}
 
         {primaryTab === 'flightstatus' && (
-          <form onSubmit={handleFlightStatus} className="space-y-3 sm:space-y-4">
-            <div className="text-center mb-1 sm:mb-2">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Real-time Flight Status</h3>
-              <p className="text-gray-600 text-xs sm:text-sm">Track your flight with live updates</p>
+          <form onSubmit={handleFlightStatus} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Real-time Flight Status</h3>
+              <p className="text-white/50 text-sm">Track your flight with live updates</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Flight Number</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Flight Number</label>
                 <input
                   type="text"
                   placeholder="e.g., AI-101"
                   value={flightNumber}
                   onChange={(e) => setFlightNumber(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Date</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Date</label>
                 <input
                   type="date"
                   value={statusDate}
                   onChange={(e) => setStatusDate(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs [color-scheme:light] focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full max-w-md mx-auto block bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all text-sm sm:text-xs"
-            >
-              {loading ? <Loader2 className="animate-spin" size={16} /> : <Clock size={16} />}
-              {loading ? 'Checking...' : 'Check Status'}
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Clock size={18} />}
+                {loading ? 'Checking...' : 'Check Status'}
+              </button>
+            </div>
           </form>
         )}
 
         {primaryTab === 'managebooking' && (
-          <form onSubmit={handleManageBooking} className="space-y-3 sm:space-y-4">
-            <div className="text-center mb-1 sm:mb-2">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">Manage Your Booking</h3>
-              <p className="text-gray-600 text-xs sm:text-sm">View, modify or cancel your reservation</p>
+          <form onSubmit={handleManageBooking} className="space-y-4">
+            <div className="text-center mb-2">
+              <h3 className="text-xl font-semibold text-white drop-shadow-lg">Manage Your Booking</h3>
+              <p className="text-white/50 text-sm">View, modify or cancel your reservation</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Booking Reference / PNR</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Booking Reference / PNR</label>
                 <input
                   type="text"
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
               <div>
-                <label className="text-gray-800 text-[10px] sm:text-xs uppercase tracking-widest font-bold block mb-0.5">Last Name</label>
+                <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-1">Last Name</label>
                 <input
                   type="text"
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/60 border border-gray-300 rounded-lg sm:rounded-xl px-3 py-1.5 text-sm sm:text-xs placeholder:text-gray-500 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
                   required
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full max-w-md mx-auto block bg-red-600 hover:bg-red-700 text-white font-bold py-2 sm:py-3 rounded-xl shadow-xl shadow-red-500/30 flex items-center justify-center gap-2 transition-all text-sm sm:text-xs"
-            >
-              {loading ? <Loader2 className="animate-spin" size={16} /> : <Briefcase size={16} />}
-              {loading ? 'Retrieving...' : 'Retrieve Booking'}
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+              >
+                {loading ? <Loader2 className="animate-spin" size={18} /> : <Briefcase size={18} />}
+                {loading ? 'Retrieving...' : 'Retrieve Booking'}
+              </button>
+            </div>
           </form>
         )}
 
         {/* Result / Error */}
         {error && (
-          <div className="mt-3 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 flex items-center gap-2 text-xs sm:text-sm">
-            <AlertCircle size={16} />
+          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 flex items-center gap-2.5 text-sm">
+            <AlertCircle size={18} />
             <span>{error}</span>
           </div>
         )}
         {result && (
-          <div className="mt-3 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-xs sm:text-sm">
+          <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-green-300 text-sm">
             <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(result, null, 2)}</pre>
           </div>
         )}
