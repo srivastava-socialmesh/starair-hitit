@@ -28,7 +28,6 @@ export default function DealsSlider() {
         .select("*")
         .eq("is_active", true)
         .order("created_at", { ascending: false });
-
       if (error) {
         console.error("Error fetching deals:", error);
       } else {
@@ -36,7 +35,6 @@ export default function DealsSlider() {
       }
       setLoading(false);
     };
-
     fetchDeals();
   }, []);
 
@@ -51,7 +49,6 @@ export default function DealsSlider() {
           <h2 className="text-4xl font-bold text-gray-900">Exclusive <span className="text-accent">Deals</span></h2>
           <p className="text-gray-500 mt-1">Grab these offers before they expire</p>
         </div>
-
         <Swiper
           modules={[Autoplay, Pagination]}
           spaceBetween={24}
@@ -69,19 +66,13 @@ export default function DealsSlider() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10"></div>
                 <img src={deal.image_url} alt={deal.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                 <div className="absolute top-4 right-4 z-20">
-                  <span className="bg-accent text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">
-                    {deal.discount_percent}% OFF
-                  </span>
+                  <span className="bg-accent text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">{deal.discount_percent}% OFF</span>
                 </div>
                 <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                   <h3 className="text-2xl font-bold text-white">{deal.title}</h3>
                   <p className="text-white/80 text-sm line-clamp-2">{deal.description}</p>
-                  {deal.valid_until && (
-                    <p className="text-amber-300 text-xs mt-1">Valid until {new Date(deal.valid_until).toLocaleDateString()}</p>
-                  )}
-                  <button className="mt-4 px-5 py-2 bg-accent hover:bg-[#b00226] rounded-full text-white text-sm font-semibold shadow-lg shadow-accent/30 transition">
-                    Learn More →
-                  </button>
+                  {deal.valid_until && <p className="text-amber-300 text-xs mt-1">Valid until {new Date(deal.valid_until).toLocaleDateString()}</p>}
+                  <button className="mt-4 px-5 py-2 bg-accent hover:bg-[#b00226] rounded-full text-white text-sm font-semibold shadow-lg shadow-accent/30 transition">Learn More →</button>
                 </div>
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition"></div>
               </div>

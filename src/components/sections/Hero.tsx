@@ -29,7 +29,6 @@ export default function Hero() {
         transition: "background-image 1s ease-in-out",
       }}
     >
-      {/* Lighter overlay for readability */}
       <div className="absolute inset-0 bg-white/30 z-5"></div>
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent z-10"></div>
