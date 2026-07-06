@@ -148,8 +148,8 @@ export default function FlightSearch() {
 
   return (
     <div className="w-full max-w-3xl mx-auto">
-      {/* Primary Tabs – futuristic glass bar */}
-      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 p-1 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl shadow-black/20 w-fit mx-auto">
+      {/* Primary Tabs – clean, light glass */}
+      <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-4 p-1 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 w-fit mx-auto">
         {primaryTabs.map((tab) => {
           const isActive = primaryTab === tab.id;
           return (
@@ -158,29 +158,28 @@ export default function FlightSearch() {
               onClick={() => { setPrimaryTab(tab.id); setResult(null); setError(null); }}
               className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-lg shadow-red-500/30'
-                  : 'text-white/60 hover:text-white hover:bg-white/10'
+                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-500/30'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
               }`}
             >
               <tab.icon size={16} className="sm:w-4 sm:h-4" />
-              <span className="tracking-wider">{tab.label}</span>
+              <span>{tab.label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Content Panel – crystal clear glass */}
+      {/* Content Panel – soft glass */}
       <motion.div
         key={primaryTab}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white/5 backdrop-blur-xl rounded-3xl p-5 sm:p-7 shadow-2xl shadow-black/30 border border-white/10"
+        className="w-full bg-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-7 shadow-2xl border border-white/20"
       >
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-5">
-            {/* Trip type selector */}
-            <div className="flex bg-white/10 rounded-xl p-1 w-fit mx-auto border border-white/10">
+            <div className="flex bg-white/5 rounded-xl p-1 w-fit mx-auto border border-white/10">
               {[
                 { id: 'oneway' as TripType, label: 'One Way', icon: Plane },
                 { id: 'roundtrip' as TripType, label: 'Round Trip', icon: RotateCw },
@@ -192,8 +191,8 @@ export default function FlightSearch() {
                   onClick={() => setTripType(type.id)}
                   className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition ${
                     tripType === type.id
-                      ? 'bg-red-600 text-white shadow-lg'
-                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                      ? 'bg-rose-600 text-white shadow-lg'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   <type.icon size={15} className="sm:w-4 sm:h-4" />
@@ -202,7 +201,6 @@ export default function FlightSearch() {
               ))}
             </div>
 
-            {/* Input row */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 items-start min-w-0">
               <div className="w-full min-w-0">
                 <div className="relative">
@@ -212,7 +210,7 @@ export default function FlightSearch() {
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     placeholder="From"
-                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   />
                 </div>
               </div>
@@ -224,7 +222,7 @@ export default function FlightSearch() {
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
                     placeholder="To"
-                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                    className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   />
                 </div>
               </div>
@@ -236,7 +234,7 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-0"
+                    className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center min-w-0"
                     required
                   />
                 </div>
@@ -252,16 +250,15 @@ export default function FlightSearch() {
                     value={returnDate}
                     onChange={(e) => setReturnDate(e.target.value)}
                     placeholder="Return"
-                    className="w-full bg-white/10 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center min-w-0"
+                    className="w-full bg-white/5 border border-white/15 rounded-xl pl-10 pr-3 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center min-w-0"
                   />
                 </div>
               </div>
             )}
 
-            {/* Passengers */}
             <div className="flex justify-center">
               <div className="w-full max-w-[200px] sm:max-w-[240px]">
-                <div className="flex items-center justify-center gap-3 bg-white/10 border border-white/15 rounded-xl px-4 py-2">
+                <div className="flex items-center justify-center gap-3 bg-white/5 border border-white/15 rounded-xl px-4 py-2">
                   <Users size={16} className="text-white/60" />
                   <button
                     type="button"
@@ -282,7 +279,6 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Passenger type */}
             <div className="text-center">
               <label className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold block mb-2">Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
@@ -293,8 +289,8 @@ export default function FlightSearch() {
                     onClick={() => setPassengerType(type.id)}
                     className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-medium transition border ${
                       passengerType === type.id
-                        ? 'bg-red-500/20 border-red-500 text-red-400'
-                        : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10 hover:border-red-500/30'
+                        ? 'bg-rose-500/20 border-rose-500 text-rose-400'
+                        : 'bg-white/5 border-white/15 text-white/60 hover:bg-white/10 hover:border-rose-500/30'
                     }`}
                   >
                     <type.icon size={12} className="sm:w-3 sm:h-3" />
@@ -304,20 +300,18 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Assistance */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
               <span className="text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-semibold">♿ Special Assistance</span>
               <label className="flex items-center gap-1.5 text-xs sm:text-sm text-white/70">
-                <input type="checkbox" className="accent-red-500" /> Need assistance
+                <input type="checkbox" className="accent-rose-500" /> Need assistance
               </label>
             </div>
 
-            {/* Search button */}
             <div className="flex justify-center">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm tracking-wide"
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02] disabled:opacity-70 text-sm tracking-wide"
               >
                 {loading ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} />}
                 {loading ? 'Searching...' : 'Search Flight'}
@@ -327,7 +321,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Other tabs – same futuristic style */}
+        {/* Other tabs – same style */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-4">
             <div className="text-center mb-2">
@@ -342,7 +336,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -353,7 +347,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -362,7 +356,7 @@ export default function FlightSearch() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={18} /> : <Ticket size={18} />}
                 {loading ? 'Processing...' : 'Check In Now'}
@@ -385,7 +379,7 @@ export default function FlightSearch() {
                   placeholder="e.g., AI-101"
                   value={flightNumber}
                   onChange={(e) => setFlightNumber(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -395,7 +389,7 @@ export default function FlightSearch() {
                   type="date"
                   value={statusDate}
                   onChange={(e) => setStatusDate(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm [color-scheme:dark] focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm [color-scheme:dark] focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -404,7 +398,7 @@ export default function FlightSearch() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={18} /> : <Clock size={18} />}
                 {loading ? 'Checking...' : 'Check Status'}
@@ -427,7 +421,7 @@ export default function FlightSearch() {
                   placeholder="e.g., ABC123"
                   value={bookingRef}
                   onChange={(e) => setBookingRef(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -438,7 +432,7 @@ export default function FlightSearch() {
                   placeholder="Your surname"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-red-500 outline-none transition text-center"
+                  className="w-full bg-white/5 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/40 focus:border-rose-500 outline-none transition text-center"
                   required
                 />
               </div>
@@ -447,7 +441,7 @@ export default function FlightSearch() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-red-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 rounded-xl shadow-2xl shadow-rose-500/30 flex items-center justify-center gap-2.5 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={18} /> : <Briefcase size={18} />}
                 {loading ? 'Retrieving...' : 'Retrieve Booking'}
@@ -456,7 +450,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Result / Error */}
         {error && (
           <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-300 flex items-center gap-2.5 text-sm">
             <AlertCircle size={18} />
