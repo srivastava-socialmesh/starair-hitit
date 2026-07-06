@@ -42,7 +42,7 @@ export default function DealsSlider() {
 
   if (loading) {
     return (
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-12 px-4 bg-slate-900">
         <div className="max-w-7xl mx-auto text-center text-slate-400">Loading deals...</div>
       </section>
     );
@@ -51,9 +51,9 @@ export default function DealsSlider() {
   if (deals.length === 0) return null;
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-b from-slate-950 to-slate-900">
+    <section className="py-12 px-4 bg-gradient-to-b from-slate-950 to-slate-900">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <span className="text-rose-400 text-sm font-semibold uppercase tracking-widest">🔥 Limited Time</span>
           <h2 className="text-4xl font-bold text-white">Exclusive <span className="text-rose-500">Deals</span></h2>
           <p className="text-slate-400 mt-1">Grab these offers before they expire</p>
@@ -72,7 +72,7 @@ export default function DealsSlider() {
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
-          className="pb-12"
+          className="pb-10"
         >
           {deals.map((deal) => (
             <SwiperSlide key={deal.id}>

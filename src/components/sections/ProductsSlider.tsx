@@ -47,7 +47,7 @@ export default function ProductsSlider() {
 
   if (loading) {
     return (
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-12 px-4 bg-slate-900">
         <div className="max-w-7xl mx-auto text-center text-slate-400">Loading products...</div>
       </section>
     );
@@ -56,9 +56,9 @@ export default function ProductsSlider() {
   if (!products.length) return null;
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-b from-slate-900 to-slate-950">
+    <section className="py-12 px-4 bg-gradient-to-b from-slate-900 to-slate-950">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <span className="text-rose-400 text-sm font-semibold uppercase tracking-widest">✈️ Fly Smart</span>
           <h2 className="text-4xl font-bold text-white">Our <span className="text-rose-500">Products</span></h2>
           <p className="text-slate-400 mt-1">Choose the perfect fare for your journey</p>
@@ -77,7 +77,7 @@ export default function ProductsSlider() {
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
-          className="pb-12"
+          className="pb-10"
         >
           {products.map((product) => {
             const imgSrc = product.image_url?.trim() || PLACEHOLDER_IMAGE;

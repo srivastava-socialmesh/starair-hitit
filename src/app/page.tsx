@@ -16,14 +16,11 @@ export default function Home() {
       <Destinations />
       <DealsSlider />
       <ProductsSlider />
-
-      {/* Loyalty Section */}
       <Loyalty />
 
-      {/* Explore More Services – replace Loyalty with Group Booking */}
-      <section className="py-16 px-4 bg-gradient-to-b from-slate-900 to-slate-950">
+      <section className="py-12 px-4 bg-gradient-to-b from-slate-900 to-slate-950">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-white mb-10">Explore More <span className="text-rose-500">Services</span></h2>
+          <h2 className="text-3xl font-bold text-center text-white mb-8">Explore More <span className="text-rose-500">Services</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/group-booking" className="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-rose-500/30 transition hover:bg-white/10">
               <div className="text-4xl mb-3">👥</div>

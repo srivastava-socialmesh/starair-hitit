@@ -2,10 +2,9 @@ import Link from "next/link";
 
 export default function Loyalty() {
   return (
-    <section className="py-16 px-4 bg-gradient-to-b from-slate-950 to-slate-900">
+    <section className="py-12 px-4 bg-gradient-to-b from-slate-950 to-slate-900">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Content */}
           <div className="space-y-6">
             <h2 className="text-4xl font-bold text-white">
               <span className="text-rose-500">StarAir</span> Loyalty Program
@@ -37,7 +36,6 @@ export default function Loyalty() {
             </div>
           </div>
 
-          {/* Right: Visual / Call to Action */}
           <div className="flex flex-col items-center justify-center space-y-6 bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 text-center">
             <div className="text-6xl">🏅</div>
             <h3 className="text-2xl font-bold text-white">Join StarAir</h3>
