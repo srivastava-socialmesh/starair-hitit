@@ -21,31 +21,18 @@ export default function Hero() {
   return (
     <section
       className="relative min-h-[100svh] overflow-hidden"
-      style={{ backgroundColor: "#0a0e1a" }}
+      style={{
+        backgroundImage: `url(${bannerImages[currentIndex]})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#0a0e1a",
+        transition: "background-image 1s ease-in-out",
+      }}
     >
-      {/* Background image container – carousel with fade transition */}
-      <div className="absolute inset-0 -z-10">
-        {bannerImages.map((img, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              index === currentIndex ? "opacity-100" : "opacity-0"
-            }`}
-            style={{
-              backgroundImage: `url(${img})`,
-              backgroundSize: "contain",
-              backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat",
-            }}
-          />
-        ))}
-        {/* Fallback if images fail */}
-        <div className="absolute inset-0 bg-[#0a0e1a] -z-20"></div>
-      </div>
-
-      {/* Dark gradient overlay for readability (same as old code) */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/80 via-[#06224a]/60 to-black/30"></div>
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 to-transparent pointer-events-none z-5"></div>
+      {/* Lighter overlay to see the image */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#03142e]/40 via-[#06224a]/30 to-black/10 z-5"></div>
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent z-10"></div>
 
       <div
