@@ -7,15 +7,15 @@ export default function Loyalty() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h2 className="text-4xl font-bold text-gray-900">
-              <span className="text-rose-500">StarAir</span> Loyalty Program
+              <span className="text-accent">StarAir</span> Loyalty Program
             </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed">
               Join StarAir’s frequent flyer program and unlock a world of rewards,
               added comforts and exclusive privileges.
             </p>
             <Link
               href="/loyalty"
-              className="inline-block bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-rose-500/30 transition"
+              className="inline-block bg-accent hover:bg-[#b00226] text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-accent/30 transition"
             >
               Know More
             </Link>
@@ -42,7 +42,7 @@ export default function Loyalty() {
             <p className="text-gray-500 text-sm">Start earning rewards today.</p>
             <Link
               href="/loyalty"
-              className="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-500 hover:to-rose-600 text-white font-bold py-3 px-6 rounded-xl transition shadow-lg shadow-rose-500/30"
+              className="w-full bg-accent hover:bg-[#b00226] text-white font-bold py-3 px-6 rounded-xl transition shadow-lg shadow-accent/30"
             >
               Join Now →
             </Link>

@@ -9,33 +9,33 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">About Us</h4>
             <ul className="space-y-2 text-gray-600 text-sm">
-              <li className="hover:text-rose-500 cursor-pointer transition">Magazine</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Corporate Overview</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Fleet</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Careers</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Media Center</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Awards and Applaud</li>
+              <li className="hover:text-accent cursor-pointer transition">Magazine</li>
+              <li className="hover:text-accent cursor-pointer transition">Corporate Overview</li>
+              <li className="hover:text-accent cursor-pointer transition">Fleet</li>
+              <li className="hover:text-accent cursor-pointer transition">Careers</li>
+              <li className="hover:text-accent cursor-pointer transition">Media Center</li>
+              <li className="hover:text-accent cursor-pointer transition">Awards and Applaud</li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">Contact Us</h4>
             <ul className="space-y-2 text-gray-600 text-sm">
-              <li className="hover:text-rose-500 cursor-pointer transition">Airports</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Corporate Head Office</li>
+              <li className="hover:text-accent cursor-pointer transition">Airports</li>
+              <li className="hover:text-accent cursor-pointer transition">Corporate Head Office</li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">Travel Info</h4>
             <ul className="space-y-2 text-gray-600 text-sm">
-              <li className="hover:text-rose-500 cursor-pointer transition">Flight Schedules</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Terms of Carriage</li>
-              <li className="hover:text-rose-500 cursor-pointer transition">Fees and Charges</li>
+              <li className="hover:text-accent cursor-pointer transition">Flight Schedules</li>
+              <li className="hover:text-accent cursor-pointer transition">Terms of Carriage</li>
+              <li className="hover:text-accent cursor-pointer transition">Fees and Charges</li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
             <p className="text-gray-700 text-sm">+91 (0)80 5079 9555</p>
-            <p className="text-rose-500 text-sm mt-1">customercare@starair.in</p>
+            <p className="text-accent text-sm mt-1 font-semibold">customercare@starair.in</p>
             <div className="flex gap-4 mt-3">
               <a href="#" className="text-[#1DA1F2] hover:opacity-80 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -57,13 +57,13 @@ export default function Footer() {
           <p>© 2026 StarAir. All Rights Reserved</p>
           <p className="mt-1">Registered Office: StarAir, KIADB Aerospace Park, Bangalore - 560064</p>
           <p className="mt-2 flex justify-center gap-4">
-            <Link href="/privacy-policy" className="hover:text-rose-500 transition">Privacy Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-accent transition">Privacy Policy</Link>
             <span>·</span>
-            <Link href="/disclaimer" className="hover:text-rose-500 transition">Disclaimer</Link>
+            <Link href="/disclaimer" className="hover:text-accent transition">Disclaimer</Link>
             <span>·</span>
-            <Link href="/" className="hover:text-rose-500 transition">GST Information</Link>
+            <Link href="/" className="hover:text-accent transition">GST Information</Link>
             <span>·</span>
-            <Link href="/" className="hover:text-rose-500 transition">Sitemap</Link>
+            <Link href="/" className="hover:text-accent transition">Sitemap</Link>
           </p>
           <p className="mt-2 text-gray-400 text-[10px]">We log the IP addresses of visitors for security reasons.</p>
         </div>

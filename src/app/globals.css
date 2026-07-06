@@ -18,7 +18,7 @@
     @apply bg-gray-100;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-gradient-to-b from-rose-400 to-rose-600 rounded-full;
+    @apply bg-gradient-to-b from-[#D2042D] to-[#b00226] rounded-full;
   }
 }
 
@@ -32,7 +32,7 @@
   }
   /* Gradients */
   .text-gradient-rose {
-    @apply bg-gradient-to-r from-rose-400 to-rose-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-[#D2042D] to-[#b00226] bg-clip-text text-transparent;
   }
   .bg-gradient-light {
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -53,6 +53,26 @@
   }
   .animate-pulse-slow {
     animation: pulseSlow 4s ease-in-out infinite;
+  }
+
+  /* --- ACCENT COLOR (StarAir Red) --- */
+  .text-accent {
+    color: #D2042D;
+  }
+  .bg-accent {
+    background-color: #D2042D;
+  }
+  .border-accent {
+    border-color: #D2042D;
+  }
+  .hover\:bg-accent:hover {
+    background-color: #D2042D;
+  }
+  .hover\:text-accent:hover {
+    color: #D2042D;
+  }
+  .accent-accent {
+    accent-color: #D2042D;
   }
 }
 
@@ -100,8 +120,8 @@
 .prose h2 { color: #1f2937; font-size: 1.8rem; font-weight: 700; margin-top: 2rem; }
 .prose h3 { color: #374151; font-size: 1.4rem; font-weight: 600; margin-top: 1.5rem; }
 .prose p { margin: 0.75rem 0; line-height: 1.7; }
-.prose a { color: #dc2626; text-decoration: underline; text-underline-offset: 2px; }
-.prose a:hover { color: #b91c1c; }
+.prose a { color: #D2042D; text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: #b00226; }
 .prose ul, .prose ol { margin: 0.75rem 0; padding-left: 1.5rem; }
 .prose li { margin: 0.4rem 0; }
 
