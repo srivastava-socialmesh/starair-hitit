@@ -3,46 +3,39 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 border-t border-white/5 px-6 py-12">
+    <footer className="bg-gray-50 border-t border-gray-200 px-6 py-12">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About Us */}
           <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">About Us</h4>
-            <ul className="space-y-2 text-slate-400 text-sm">
-              <li className="hover:text-rose-400 cursor-pointer transition">Magazine</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Overview</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Fleet</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Careers</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Media Center</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Awards and Applaud</li>
+            <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">About Us</h4>
+            <ul className="space-y-2 text-gray-600 text-sm">
+              <li className="hover:text-rose-500 cursor-pointer transition">Magazine</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Corporate Overview</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Fleet</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Careers</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Media Center</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Awards and Applaud</li>
             </ul>
           </div>
-
-          {/* Contact Us */}
           <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Contact Us</h4>
-            <ul className="space-y-2 text-slate-400 text-sm">
-              <li className="hover:text-rose-400 cursor-pointer transition">Airports</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Corporate Head Office</li>
+            <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">Contact Us</h4>
+            <ul className="space-y-2 text-gray-600 text-sm">
+              <li className="hover:text-rose-500 cursor-pointer transition">Airports</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Corporate Head Office</li>
             </ul>
           </div>
-
-          {/* Travel Info */}
           <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">Travel Info</h4>
-            <ul className="space-y-2 text-slate-400 text-sm">
-              <li className="hover:text-rose-400 cursor-pointer transition">Flight Schedules</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Terms of Carriage</li>
-              <li className="hover:text-rose-400 cursor-pointer transition">Fees and Charges</li>
+            <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">Travel Info</h4>
+            <ul className="space-y-2 text-gray-600 text-sm">
+              <li className="hover:text-rose-500 cursor-pointer transition">Flight Schedules</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Terms of Carriage</li>
+              <li className="hover:text-rose-500 cursor-pointer transition">Fees and Charges</li>
             </ul>
           </div>
-
-          {/* Reservations & Customer Support */}
           <div>
-            <h4 className="font-bold text-white mb-4 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
-            <p className="text-slate-300 text-sm">+91 (0)80 5079 9555</p>
-            <p className="text-rose-400 text-sm mt-1">customercare@starair.in</p>
+            <h4 className="font-bold text-gray-800 mb-4 uppercase tracking-wider text-sm">For Reservations or Customer Support</h4>
+            <p className="text-gray-700 text-sm">+91 (0)80 5079 9555</p>
+            <p className="text-rose-500 text-sm mt-1">customercare@starair.in</p>
             <div className="flex gap-4 mt-3">
               <a href="#" className="text-[#1DA1F2] hover:opacity-80 transition">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -60,20 +53,19 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-white/5 mt-8 pt-6 text-center text-slate-600 text-xs">
+        <div className="border-t border-gray-200 mt-8 pt-6 text-center text-gray-500 text-xs">
           <p>© 2026 StarAir. All Rights Reserved</p>
           <p className="mt-1">Registered Office: StarAir, KIADB Aerospace Park, Bangalore - 560064</p>
           <p className="mt-2 flex justify-center gap-4">
-            <Link href="/privacy-policy" className="hover:text-rose-400 transition">Privacy Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-rose-500 transition">Privacy Policy</Link>
             <span>·</span>
-            <Link href="/disclaimer" className="hover:text-rose-400 transition">Disclaimer</Link>
+            <Link href="/disclaimer" className="hover:text-rose-500 transition">Disclaimer</Link>
             <span>·</span>
-            <Link href="/" className="hover:text-rose-400 transition">GST Information</Link>
+            <Link href="/" className="hover:text-rose-500 transition">GST Information</Link>
             <span>·</span>
-            <Link href="/" className="hover:text-rose-400 transition">Sitemap</Link>
+            <Link href="/" className="hover:text-rose-500 transition">Sitemap</Link>
           </p>
-          <p className="mt-2 text-slate-500 text-[10px]">We log the IP addresses of visitors for security reasons.</p>
+          <p className="mt-2 text-gray-400 text-[10px]">We log the IP addresses of visitors for security reasons.</p>
         </div>
       </div>
     </footer>

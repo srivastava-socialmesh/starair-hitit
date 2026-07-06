@@ -7,7 +7,7 @@
     @apply scroll-smooth;
   }
   body {
-    @apply bg-[#0a0e1a] text-white antialiased overflow-x-hidden;
+    @apply bg-white text-gray-900 antialiased overflow-x-hidden;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
   /* Custom Scrollbar */
@@ -15,41 +15,37 @@
     width: 8px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-[#0a0e1a];
+    @apply bg-gray-100;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-gradient-to-b from-amber-400 to-amber-600 rounded-full;
+    @apply bg-gradient-to-b from-rose-400 to-rose-600 rounded-full;
   }
 }
 
 @layer utilities {
-  /* Glass Morphism - Premium */
-  .glass-premium {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* Glass Morphism - Light */
+  .glass-light {
+    @apply backdrop-blur-xl bg-white/70 border border-white/20 shadow-xl;
   }
-  .glass-gold {
-    @apply backdrop-blur-xl bg-amber-500/5 border border-amber-500/20 shadow-2xl;
+  .glass-light-card {
+    @apply backdrop-blur-sm bg-white/80 border border-gray-200 shadow-lg;
   }
   /* Gradients */
-  .text-gradient-gold {
-    @apply bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent;
+  .text-gradient-rose {
+    @apply bg-gradient-to-r from-rose-400 to-rose-600 bg-clip-text text-transparent;
   }
-  .text-gradient-cyan {
-    @apply bg-gradient-to-r from-cyan-300 via-blue-400 to-purple-400 bg-clip-text text-transparent;
+  .bg-gradient-light {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   }
-  .bg-gradient-hero {
-    background: radial-gradient(ellipse at 30% 20%, #1e3a8a 0%, #0a0e1a 70%);
-  }
-  /* Text Shadows */
+  /* Text Shadows (light) */
   .drop-shadow-sm {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
   .drop-shadow-md {
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.06);
   }
   .drop-shadow-lg {
-    text-shadow: 0 4px 16px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
   /* Animations */
   .animate-float {
@@ -60,33 +56,7 @@
   }
 }
 
-/* Keyframes for sliding banners */
-@keyframes slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-slide {
-  animation: slide 30s linear infinite;
-  will-change: transform;
-}
-
-/* Responsive speed for smaller screens */
-@media (max-width: 768px) {
-  .animate-slide {
-    animation-duration: 20s;
-  }
-}
-
-/* Fallback marquee (if you still use it elsewhere) */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-/* Float and Pulse */
+/* Keyframes */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
@@ -96,11 +66,7 @@
   50% { opacity: 0.8; }
 }
 
-/* ============================================
-   CMS / Fare Table Styles (Light Theme)
-   ============================================ */
-
-/* Fare Rules Table */
+/* CMS / Fare Table Styles (Light) */
 .fare-table {
   width: 100%;
   border-collapse: collapse;
@@ -110,9 +76,8 @@
   color: #1f2937;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
-
 .fare-table th,
 .fare-table td {
   border: 1px solid #d1d5db;
@@ -120,111 +85,27 @@
   text-align: center;
   vertical-align: middle;
 }
-
 .fare-table th {
   background-color: #f3f4f6;
   font-weight: 600;
   color: #1f2937;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
 }
+.fare-table tr:nth-child(even) { background-color: #f9fafb; }
+.fare-table tr:hover { background-color: #f3f4f6; }
+.fare-table td[colspan] { background-color: #f9fafb; font-weight: 500; }
+.fare-table br { display: block; margin: 0.2rem 0; }
+.fare-table .footnote { font-size: 0.75rem; color: #6b7280; vertical-align: super; }
 
-.fare-table tr:nth-child(even) {
-  background-color: #f9fafb;
-}
+.prose { color: #374151; line-height: 1.8; }
+.prose h2 { color: #1f2937; font-size: 1.8rem; font-weight: 700; margin-top: 2rem; }
+.prose h3 { color: #374151; font-size: 1.4rem; font-weight: 600; margin-top: 1.5rem; }
+.prose p { margin: 0.75rem 0; line-height: 1.7; }
+.prose a { color: #dc2626; text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: #b91c1c; }
+.prose ul, .prose ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+.prose li { margin: 0.4rem 0; }
 
-.fare-table tr:hover {
-  background-color: #f3f4f6;
-}
-
-.fare-table td[colspan] {
-  background-color: #f9fafb;
-  font-weight: 500;
-}
-
-.fare-table br {
-  display: block;
-  margin: 0.2rem 0;
-}
-
-/* Sub-headings inside table cells (e.g., "1st Change Free") */
-.fare-table td br + span {
-  display: block;
-  font-size: 0.85rem;
-  color: #4b5563;
-}
-
-/* Footnote styling (asterisk) */
-.fare-table .footnote {
-  font-size: 0.75rem;
-  color: #6b7280;
-  vertical-align: super;
-}
-
-/* For the "Change Fee" and "Cancellation Fee" table headers */
-.fare-table h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Prose improvements for CMS content */
-.prose {
-  color: #374151;
-  line-height: 1.8;
-}
-
-.prose h2 {
-  color: #1f2937;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.prose h3 {
-  color: #374151;
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.prose p {
-  margin: 0.75rem 0;
-  line-height: 1.7;
-}
-
-.prose a {
-  color: #dc2626;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.prose a:hover {
-  color: #b91c1c;
-}
-
-.prose ul,
-.prose ol {
-  margin: 0.75rem 0;
-  padding-left: 1.5rem;
-}
-
-.prose li {
-  margin: 0.4rem 0;
-}
-
-/* Responsive tables on small screens */
 @media (max-width: 640px) {
-  .fare-table {
-    font-size: 0.75rem;
-  }
-  .fare-table th,
-  .fare-table td {
-    padding: 0.4rem 0.4rem;
-  }
+  .fare-table { font-size: 0.75rem; }
+  .fare-table th, .fare-table td { padding: 0.4rem 0.4rem; }
 }

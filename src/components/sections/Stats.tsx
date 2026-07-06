@@ -12,7 +12,7 @@ const stats = [
 
 export default function Stats() {
   return (
-    <section className="py-16 px-4 bg-slate-950">
+    <section className="py-16 px-4 bg-white">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, i) => {
           const [count, setCount] = useState(0);
@@ -39,14 +39,14 @@ export default function Stats() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="flex flex-col items-center p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-rose-500/30 transition"
+              className="flex flex-col items-center p-6 rounded-2xl bg-gray-50 border border-gray-200 hover:border-rose-300 transition shadow-sm"
             >
-              <stat.icon className="text-rose-400" size={36} />
-              <h3 className="text-4xl font-bold text-white mt-3">
+              <stat.icon className="text-rose-500" size={36} />
+              <h3 className="text-4xl font-bold text-gray-900 mt-3">
                 {count}
-                <span className="text-rose-400">{stat.suffix || ""}</span>
+                <span className="text-rose-500">{stat.suffix || ""}</span>
               </h3>
-              <p className="text-slate-400 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
+              <p className="text-gray-500 text-sm uppercase tracking-wider mt-1">{stat.label}</p>
             </motion.div>
           );
         })}

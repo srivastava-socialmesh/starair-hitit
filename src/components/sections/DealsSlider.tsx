@@ -42,8 +42,8 @@ export default function DealsSlider() {
 
   if (loading) {
     return (
-      <section className="py-12 px-4 bg-slate-900">
-        <div className="max-w-7xl mx-auto text-center text-slate-400">Loading deals...</div>
+      <section className="py-12 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto text-center text-gray-400">Loading deals...</div>
       </section>
     );
   }
@@ -51,12 +51,12 @@ export default function DealsSlider() {
   if (deals.length === 0) return null;
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-b from-slate-950 to-slate-900">
+    <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 text-center">
-          <span className="text-rose-400 text-sm font-semibold uppercase tracking-widest">🔥 Limited Time</span>
-          <h2 className="text-4xl font-bold text-white">Exclusive <span className="text-rose-500">Deals</span></h2>
-          <p className="text-slate-400 mt-1">Grab these offers before they expire</p>
+          <span className="text-rose-500 text-sm font-semibold uppercase tracking-widest">🔥 Limited Time</span>
+          <h2 className="text-4xl font-bold text-gray-900">Exclusive <span className="text-rose-500">Deals</span></h2>
+          <p className="text-gray-500 mt-1">Grab these offers before they expire</p>
         </div>
 
         <Swiper
@@ -76,8 +76,8 @@ export default function DealsSlider() {
         >
           {deals.map((deal) => (
             <SwiperSlide key={deal.id}>
-              <div className="group relative rounded-2xl overflow-hidden h-96 shadow-2xl bg-slate-800 border border-white/5 hover:border-rose-500/30 transition duration-300">
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent z-10"></div>
+              <div className="group relative rounded-2xl overflow-hidden h-96 shadow-lg bg-white border border-gray-200 hover:border-rose-300 transition duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10"></div>
                 <img
                   src={deal.image_url}
                   alt={deal.title}
@@ -90,7 +90,7 @@ export default function DealsSlider() {
                 </div>
                 <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
                   <h3 className="text-2xl font-bold text-white">{deal.title}</h3>
-                  <p className="text-slate-300 text-sm line-clamp-2">{deal.description}</p>
+                  <p className="text-white/80 text-sm line-clamp-2">{deal.description}</p>
                   {deal.valid_until && (
                     <p className="text-amber-300 text-xs mt-1">Valid until {new Date(deal.valid_until).toLocaleDateString()}</p>
                   )}
