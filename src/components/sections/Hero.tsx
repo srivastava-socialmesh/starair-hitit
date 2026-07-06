@@ -52,19 +52,11 @@ export default function Hero() {
           max-w-[1600px] mx-auto
         "
       >
+        {/* Left: Brand Message */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full mt-0"
-        >
-          <FlightSearch />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
           className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12"
         >
           <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
@@ -81,6 +73,16 @@ export default function Hero() {
             <span className="flex items-center gap-1.5">✈️ 120+ Destinations</span>
             <span className="flex items-center gap-1.5">🏆 24 Awards</span>
           </div>
+        </motion.div>
+
+        {/* Right: Flight Search Widget */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="w-full mt-0"
+        >
+          <FlightSearch />
         </motion.div>
       </div>
     </section>
