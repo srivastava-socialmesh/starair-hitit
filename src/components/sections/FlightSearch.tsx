@@ -157,7 +157,7 @@ export default function FlightSearch() {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
+    <div className="w-full max-w-full mx-auto overflow-hidden">
       {/* Tabs - compact */}
       <div className="flex flex-wrap justify-center gap-0 sm:gap-1 mb-3 p-1 bg-white/60 backdrop-blur-sm rounded-2xl border border-gray-200 w-fit mx-auto">
         {primaryTabs.map((tab) => {
@@ -319,7 +319,7 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Passenger Type - all in one row */}
+            {/* Passenger Type - all in one row, with truncation */}
             <div className="text-center">
               <label className="text-gray-600 text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold block mb-1">Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5">
@@ -335,7 +335,7 @@ export default function FlightSearch() {
                     }`}
                   >
                     <type.icon size={10} className="sm:w-3 sm:h-3" />
-                    <span>{type.label}</span>
+                    <span className="truncate max-w-[60px] sm:max-w-none">{type.label}</span>
                   </button>
                 ))}
               </div>
@@ -364,7 +364,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* CHECK-IN TAB */}
+        {/* Check-in, Flight Status, Manage Booking tabs – same as before */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3">
             <div className="text-center mb-2">
@@ -408,7 +408,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* FLIGHT STATUS TAB */}
         {primaryTab === 'flightstatus' && (
           <form onSubmit={handleFlightStatus} className="space-y-3">
             <div className="text-center mb-2">
@@ -451,7 +450,6 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* MANAGE BOOKING TAB */}
         {primaryTab === 'managebooking' && (
           <form onSubmit={handleManageBooking} className="space-y-3">
             <div className="text-center mb-2">
