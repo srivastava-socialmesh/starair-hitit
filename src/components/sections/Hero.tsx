@@ -20,7 +20,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-[100svh] overflow-hidden bg-gradient-light"
+      className="relative min-h-[100svh] overflow-hidden bg-gradient-light w-full"
       style={{
         backgroundImage: `url(${bannerImages[currentIndex]})`,
         backgroundSize: "cover",
@@ -29,17 +29,17 @@ export default function Hero() {
         transition: "background-image 1s ease-in-out",
       }}
     >
-      {/* Light overlay for readability */}
+      {/* Lighter overlay for readability */}
       <div className="absolute inset-0 bg-white/30 z-5"></div>
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/70 to-transparent pointer-events-none z-5"></div>
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent z-10"></div>
 
-      <div className="relative z-10 w-full min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-6 sm:gap-8 lg:gap-12 px-4 sm:px-8 lg:px-16 xl:px-24 pt-20 sm:pt-24 lg:pt-20 pb-8 max-w-[1600px] mx-auto">
+      <div className="relative z-10 w-full max-w-7xl mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 lg:pt-20 pb-8">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12"
+          className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 pt-8 sm:pt-12 w-full overflow-hidden"
         >
           <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-gray-900">
             <span className="drop-shadow-sm block text-left">Discover the</span>
@@ -59,7 +59,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full mt-0"
+          className="w-full mt-0 overflow-hidden"
         >
           <FlightSearch />
         </motion.div>
