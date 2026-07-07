@@ -11,7 +11,9 @@ export default function Footer() {
               <li className="hover:text-accent cursor-pointer transition">Corporate Overview</li>
               <li className="hover:text-accent cursor-pointer transition">Awards and Applaud</li>
               <li className="hover:text-accent cursor-pointer transition">Media Center</li>
-              <li className="hover:text-accent cursor-pointer transition">Magazine</li>
+              <li className="hover:text-accent cursor-pointer transition">
+                <Link href="/magazines">Magazine</Link>
+              </li>
               <li className="hover:text-accent cursor-pointer transition">Careers</li>
               <li className="hover:text-accent cursor-pointer transition">Fleet</li>
             </ul>
