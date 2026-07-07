@@ -6,21 +6,6 @@ import Link from "next/link";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-interface Career {
-  id: number;
-  job_id: string;
-  title: string;
-  department: string;
-  location: string;
-  employment_type: string;
-  description: string;
-  requirements: string;
-  responsibilities: string;
-  posted_date: string;
-  application_link: string;
-  is_active: boolean;
-}
-
 export default async function CareersPage() {
   const supabase = await createServerClient();
   const { data: jobs, error } = await supabase
@@ -98,24 +83,13 @@ export default async function CareersPage() {
                     <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">📌 Responsibilities</span>
                   )}
                 </div>
-                <div className="mt-4 flex items-center gap-3">
-                  {job.application_link ? (
-                    <a
-                      href={job.application_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md"
-                    >
-                      Apply Now →
-                    </a>
-                  ) : (
-                    <Link
-                      href={`/careers/${job.job_id}`}
-                      className="bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md"
-                    >
-                      View Details
-                    </Link>
-                  )}
+                <div className="mt-4">
+                  <Link
+                    href={`/careers/${job.job_id}`}
+                    className="inline-block bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md"
+                  >
+                    View Details
+                  </Link>
                 </div>
               </div>
             ))}
