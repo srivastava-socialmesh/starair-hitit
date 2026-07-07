@@ -26,7 +26,7 @@ export default async function CareersPage() {
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Join Our Team</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mt-2">Shape the <span className="text-accent">Future</span> of Aviation</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-            We're looking for passionate individuals to join our growing family. Explore open positions and start your journey with StarAir.
+            We're looking for passionate individuals to join our growing family.
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default async function CareersPage() {
         </div>
 
         {jobs && jobs.length === 0 ? (
-          <p className="text-gray-400 text-center py-12">No open positions at the moment. Check back soon!</p>
+          <p className="text-gray-400 text-center py-12">No open positions at the moment.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {jobs?.map((job) => (
@@ -62,9 +62,9 @@ export default async function CareersPage() {
                       <h3 className="text-xl font-bold text-gray-900 group-hover:text-accent transition">{job.title}</h3>
                     </div>
                     <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600">
-                      <span className="flex items-center gap-1">🏢 {job.department}</span>
-                      <span className="flex items-center gap-1">📍 {job.location}</span>
-                      <span className="flex items-center gap-1">💼 {job.employment_type}</span>
+                      <span>🏢 {job.department}</span>
+                      <span>📍 {job.location}</span>
+                      <span>💼 {job.employment_type}</span>
                     </div>
                   </div>
                   <span className="bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full border border-accent/20">
@@ -73,12 +73,8 @@ export default async function CareersPage() {
                 </div>
                 <p className="text-gray-600 text-sm mt-3 line-clamp-3">{job.description}</p>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  {job.requirements && (
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">📋 Requirements</span>
-                  )}
-                  {job.responsibilities && (
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">📌 Responsibilities</span>
-                  )}
+                  {job.requirements && <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">📋 Requirements</span>}
+                  {job.responsibilities && <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">📌 Responsibilities</span>}
                 </div>
                 <div className="mt-4">
                   <Link
