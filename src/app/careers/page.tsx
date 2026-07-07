@@ -8,6 +8,7 @@ export const revalidate = 0;
 
 interface Career {
   id: number;
+  job_id: string;
   title: string;
   department: string;
   location: string;
@@ -45,7 +46,7 @@ export default async function CareersPage() {
           </p>
         </div>
 
-        {/* Stats / Highlights */}
+        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 text-center">
           <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
             <div className="text-3xl font-bold text-accent">{jobs?.length || 0}</div>
@@ -74,7 +75,10 @@ export default async function CareersPage() {
               <div key={job.id} className="group bg-white rounded-2xl border border-gray-200 hover:border-accent shadow-sm hover:shadow-xl transition p-6">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-accent transition">{job.title}</h3>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono text-gray-400 bg-gray-100 px-2 py-0.5 rounded">{job.job_id}</span>
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-accent transition">{job.title}</h3>
+                    </div>
                     <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600">
                       <span className="flex items-center gap-1">🏢 {job.department}</span>
                       <span className="flex items-center gap-1">📍 {job.location}</span>
@@ -106,8 +110,8 @@ export default async function CareersPage() {
                     </a>
                   ) : (
                     <Link
-                      href={`/careers/${job.id}`}
-                      className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-6 rounded-full text-sm transition"
+                      href={`/careers/${job.job_id}`}
+                      className="bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md"
                     >
                       View Details
                     </Link>

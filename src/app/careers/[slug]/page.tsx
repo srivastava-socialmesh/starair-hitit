@@ -8,12 +8,12 @@ import ApplicationForm from "@/components/ApplicationForm";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export default async function CareerDetailPage({ params }: { params: { id: string } }) {
+export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
   const supabase = await createServerClient();
   const { data: job, error } = await supabase
     .from("careers")
     .select("*")
-    .eq("id", parseInt(params.id))
+    .eq("job_id", params.slug)
     .eq("is_active", true)
     .maybeSingle();
 
