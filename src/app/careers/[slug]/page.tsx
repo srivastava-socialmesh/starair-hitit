@@ -9,9 +9,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+  console.log("Career slug received:", params?.slug);
 
-  console.log("Career slug received:", slug);
+  const slug = params?.slug;
 
   if (!slug) {
     console.error("No slug provided");
