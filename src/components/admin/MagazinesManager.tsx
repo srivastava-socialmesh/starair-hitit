@@ -6,9 +6,11 @@ import { Pencil, Trash2, Plus, Save, X } from "lucide-react";
 interface Magazine {
   id: number;
   title: string;
-  issue_date: string;
+  issue_month: string;      // required
+  issue_date?: string;      // optional
   cover_image_url: string;
   pdf_url: string;
+  description?: string;
   is_active: boolean;
 }
 
@@ -29,7 +31,7 @@ export default function MagazinesManager() {
       const { data, error } = await supabase
         .from("magazines")
         .select("*")
-        .order("issue_date", { ascending: false });
+        .order("created_at", { ascending: false });
       if (error) {
         console.error("Fetch error:", error);
         setError("Failed to load magazines: " + error.message);
@@ -50,8 +52,9 @@ export default function MagazinesManager() {
   }, []);
 
   const handleSave = async () => {
-    if (!form.title || !form.issue_date || !form.pdf_url) {
-      alert("Title, Issue Date, and PDF URL are required");
+    // Required fields
+    if (!form.title || !form.issue_month || !form.pdf_url) {
+      alert("Title, Issue Month, and PDF URL are required");
       return;
     }
     setSaving(true);
@@ -59,13 +62,18 @@ export default function MagazinesManager() {
     setSuccess(null);
 
     try {
-      const payload = {
+      const payload: any = {
         title: form.title,
-        issue_date: form.issue_date,
-        cover_image_url: form.cover_image_url || null,
+        issue_month: form.issue_month,
         pdf_url: form.pdf_url,
+        cover_image_url: form.cover_image_url || null,
+        description: form.description || null,
         is_active: form.is_active !== undefined ? form.is_active : true,
       };
+      // If issue_date is provided and valid, include it
+      if (form.issue_date) {
+        payload.issue_date = form.issue_date;
+      }
 
       if (editing) {
         const { error } = await supabase
@@ -177,10 +185,22 @@ export default function MagazinesManager() {
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
-              placeholder="Issue Date *"
+              placeholder="Issue Month * (e.g., January 2025)"
+              value={form.issue_month || ""}
+              onChange={(e) => setForm({ ...form, issue_month: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            />
+            <input
+              placeholder="Issue Date (optional, YYYY-MM-DD)"
               type="date"
               value={form.issue_date || ""}
               onChange={(e) => setForm({ ...form, issue_date: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            />
+            <input
+              placeholder="PDF URL *"
+              value={form.pdf_url || ""}
+              onChange={(e) => setForm({ ...form, pdf_url: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
@@ -189,11 +209,12 @@ export default function MagazinesManager() {
               onChange={(e) => setForm({ ...form, cover_image_url: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
-            <input
-              placeholder="PDF URL *"
-              value={form.pdf_url || ""}
-              onChange={(e) => setForm({ ...form, pdf_url: e.target.value })}
-              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            <textarea
+              placeholder="Description (optional)"
+              value={form.description || ""}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white col-span-full"
+              rows={2}
             />
           </div>
           <div className="mt-4 flex gap-3">
@@ -217,7 +238,7 @@ export default function MagazinesManager() {
             <thead className="bg-[#111827] border-b border-amber-500/10">
               <tr>
                 <th className="p-3 text-amber-400">Title</th>
-                <th className="p-3 text-amber-400">Issue Date</th>
+                <th className="p-3 text-amber-400">Issue Month</th>
                 <th className="p-3 text-amber-400">Active</th>
                 <th className="p-3 text-amber-400">Actions</th>
               </tr>
@@ -226,7 +247,7 @@ export default function MagazinesManager() {
               {items.map((item) => (
                 <tr key={item.id} className="border-b border-white/5 hover:bg-white/5">
                   <td className="p-3">{item.title}</td>
-                  <td className="p-3">{new Date(item.issue_date).toLocaleDateString()}</td>
+                  <td className="p-3">{item.issue_month}</td>
                   <td className="p-3">
                     <button onClick={() => toggleActive(item.id, item.is_active)} className={`px-2 py-1 rounded text-xs font-bold ${item.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
                       {item.is_active ? "Active" : "Inactive"}
