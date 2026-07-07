@@ -5,6 +5,7 @@ import { Pencil, Trash2, Plus, Save, X } from "lucide-react";
 
 interface Career {
   id: number;
+  job_id: string;
   title: string;
   department: string;
   location: string;
@@ -64,7 +65,17 @@ export default function CareersManager() {
     setSuccess(null);
 
     try {
+      // If job_id not provided, generate one based on title (slug) or use existing
+      let jobId = form.job_id?.trim();
+      if (!jobId) {
+        // Generate from title: e.g., "Software Engineer" -> "SE-001"
+        const prefix = form.title.split(' ').map(w => w[0]).join('').toUpperCase().substring(0, 4);
+        // We'll let the database handle uniqueness, but we'll append a timestamp or random
+        jobId = prefix + '-' + Date.now().toString().slice(-4);
+      }
+
       const payload = {
+        job_id: jobId,
         title: form.title,
         department: form.department,
         location: form.location,
@@ -183,6 +194,12 @@ export default function CareersManager() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
+              placeholder="Job ID (e.g., SA-001, leave blank to auto-generate)"
+              value={form.job_id || ""}
+              onChange={(e) => setForm({ ...form, job_id: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            />
+            <input
               placeholder="Job Title *"
               value={form.title || ""}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -265,6 +282,7 @@ export default function CareersManager() {
           <table className="w-full text-left text-sm">
             <thead className="bg-[#111827] border-b border-amber-500/10">
               <tr>
+                <th className="p-3 text-amber-400">Job ID</th>
                 <th className="p-3 text-amber-400">Title</th>
                 <th className="p-3 text-amber-400">Department</th>
                 <th className="p-3 text-amber-400">Location</th>
@@ -276,6 +294,7 @@ export default function CareersManager() {
             <tbody>
               {items.map((item) => (
                 <tr key={item.id} className="border-b border-white/5 hover:bg-white/5">
+                  <td className="p-3 font-mono text-xs">{item.job_id}</td>
                   <td className="p-3 font-medium">{item.title}</td>
                   <td className="p-3">{item.department}</td>
                   <td className="p-3">{item.location}</td>

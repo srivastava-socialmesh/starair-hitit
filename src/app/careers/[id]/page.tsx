@@ -3,6 +3,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
+import ApplicationForm from "@/components/ApplicationForm";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -28,7 +29,12 @@ export default async function CareerDetailPage({ params }: { params: { id: strin
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8">
           <div className="flex flex-wrap justify-between items-start gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{job.title}</h1>
+              <div className="flex items-center gap-3">
+                <span className="bg-accent/10 text-accent text-xs font-bold px-3 py-1 rounded-full border border-accent/20">
+                  {job.job_id}
+                </span>
+                <h1 className="text-3xl font-bold text-gray-900">{job.title}</h1>
+              </div>
               <div className="flex flex-wrap gap-4 mt-2 text-sm text-gray-600">
                 <span>🏢 {job.department}</span>
                 <span>📍 {job.location}</span>
@@ -36,16 +42,6 @@ export default async function CareerDetailPage({ params }: { params: { id: strin
                 <span>📅 Posted {new Date(job.posted_date).toLocaleDateString()}</span>
               </div>
             </div>
-            {job.application_link && (
-              <a
-                href={job.application_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md whitespace-nowrap"
-              >
-                Apply Now →
-              </a>
-            )}
           </div>
 
           <div className="mt-6 prose prose-lg max-w-none text-gray-700">
@@ -65,6 +61,12 @@ export default async function CareerDetailPage({ params }: { params: { id: strin
                 <div dangerouslySetInnerHTML={{ __html: job.responsibilities.replace(/\n/g, '<br/>') }} />
               </>
             )}
+          </div>
+
+          {/* Application Form */}
+          <div className="mt-8 border-t border-gray-200 pt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Apply for this Position</h2>
+            <ApplicationForm jobId={job.job_id} careerId={job.id} />
           </div>
         </div>
       </div>

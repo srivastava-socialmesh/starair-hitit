@@ -29,6 +29,7 @@ const navItems = [
   { name: "Fare Sheets", href: "/admin/fare-sheets", icon: Table },
   { name: "News", href: "/admin/news", icon: Newspaper },
   { name: "careers", href: "/admin/careers", icon: Briefcase },
+  { name: "Applications", href: "/admin/applications", icon: FileText },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
