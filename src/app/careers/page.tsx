@@ -22,7 +22,6 @@ export default async function CareersPage() {
     <main className="min-h-screen bg-white">
       <Navbar />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 pt-24 sm:pt-28 lg:pt-24">
-        {/* Hero Section */}
         <div className="text-center mb-16">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Join Our Team</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mt-2">Shape the <span className="text-accent">Future</span> of Aviation</h1>
@@ -31,7 +30,6 @@ export default async function CareersPage() {
           </p>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 text-center">
           <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
             <div className="text-3xl font-bold text-accent">{jobs?.length || 0}</div>
@@ -51,7 +49,6 @@ export default async function CareersPage() {
           </div>
         </div>
 
-        {/* Job Listings */}
         {jobs && jobs.length === 0 ? (
           <p className="text-gray-400 text-center py-12">No open positions at the moment. Check back soon!</p>
         ) : (

@@ -9,18 +9,30 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
-  console.log("Career slug:", params.slug); // Debug log
-
   const supabase = await createServerClient();
-  const { data: job, error } = await supabase
+  const slug = params.slug;
+
+  // First, try by job_id
+  let { data: job, error } = await supabase
     .from("careers")
     .select("*")
-    .eq("job_id", params.slug)
+    .eq("job_id", slug)
     .eq("is_active", true)
     .maybeSingle();
 
+  // If not found and slug is a number, try by id
+  if (!job && !isNaN(parseInt(slug))) {
+    const { data: jobById, error: errorById } = await supabase
+      .from("careers")
+      .select("*")
+      .eq("id", parseInt(slug))
+      .eq("is_active", true)
+      .maybeSingle();
+    job = jobById;
+    error = errorById;
+  }
+
   if (error || !job) {
-    console.log("Job not found for slug:", params.slug);
     notFound();
   }
 
