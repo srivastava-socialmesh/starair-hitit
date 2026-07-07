@@ -22,12 +22,12 @@ export async function generateStaticParams() {
 }
 
 export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
-  console.log("Career slug received:", params?.slug);
+  const slug = params.slug;
 
-  const slug = params?.slug || params?.id;
+  console.log("Career slug received:", slug);
 
   if (!slug) {
-    console.error("No slug or id provided");
+    console.error("No slug provided");
     notFound();
   }
 
@@ -42,7 +42,7 @@ export default async function CareerDetailPage({ params }: { params: { slug: str
       .eq("is_active", true)
       .maybeSingle();
 
-    // If not found and slug is numeric, try by id
+    // If not found and slug is numeric, try by id (fallback)
     if (!job && !isNaN(parseInt(slug))) {
       const { data: jobById, error: errorById } = await supabase
         .from("careers")
