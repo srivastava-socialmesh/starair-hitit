@@ -9,7 +9,8 @@ import {
   Package, 
   FileText, 
   Newspaper, 
-  BookOpen, 
+  BookOpen,
+  Briefcase, 
   Table, 
   LogOut,
   Menu,
@@ -27,6 +28,7 @@ const navItems = [
   { name: "Magazines", href: "/admin/magazines", icon: BookOpen },
   { name: "Fare Sheets", href: "/admin/fare-sheets", icon: Table },
   { name: "News", href: "/admin/news", icon: Newspaper },
+  { name: "careers", href: "/admin/careers", icon: Briefcase },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

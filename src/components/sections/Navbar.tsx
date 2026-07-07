@@ -82,6 +82,10 @@ export default function Navbar() {
             <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
               <Link href="/">About</Link>
             </li>
+            {/* NEW: Careers link */}
+            <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
+              <Link href="/careers">Careers</Link>
+            </li>
             {fareServicePages.length > 0 && (
               <li className="relative group">
                 <button
@@ -152,6 +156,8 @@ export default function Navbar() {
             <li><Link href="/" onClick={() => setIsOpen(false)}>Deals</Link></li>
             <li><Link href="/flight-status" onClick={() => setIsOpen(false)}>Flight Status</Link></li>
             <li><Link href="/" onClick={() => setIsOpen(false)}>About</Link></li>
+            {/* NEW: Careers link in mobile menu */}
+            <li><Link href="/careers" onClick={() => setIsOpen(false)}>Careers</Link></li>
             <li className="font-semibold">Fares & Services</li>
             <ul className="pl-3 border-l border-accent/30 space-y-1">
               {fareServicePages.map((p) => (
