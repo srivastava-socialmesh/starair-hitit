@@ -32,7 +32,7 @@ export default async function MagazinesPage() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 pt-24 sm:pt-28 lg:pt-24">
         <h1 className="text-4xl font-bold text-gray-900 mb-2">Our Magazines</h1>
         <p className="text-gray-500 mb-8">Browse our latest editions</p>
 
