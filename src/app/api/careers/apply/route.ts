@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -68,11 +66,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to save application" }, { status: 500 });
     }
 
-    // Send email notification to HR
-    const hrEmail = process.env.HR_EMAIL || "hr@starair.in";
-    const jobTitle = "Job Application";
+    // Send email notification if Resend API key is available
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (resendApiKey) {
+      const resend = new Resend(resendApiKey);
+      const hrEmail = process.env.HR_EMAIL || "hr@starair.in";
 
-    if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
         from: "StarAir Careers <careers@starair.in>",
         to: hrEmail,
@@ -88,6 +87,8 @@ export async function POST(request: NextRequest) {
           <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/applications">View all applications</a></p>
         `,
       });
+    } else {
+      console.warn("Resend API key not configured. Email not sent.");
     }
 
     return NextResponse.json({ success: true, application });
