@@ -8,19 +8,6 @@ import ApplicationForm from "@/components/ApplicationForm";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Add this function to pre-render all active job pages
-export async function generateStaticParams() {
-  const supabase = await createServerClient();
-  const { data: jobs } = await supabase
-    .from("careers")
-    .select("id")
-    .eq("is_active", true);
-
-  return jobs?.map((job) => ({
-    id: String(job.id),
-  })) || [];
-}
-
 export default async function CareerDetailPage({ params }: { params: { id: string } }) {
   const supabase = await createServerClient();
   const { data: job, error } = await supabase
