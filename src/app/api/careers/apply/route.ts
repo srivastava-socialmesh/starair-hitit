@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -19,8 +19,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Upload resume to Supabase Storage
     const supabase = await createServerClient();
+
+    // Upload resume to Supabase Storage
     const fileExt = resumeFile.name.split('.').pop();
     const fileName = `${jobId}_${Date.now()}.${fileExt}`;
     const fileBuffer = await resumeFile.arrayBuffer();
@@ -67,25 +68,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to save application" }, { status: 500 });
     }
 
-    // Send email notification to HR (configure your HR email)
+    // Send email notification to HR
     const hrEmail = process.env.HR_EMAIL || "hr@starair.in";
-    const jobTitle = "Job Application"; // You can fetch the job title if needed
+    const jobTitle = "Job Application";
 
-    await resend.emails.send({
-      from: "StarAir Careers <careers@starair.in>",
-      to: hrEmail,
-      subject: `New Job Application: ${jobId} - ${fullName}`,
-      html: `
-        <h2>New Application Received</h2>
-        <p><strong>Job ID:</strong> ${jobId}</p>
-        <p><strong>Name:</strong> ${fullName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || "N/A"}</p>
-        <p><strong>Resume:</strong> <a href="${resumeUrl}">Download</a></p>
-        <p><strong>Cover Letter:</strong> ${coverLetter || "N/A"}</p>
-        <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/applications">View all applications</a></p>
-      `,
-    });
+    if (process.env.RESEND_API_KEY) {
+      await resend.emails.send({
+        from: "StarAir Careers <careers@starair.in>",
+        to: hrEmail,
+        subject: `New Job Application: ${jobId} - ${fullName}`,
+        html: `
+          <h2>New Application Received</h2>
+          <p><strong>Job ID:</strong> ${jobId}</p>
+          <p><strong>Name:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone || "N/A"}</p>
+          <p><strong>Resume:</strong> <a href="${resumeUrl}">Download</a></p>
+          <p><strong>Cover Letter:</strong> ${coverLetter || "N/A"}</p>
+          <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/applications">View all applications</a></p>
+        `,
+      });
+    }
 
     return NextResponse.json({ success: true, application });
   } catch (error: any) {
