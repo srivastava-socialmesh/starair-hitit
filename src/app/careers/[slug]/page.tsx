@@ -12,7 +12,7 @@ export default async function CareerDetailPage({ params }: { params: { slug: str
   const supabase = await createServerClient();
   const slug = params.slug;
 
-  // First, try by job_id
+  // Try by job_id first
   let { data: job, error } = await supabase
     .from("careers")
     .select("*")
@@ -32,6 +32,7 @@ export default async function CareerDetailPage({ params }: { params: { slug: str
     error = errorById;
   }
 
+  // If still not found, return 404
   if (error || !job) {
     notFound();
   }
@@ -80,7 +81,6 @@ export default async function CareerDetailPage({ params }: { params: { slug: str
             )}
           </div>
 
-          {/* Application Form */}
           <div className="mt-8 border-t border-gray-200 pt-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Apply for this Position</h2>
             <ApplicationForm jobId={job.job_id} careerId={job.id} />
