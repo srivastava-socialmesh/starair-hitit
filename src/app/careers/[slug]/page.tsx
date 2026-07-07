@@ -8,19 +8,6 @@ import ApplicationForm from "@/components/ApplicationForm";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Pre-render all active job routes at build time
-export async function generateStaticParams() {
-  const supabase = await createServerClient();
-  const { data: jobs } = await supabase
-    .from("careers")
-    .select("job_id")
-    .eq("is_active", true);
-
-  return jobs?.map((job) => ({
-    slug: job.job_id,
-  })) || [];
-}
-
 export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
   const slug = params.slug;
 
