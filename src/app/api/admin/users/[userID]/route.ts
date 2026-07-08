@@ -22,8 +22,8 @@ export async function GET(
 
     if (roleError && roleError.code !== "PGRST116") throw roleError;
 
-    // TypeScript workaround: user.banned exists but may not be in type definitions
-    const isBanned = (userData.user as any).banned || false;
+    // Check if user is banned (using a safe access)
+    const isBanned = (userData.user as any)?.banned === true;
 
     return NextResponse.json({
       id: userData.user.id,
@@ -57,15 +57,11 @@ export async function PUT(
       if (roleError) throw roleError;
     }
 
-    // Update active status (ban/unban)
+    // Update active status (ban/unban) using updateUserById
     if (isActive !== undefined) {
-      if (isActive) {
-        // Unban user
-        await supabaseAdmin.auth.admin.unbanUserById(userId);
-      } else {
-        // Ban user
-        await supabaseAdmin.auth.admin.banUserById(userId);
-      }
+      await supabaseAdmin.auth.admin.updateUserById(userId, {
+        banned: !isActive,
+      });
     }
 
     return NextResponse.json({ success: true });
@@ -85,8 +81,7 @@ export async function DELETE(
     const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
     if (error) throw error;
 
-    // Also delete from user_roles (cascade will handle if FK is set)
-    // Optionally, you can manually delete if not cascading
+    // Also delete from user_roles
     await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
 
     return NextResponse.json({ success: true });
