@@ -22,8 +22,8 @@ export async function GET(
 
     if (roleError && roleError.code !== "PGRST116") throw roleError;
 
-    // Check if user is banned (using a safe access)
-    const isBanned = (userData.user as any)?.banned === true;
+    // Check if user is banned (using type assertion to avoid TypeScript error)
+    const isBanned = (userData.user as any).banned || false;
 
     return NextResponse.json({
       id: userData.user.id,
@@ -57,11 +57,15 @@ export async function PUT(
       if (roleError) throw roleError;
     }
 
-    // Update active status (ban/unban) using updateUserById
+    // Update active status (ban/unban)
     if (isActive !== undefined) {
-      await supabaseAdmin.auth.admin.updateUserById(userId, {
-        banned: !isActive,
-      });
+      if (isActive) {
+        // Unban user
+        await supabaseAdmin.auth.admin.unbanUser(userId);
+      } else {
+        // Ban user
+        await supabaseAdmin.auth.admin.banUser(userId);
+      }
     }
 
     return NextResponse.json({ success: true });
