@@ -13,34 +13,64 @@ export async function POST(request: NextRequest) {
     const coverLetter = formData.get("coverLetter") as string;
     const resumeFile = formData.get("resume") as File;
 
+    // Validate required fields
     if (!jobId || !careerId || !fullName || !email || !resumeFile) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    // Validate file size (max 10MB)
+    if (resumeFile.size > 10 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "File size exceeds 10MB limit" },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    if (!allowedTypes.includes(resumeFile.type)) {
+      return NextResponse.json(
+        { error: "Only PDF, DOC, and DOCX files are allowed" },
+        { status: 400 }
+      );
     }
 
     const supabase = await createServerClient();
 
     // Upload resume to Supabase Storage
-    const fileExt = resumeFile.name.split('.').pop();
+    const fileExt = resumeFile.name.split(".").pop();
     const fileName = `${jobId}_${Date.now()}.${fileExt}`;
     const fileBuffer = await resumeFile.arrayBuffer();
 
-    const { data: uploadData, error: uploadError } = await supabase
-      .storage
-      .from('resumes')
+    console.log("Uploading file:", fileName);
+    console.log("File size:", resumeFile.size);
+    console.log("File type:", resumeFile.type);
+
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("resumes")
       .upload(fileName, fileBuffer, {
         contentType: resumeFile.type,
-        cacheControl: '3600',
+        cacheControl: "3600",
       });
 
     if (uploadError) {
       console.error("Upload error:", uploadError);
-      return NextResponse.json({ error: "Failed to upload resume" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to upload resume: " + uploadError.message },
+        { status: 500 }
+      );
     }
 
     // Get public URL
-    const { data: urlData } = supabase
-      .storage
-      .from('resumes')
+    const { data: urlData } = supabase.storage
+      .from("resumes")
       .getPublicUrl(fileName);
 
     const resumeUrl = urlData.publicUrl;
@@ -48,22 +78,27 @@ export async function POST(request: NextRequest) {
     // Save application to database
     const { data: application, error: dbError } = await supabase
       .from("applications")
-      .insert([{
-        career_id: parseInt(careerId),
-        job_id: jobId,
-        full_name: fullName,
-        email,
-        phone,
-        cover_letter: coverLetter || null,
-        resume_url: resumeUrl,
-        status: 'pending',
-      }])
+      .insert([
+        {
+          career_id: parseInt(careerId),
+          job_id: jobId,
+          full_name: fullName,
+          email,
+          phone,
+          cover_letter: coverLetter || null,
+          resume_url: resumeUrl,
+          status: "pending",
+        },
+      ])
       .select()
       .single();
 
     if (dbError) {
       console.error("DB error:", dbError);
-      return NextResponse.json({ error: "Failed to save application" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to save application: " + dbError.message },
+        { status: 500 }
+      );
     }
 
     // Send email notification if Resend API key is available
@@ -94,6 +129,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, application });
   } catch (error: any) {
     console.error("Application error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Internal server error" },
+      { status: 500 }
+    );
   }
 }
