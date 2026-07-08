@@ -8,13 +8,20 @@ import ApplicationForm from "@/components/ApplicationForm";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export default async function CareerDetailPage({ params }: { params: { slug: string } }) {
-  console.log("Career slug received:", params?.slug);
+export default async function CareerDetailPage({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  // Get slug from params, or from searchParams as fallback
+  const slug = params?.slug || searchParams?.slug || searchParams?.nxtPslug || null;
 
-  const slug = params?.slug;
+  console.log("Career slug received:", slug);
 
   if (!slug) {
-    console.error("No slug provided");
+    console.error("No slug provided in params or searchParams");
     notFound();
   }
 
