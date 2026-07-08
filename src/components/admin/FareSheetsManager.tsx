@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Pencil, Trash2, Plus, Save, X, Upload, FileText } from "lucide-react";
+import { Pencil, Trash2, Plus, Save, X, FileText } from "lucide-react";
 
 interface FareSheet {
   id: number;
   title: string;
+  description: string;
   file_url: string;
-  valid_until: string;
+  valid_from: string;
+  valid_to: string;
   is_active: boolean;
 }
 
@@ -73,7 +75,6 @@ export default function FareSheetsManager() {
         throw new Error(error.message);
       }
 
-      // Get public URL
       const { data: urlData } = supabase.storage
         .from("fare_sheets")
         .getPublicUrl(fileName);
@@ -93,7 +94,6 @@ export default function FareSheetsManager() {
       return;
     }
 
-    // If editing and no new file selected, keep existing URL
     let fileUrl = form.file_url || null;
     if (selectedFile) {
       try {
@@ -111,8 +111,10 @@ export default function FareSheetsManager() {
     try {
       const payload = {
         title: form.title,
+        description: form.description || null,
         file_url: fileUrl,
-        valid_until: form.valid_until || null,
+        valid_from: form.valid_from || null,
+        valid_to: form.valid_to || null,
         is_active: form.is_active !== undefined ? form.is_active : true,
       };
 
@@ -234,11 +236,25 @@ export default function FareSheetsManager() {
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
             <input
-              placeholder="Valid Until (YYYY-MM-DD)"
+              placeholder="Valid From (YYYY-MM-DD)"
               type="date"
-              value={form.valid_until || ""}
-              onChange={(e) => setForm({ ...form, valid_until: e.target.value })}
+              value={form.valid_from || ""}
+              onChange={(e) => setForm({ ...form, valid_from: e.target.value })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            />
+            <input
+              placeholder="Valid To (YYYY-MM-DD)"
+              type="date"
+              value={form.valid_to || ""}
+              onChange={(e) => setForm({ ...form, valid_to: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+            />
+            <textarea
+              placeholder="Description (optional)"
+              value={form.description || ""}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+              rows={2}
             />
           </div>
 
@@ -287,7 +303,8 @@ export default function FareSheetsManager() {
             <thead className="bg-[#111827] border-b border-amber-500/10">
               <tr>
                 <th className="p-3 text-amber-400">Title</th>
-                <th className="p-3 text-amber-400">Valid Until</th>
+                <th className="p-3 text-amber-400">Valid From</th>
+                <th className="p-3 text-amber-400">Valid To</th>
                 <th className="p-3 text-amber-400">File</th>
                 <th className="p-3 text-amber-400">Active</th>
                 <th className="p-3 text-amber-400">Actions</th>
@@ -297,7 +314,8 @@ export default function FareSheetsManager() {
               {items.map((item) => (
                 <tr key={item.id} className="border-b border-white/5 hover:bg-white/5">
                   <td className="p-3">{item.title}</td>
-                  <td className="p-3">{item.valid_until ? new Date(item.valid_until).toLocaleDateString() : "-"}</td>
+                  <td className="p-3">{item.valid_from ? new Date(item.valid_from).toLocaleDateString() : "-"}</td>
+                  <td className="p-3">{item.valid_to ? new Date(item.valid_to).toLocaleDateString() : "-"}</td>
                   <td className="p-3">
                     {item.file_url ? (
                       <a href={item.file_url} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition flex items-center gap-1">

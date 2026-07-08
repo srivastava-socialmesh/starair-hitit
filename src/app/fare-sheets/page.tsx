@@ -8,8 +8,10 @@ export const revalidate = 0;
 interface FareSheet {
   id: number;
   title: string;
+  description: string;
   file_url: string;
-  valid_until: string;
+  valid_from: string;
+  valid_to: string;
   is_active: boolean;
 }
 
@@ -41,11 +43,11 @@ export default async function FareSheetsPage() {
                 <div className="p-6">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-bold text-gray-900 line-clamp-1">{sheet.title}</h3>
-                    {sheet.valid_until && (
-                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                        Valid until {new Date(sheet.valid_until).toLocaleDateString()}
-                      </span>
-                    )}
+                  </div>
+                  {sheet.description && <p className="text-sm text-gray-500 mt-1 line-clamp-2">{sheet.description}</p>}
+                  <div className="flex flex-wrap gap-2 mt-2 text-xs text-gray-400">
+                    {sheet.valid_from && <span>From {new Date(sheet.valid_from).toLocaleDateString()}</span>}
+                    {sheet.valid_to && <span>To {new Date(sheet.valid_to).toLocaleDateString()}</span>}
                   </div>
                   <div className="mt-4">
                     <a

@@ -16,8 +16,12 @@ export default async function LatestFareSheet() {
     <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 max-w-md mx-auto hover:shadow-xl transition">
         <h3 className="text-xl font-bold text-gray-900">{sheet.title}</h3>
-        {sheet.valid_until && (
-          <p className="text-sm text-gray-500 mt-1">Valid until {new Date(sheet.valid_until).toLocaleDateString()}</p>
+        {sheet.description && <p className="text-sm text-gray-500 mt-1">{sheet.description}</p>}
+        {(sheet.valid_from || sheet.valid_to) && (
+          <p className="text-xs text-gray-400 mt-1">
+            {sheet.valid_from && `From ${new Date(sheet.valid_from).toLocaleDateString()}`}
+            {sheet.valid_to && ` – To ${new Date(sheet.valid_to).toLocaleDateString()}`}
+          </p>
         )}
         <a
           href={sheet.file_url}
