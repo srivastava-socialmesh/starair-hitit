@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase/admin";
+import { createServerClient } from "@/lib/supabase/server";
 import { Resend } from "resend";
 
+// Use the server client (not admin) for insert – RLS should be off
+// If you must use admin, ensure the import exists
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -17,12 +19,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Upload resume using admin client
+    const supabase = await createServerClient();
+
+    // Upload resume
     const fileExt = resumeFile.name.split('.').pop();
     const fileName = `${jobId}_${Date.now()}.${fileExt}`;
     const fileBuffer = await resumeFile.arrayBuffer();
 
-    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
       .from("resumes")
       .upload(fileName, fileBuffer, {
         contentType: resumeFile.type,
@@ -34,15 +38,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to upload resume" }, { status: 500 });
     }
 
-    // Get public URL
-    const { data: urlData } = supabaseAdmin.storage
+    const { data: urlData } = supabase.storage
       .from("resumes")
       .getPublicUrl(fileName);
 
     const resumeUrl = urlData.publicUrl;
 
-    // Insert application using admin client
-    const { data: application, error: dbError } = await supabaseAdmin
+    // Insert application
+    const { data: application, error: dbError } = await supabase
       .from("applications")
       .insert([{
         career_id: parseInt(careerId),
@@ -62,12 +65,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Failed to save application" }, { status: 500 });
     }
 
-    // Send email notification (if Resend is configured)
+    // Send email (if configured)
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
       const hrEmail = process.env.HR_EMAIL || "hr@starair.in";
-
       await resend.emails.send({
         from: "StarAir Careers <careers@starair.in>",
         to: hrEmail,
@@ -83,8 +85,6 @@ export async function POST(request: NextRequest) {
           <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/applications">View all applications</a></p>
         `,
       });
-    } else {
-      console.warn("Resend API key not configured. Email not sent.");
     }
 
     return NextResponse.json({ success: true, application });
