@@ -185,7 +185,7 @@ export default function FlightSearch() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full bg-white/70 backdrop-blur-md rounded-3xl p-4 sm:p-5 shadow-xl border border-gray-200"
+        className="w-full bg-white/70 backdrop-blur-md rounded-3xl p-4 sm:p-5 shadow-xl border border-gray-200 overflow-hidden"
       >
         {primaryTab === 'search' && (
           <form onSubmit={handleSearch} className="space-y-3">
@@ -249,7 +249,7 @@ export default function FlightSearch() {
                     value={departDate}
                     onChange={(e) => setDepartDate(e.target.value)}
                     placeholder="Departure"
-                    className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-2 py-1.5 text-gray-800 text-xs [color-scheme:light] focus:border-accent outline-none transition text-center min-w-0"
+                    className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-2 py-1.5 text-gray-800 text-xs [color-scheme:light] focus:border-accent outline-none transition text-center"
                     required
                   />
                 </div>
@@ -263,7 +263,7 @@ export default function FlightSearch() {
                       value={returnDate}
                       onChange={(e) => setReturnDate(e.target.value)}
                       placeholder="Return"
-                      className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-2 py-1.5 text-gray-800 text-xs [color-scheme:light] focus:border-accent outline-none transition text-center min-w-0"
+                      className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-2 py-1.5 text-gray-800 text-xs [color-scheme:light] focus:border-accent outline-none transition text-center"
                     />
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export default function FlightSearch() {
               </div>
             </div>
 
-            {/* Passenger Type - all in one row, with truncation */}
+            {/* Passenger Type */}
             <div className="text-center">
               <label className="text-gray-600 text-[9px] sm:text-[10px] uppercase tracking-widest font-semibold block mb-1">Passenger Type</label>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5">
@@ -349,12 +349,12 @@ export default function FlightSearch() {
               </label>
             </div>
 
-            {/* Search button - reduced height */}
+            {/* Search button - reduced height and width */}
             <div className="flex justify-center">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-xs sm:text-sm"
+                className="w-3/4 sm:w-2/3 md:w-1/2 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] disabled:opacity-70 text-xs sm:text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={16} /> : <Search size={16} />}
                 {loading ? 'Searching...' : 'Search Flight'}
@@ -364,7 +364,7 @@ export default function FlightSearch() {
           </form>
         )}
 
-        {/* Check-in, Flight Status, Manage Booking tabs – same as before */}
+        {/* Check-in, Flight Status, Manage Booking tabs – same compact style */}
         {primaryTab === 'checkin' && (
           <form onSubmit={handleCheckin} className="space-y-3">
             <div className="text-center mb-2">
@@ -399,7 +399,7 @@ export default function FlightSearch() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 md:w-1/2 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={16} /> : <Ticket size={16} />}
                 {loading ? 'Processing...' : 'Check In Now'}
@@ -426,22 +426,26 @@ export default function FlightSearch() {
                   required
                 />
               </div>
-              <div>
+              <div className="w-full min-w-0">
                 <label className="text-gray-600 text-[10px] uppercase tracking-widest font-semibold block mb-0.5">Date</label>
-                <input
-                  type="date"
-                  value={statusDate}
-                  onChange={(e) => setStatusDate(e.target.value)}
-                  className="w-full bg-white border border-gray-300 rounded-xl px-3 py-1.5 text-gray-800 text-sm [color-scheme:light] focus:border-accent outline-none transition text-center"
-                  required
-                />
+                <div className="relative">
+                  <Calendar size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="date"
+                    value={statusDate}
+                    onChange={(e) => setStatusDate(e.target.value)}
+                    placeholder="Date"
+                    className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-2 py-1.5 text-gray-800 text-xs [color-scheme:light] focus:border-accent outline-none transition text-center"
+                    required
+                  />
+                </div>
               </div>
             </div>
             <div className="flex justify-center">
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 md:w-1/2 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={16} /> : <Clock size={16} />}
                 {loading ? 'Checking...' : 'Check Status'}
@@ -484,7 +488,7 @@ export default function FlightSearch() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-3/4 sm:w-2/3 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
+                className="w-3/4 sm:w-2/3 md:w-1/2 bg-accent hover:bg-[#b00226] text-white font-bold py-2 rounded-xl shadow-lg shadow-accent/30 flex items-center justify-center gap-2 transition-all text-sm"
               >
                 {loading ? <Loader2 className="animate-spin" size={16} /> : <Briefcase size={16} />}
                 {loading ? 'Retrieving...' : 'Retrieve Booking'}

@@ -43,7 +43,7 @@ export default function DealsSlider() {
 
   return (
     <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         <div className="mb-8 text-center">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">🔥 Limited Time</span>
           <h2 className="text-4xl font-bold text-gray-900">Exclusive <span className="text-accent">Deals</span></h2>

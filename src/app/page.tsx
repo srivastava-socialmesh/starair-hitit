@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="bg-white min-h-screen">
+    <main className="bg-white min-h-screen w-full">
       <Navbar />
       <Hero />
       <Destinations />
@@ -20,8 +20,9 @@ export default function Home() {
       <ProductsSlider />
       <Loyalty />
 
+      {/* Explore More Services - with full-width container */}
       <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Explore More <span className="text-accent">Services</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/group-booking" className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 hover:border-accent transition hover:shadow-md">
@@ -51,7 +52,7 @@ export default function Home() {
 
       {/* Latest Fare Sheet Section */}
       <section className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
           <div className="text-center mb-8">
             <span className="text-accent text-sm font-semibold uppercase tracking-wider">📄 Latest Tariff</span>
             <h2 className="text-3xl font-bold text-gray-900">Fare <span className="text-accent">Sheets</span></h2>

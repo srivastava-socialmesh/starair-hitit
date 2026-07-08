@@ -11,7 +11,7 @@ export default async function Destinations() {
 
   return (
     <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         <div className="mb-10 text-center">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Explore</span>
           <h2 className="text-4xl font-bold text-gray-900">Popular <span className="text-accent">Destinations</span></h2>

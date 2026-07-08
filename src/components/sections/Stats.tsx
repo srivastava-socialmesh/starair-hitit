@@ -13,7 +13,7 @@ const stats = [
 export default function Stats() {
   return (
     <section className="py-16 px-4 bg-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 grid grid-cols-2 md:grid-cols-4 gap-8">
         {stats.map((stat, i) => {
           const [count, setCount] = useState(0);
           useEffect(() => {
