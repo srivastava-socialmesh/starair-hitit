@@ -20,13 +20,11 @@ export async function GET(
 
     if (roleError && roleError.code !== "PGRST116") throw roleError;
 
-    const isBanned = (userData.user as any).banned || false;
-
     return NextResponse.json({
       id: userData.user.id,
       email: userData.user.email,
       role: roleData?.role || null,
-      is_active: !isBanned,
+      is_active: !(userData.user as any).banned,
       created_at: userData.user.created_at,
     });
   } catch (error: any) {
@@ -43,6 +41,7 @@ export async function PUT(
     const body = await request.json();
     const { role, isActive } = body;
 
+    // Update role if provided
     if (role) {
       const { error: roleError } = await supabaseAdmin
         .from("user_roles")
@@ -53,8 +52,9 @@ export async function PUT(
       if (roleError) throw roleError;
     }
 
+    // Update active status (ban/unban)
     if (isActive !== undefined) {
-      // Use updateUserById with banned property
+      // Using updateUserById with banned flag
       const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
         banned: !isActive,
       } as any);

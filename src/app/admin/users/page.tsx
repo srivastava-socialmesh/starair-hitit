@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
-import { Plus, Pencil, Trash2, Save, X, UserPlus } from "lucide-react";
+import { Pencil, Trash2, Plus, Save, X } from "lucide-react";
 
 interface User {
   id: string;
@@ -11,21 +11,19 @@ interface User {
   created_at: string;
 }
 
-const ROLES = [
-  { value: 'admin', label: 'Admin' },
-  { value: 'hr', label: 'HR' },
-  { value: 'marketing', label: 'Marketing' },
-  { value: 'revenue', label: 'Revenue' },
-];
-
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [form, setForm] = useState({ email: '', password: '', role: '' });
+  const [showForm, setShowForm] = useState(false);
+  const [editing, setEditing] = useState<User | null>(null);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
   const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -45,78 +43,87 @@ export default function UsersPage() {
     fetchUsers();
   }, []);
 
+  const handleSave = async () => {
+    if (!form.email || !form.password || !form.role) {
+      alert("Email, Password, and Role are required");
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      if (editing) {
+        const res = await fetch(`/api/admin/users/${editing.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role: form.role,
+            isActive: true,
+          }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        setSuccess("User updated!");
+      } else {
+        const res = await fetch("/api/admin/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password,
+            role: form.role,
+          }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        setSuccess("User created!");
+      }
+      setShowForm(false);
+      setEditing(null);
+      setForm({ email: "", password: "", role: "" });
+      fetchUsers();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this user?")) return;
     try {
       const res = await fetch(`/api/admin/users/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Delete failed");
+      if (!res.ok) throw new Error(await res.text());
       fetchUsers();
     } catch (err: any) {
       alert(err.message);
     }
   };
 
-  const handleToggleActive = async (id: string, current: boolean) => {
+  const toggleSuspend = async (user: User) => {
+    const newStatus = !user.is_active;
     try {
-      const res = await fetch(`/api/admin/users/${id}`, {
+      const res = await fetch(`/api/admin/users/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isActive: !current }),
+        body: JSON.stringify({
+          isActive: newStatus,
+          role: user.role,
+        }),
       });
-      if (!res.ok) throw new Error("Update failed");
+      if (!res.ok) throw new Error(await res.text());
       fetchUsers();
     } catch (err: any) {
       alert(err.message);
     }
   };
 
-  const handleEdit = (user: User) => {
-    setEditingUser(user);
-    setForm({ email: user.email, password: '', role: user.role || '' });
-    setShowModal(true);
-  };
-
-  const handleCreate = () => {
-    setEditingUser(null);
-    setForm({ email: '', password: '', role: '' });
-    setShowModal(true);
-  };
-
-  const handleSave = async () => {
-    if (!form.email || !form.role) {
-      alert("Email and Role are required");
-      return;
-    }
-    setSaving(true);
-    try {
-      if (editingUser) {
-        // Update user role
-        const res = await fetch(`/api/admin/users/${editingUser.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: form.role }),
-        });
-        if (!res.ok) throw new Error("Update failed");
-      } else {
-        // Create new user
-        if (!form.password) {
-          alert("Password is required for new user");
-          return;
-        }
-        const res = await fetch("/api/admin/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: form.email, password: form.password, role: form.role }),
-        });
-        if (!res.ok) throw new Error("Create failed");
-      }
-      setShowModal(false);
-      fetchUsers();
-    } catch (err: any) {
-      alert(err.message);
-    } finally {
-      setSaving(false);
-    }
+  const editUser = (user: User) => {
+    setEditing(user);
+    setForm({
+      email: user.email,
+      password: "",
+      role: user.role || "",
+    });
+    setShowForm(true);
   };
 
   return (
@@ -125,19 +132,70 @@ export default function UsersPage() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-amber-400">User Management</h1>
           <button
-            onClick={handleCreate}
+            onClick={() => {
+              setEditing(null);
+              setForm({ email: "", password: "", role: "" });
+              setShowForm(true);
+            }}
             className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-lg"
           >
-            <UserPlus size={18} /> Add User
+            <Plus size={18} /> Add User
           </button>
         </div>
 
         {error && <div className="bg-red-500/20 border border-red-500/50 text-red-300 p-4 rounded-lg mb-4">{error}</div>}
+        {success && <div className="bg-green-500/20 border border-green-500/50 text-green-300 p-4 rounded-lg mb-4">{success}</div>}
+
+        {showForm && (
+          <div className="bg-[#111827] p-6 rounded-xl border border-amber-500/20 mb-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">{editing ? "Edit" : "New"} User</h3>
+              <button onClick={() => { setShowForm(false); setEditing(null); setForm({ email: "", password: "", role: "" }); }} className="text-slate-400 hover:text-white">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <input
+                placeholder="Email *"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+                disabled={!!editing}
+              />
+              <input
+                placeholder="Password *"
+                type="password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+              />
+              <select
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
+                className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
+              >
+                <option value="">Select Role *</option>
+                <option value="admin">Admin</option>
+                <option value="hr">HR</option>
+                <option value="marketing">Marketing</option>
+                <option value="revenue">Revenue</option>
+              </select>
+            </div>
+            <div className="mt-4 flex gap-3">
+              <button onClick={handleSave} disabled={saving} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50">
+                <Save size={18} /> {saving ? "Saving..." : "Save"}
+              </button>
+              <button onClick={() => { setShowForm(false); setEditing(null); setForm({ email: "", password: "", role: "" }); }} className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg">
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div className="text-center text-slate-400 py-12">Loading...</div>
         ) : users.length === 0 ? (
-          <div className="text-center text-slate-400 py-12">No users yet.</div>
+          <div className="text-center text-slate-400 py-12">No users found.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
@@ -155,16 +213,16 @@ export default function UsersPage() {
                     <td className="p-3">{user.email}</td>
                     <td className="p-3">{user.role || "No role"}</td>
                     <td className="p-3">
-                      <button
-                        onClick={() => handleToggleActive(user.id, user.is_active)}
-                        className={`px-2 py-1 rounded text-xs font-bold ${user.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
-                      >
+                      <span className={`px-2 py-1 rounded text-xs font-bold ${user.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
                         {user.is_active ? "Active" : "Suspended"}
-                      </button>
+                      </span>
                     </td>
                     <td className="p-3 flex gap-2">
-                      <button onClick={() => handleEdit(user)} className="text-blue-400 hover:text-blue-300">
+                      <button onClick={() => editUser(user)} className="text-blue-400 hover:text-blue-300">
                         <Pencil size={18} />
+                      </button>
+                      <button onClick={() => toggleSuspend(user)} className={`${user.is_active ? "text-yellow-400 hover:text-yellow-300" : "text-green-400 hover:text-green-300"}`}>
+                        {user.is_active ? "Suspend" : "Activate"}
                       </button>
                       <button onClick={() => handleDelete(user.id)} className="text-red-400 hover:text-red-300">
                         <Trash2 size={18} />
@@ -174,69 +232,6 @@ export default function UsersPage() {
                 ))}
               </tbody>
             </table>
-          </div>
-        )}
-
-        {/* Modal */}
-        {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="bg-[#111827] rounded-2xl shadow-2xl max-w-md w-full p-6 border border-amber-500/20">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-amber-400">{editingUser ? "Edit User" : "Create User"}</h2>
-                <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-white">
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-300">Email</label>
-                  <input
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
-                    required
-                  />
-                </div>
-                {!editingUser && (
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300">Password</label>
-                    <input
-                      type="password"
-                      value={form.password}
-                      onChange={(e) => setForm({ ...form, password: e.target.value })}
-                      className="w-full bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
-                      required
-                    />
-                  </div>
-                )}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300">Role</label>
-                  <select
-                    value={form.role}
-                    onChange={(e) => setForm({ ...form, role: e.target.value })}
-                    className="w-full bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
-                  >
-                    <option value="">Select role</option>
-                    {ROLES.map((r) => (
-                      <option key={r.value} value={r.value}>{r.label}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="mt-6 flex gap-3">
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50"
-                >
-                  <Save size={18} /> {saving ? "Saving..." : "Save"}
-                </button>
-                <button onClick={() => setShowModal(false)} className="bg-slate-600 hover:bg-slate-700 text-white px-6 py-2 rounded-lg">
-                  Cancel
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </div>
