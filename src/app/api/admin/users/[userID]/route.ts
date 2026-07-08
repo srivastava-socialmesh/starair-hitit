@@ -8,12 +8,10 @@ export async function GET(
   try {
     const { userId } = params;
 
-    // Get user details from auth
     const { data: userData, error: userError } = await supabaseAdmin.auth.admin
       .getUserById(userId);
     if (userError) throw userError;
 
-    // Get user role
     const { data: roleData, error: roleError } = await supabaseAdmin
       .from("user_roles")
       .select("role")
@@ -22,7 +20,6 @@ export async function GET(
 
     if (roleError && roleError.code !== "PGRST116") throw roleError;
 
-    // Check if user is banned (using type assertion to avoid TypeScript error)
     const isBanned = (userData.user as any).banned || false;
 
     return NextResponse.json({
@@ -46,7 +43,6 @@ export async function PUT(
     const body = await request.json();
     const { role, isActive } = body;
 
-    // Update role if provided
     if (role) {
       const { error: roleError } = await supabaseAdmin
         .from("user_roles")
@@ -57,15 +53,12 @@ export async function PUT(
       if (roleError) throw roleError;
     }
 
-    // Update active status (ban/unban)
     if (isActive !== undefined) {
-      if (isActive) {
-        // Unban user
-        await supabaseAdmin.auth.admin.unbanUser(userId);
-      } else {
-        // Ban user
-        await supabaseAdmin.auth.admin.banUser(userId);
-      }
+      // Use updateUserById with banned property
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+        banned: !isActive,
+      } as any);
+      if (error) throw error;
     }
 
     return NextResponse.json({ success: true });
@@ -81,11 +74,9 @@ export async function DELETE(
   try {
     const { userId } = params;
 
-    // Delete user from auth
     const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
     if (error) throw error;
 
-    // Also delete from user_roles
     await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
 
     return NextResponse.json({ success: true });
