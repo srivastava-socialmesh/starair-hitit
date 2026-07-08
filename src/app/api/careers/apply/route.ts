@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { Resend } from "resend";
 
 export async function POST(request: NextRequest) {
@@ -13,47 +13,16 @@ export async function POST(request: NextRequest) {
     const coverLetter = formData.get("coverLetter") as string;
     const resumeFile = formData.get("resume") as File;
 
-    // Validate required fields
     if (!jobId || !careerId || !fullName || !email || !resumeFile) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Validate file size (max 10MB)
-    if (resumeFile.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "File size exceeds 10MB limit" },
-        { status: 400 }
-      );
-    }
-
-    // Validate file type
-    const allowedTypes = [
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
-    if (!allowedTypes.includes(resumeFile.type)) {
-      return NextResponse.json(
-        { error: "Only PDF, DOC, and DOCX files are allowed" },
-        { status: 400 }
-      );
-    }
-
-    const supabase = await createServerClient();
-
-    // Upload resume to Supabase Storage
-    const fileExt = resumeFile.name.split(".").pop();
+    // Upload resume using admin client
+    const fileExt = resumeFile.name.split('.').pop();
     const fileName = `${jobId}_${Date.now()}.${fileExt}`;
     const fileBuffer = await resumeFile.arrayBuffer();
 
-    console.log("Uploading file:", fileName);
-    console.log("File size:", resumeFile.size);
-    console.log("File type:", resumeFile.type);
-
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
       .from("resumes")
       .upload(fileName, fileBuffer, {
         contentType: resumeFile.type,
@@ -62,46 +31,38 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error("Upload error:", uploadError);
-      return NextResponse.json(
-        { error: "Failed to upload resume: " + uploadError.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to upload resume" }, { status: 500 });
     }
 
     // Get public URL
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = supabaseAdmin.storage
       .from("resumes")
       .getPublicUrl(fileName);
 
     const resumeUrl = urlData.publicUrl;
 
-    // Save application to database
-    const { data: application, error: dbError } = await supabase
+    // Insert application using admin client
+    const { data: application, error: dbError } = await supabaseAdmin
       .from("applications")
-      .insert([
-        {
-          career_id: parseInt(careerId),
-          job_id: jobId,
-          full_name: fullName,
-          email,
-          phone,
-          cover_letter: coverLetter || null,
-          resume_url: resumeUrl,
-          status: "pending",
-        },
-      ])
+      .insert([{
+        career_id: parseInt(careerId),
+        job_id: jobId,
+        full_name: fullName,
+        email,
+        phone,
+        cover_letter: coverLetter || null,
+        resume_url: resumeUrl,
+        status: 'pending',
+      }])
       .select()
       .single();
 
     if (dbError) {
       console.error("DB error:", dbError);
-      return NextResponse.json(
-        { error: "Failed to save application: " + dbError.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to save application" }, { status: 500 });
     }
 
-    // Send email notification if Resend API key is available
+    // Send email notification (if Resend is configured)
     const resendApiKey = process.env.RESEND_API_KEY;
     if (resendApiKey) {
       const resend = new Resend(resendApiKey);
@@ -129,9 +90,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, application });
   } catch (error: any) {
     console.error("Application error:", error);
-    return NextResponse.json(
-      { error: error.message || "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

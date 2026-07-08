@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 import { Pencil, Trash2, Plus, Save, X, FileText } from "lucide-react";
 
 interface FareSheet {
@@ -25,12 +25,11 @@ export default function FareSheetsManager() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const supabase = createClient();
 
   const fetchItems = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from("fare_sheets")
         .select("*")
         .order("created_at", { ascending: false });
@@ -63,7 +62,7 @@ export default function FareSheetsManager() {
     setUploading(true);
     try {
       const fileName = `fare_sheet_${Date.now()}_${file.name}`;
-      const { data, error } = await supabase.storage
+      const { data, error } = await supabaseAdmin.storage
         .from("fare_sheets")
         .upload(fileName, file, {
           cacheControl: "3600",
@@ -75,7 +74,7 @@ export default function FareSheetsManager() {
         throw new Error(error.message);
       }
 
-      const { data: urlData } = supabase.storage
+      const { data: urlData } = supabaseAdmin.storage
         .from("fare_sheets")
         .getPublicUrl(fileName);
 
@@ -119,7 +118,7 @@ export default function FareSheetsManager() {
       };
 
       if (editing) {
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
           .from("fare_sheets")
           .update(payload)
           .eq("id", editing.id);
@@ -135,7 +134,7 @@ export default function FareSheetsManager() {
           alert("Please upload a PDF file");
           return;
         }
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
           .from("fare_sheets")
           .insert([payload]);
         if (error) {
@@ -164,7 +163,7 @@ export default function FareSheetsManager() {
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this fare sheet?")) return;
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from("fare_sheets")
         .delete()
         .eq("id", id);
@@ -182,7 +181,7 @@ export default function FareSheetsManager() {
 
   const toggleActive = async (id: number, current: boolean) => {
     try {
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from("fare_sheets")
         .update({ is_active: !current })
         .eq("id", id);
