@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   Briefcase,
+  Users,
 } from "lucide-react";
 
 const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
@@ -32,6 +33,7 @@ const allNavItems = [
   { name: "Careers", href: "/admin/careers", icon: Briefcase, roles: ['admin', 'hr'] },
   { name: "Applications", href: "/admin/applications", icon: FileText, roles: ['admin', 'hr'] },
   { name: "News", href: "/admin/news", icon: Newspaper, roles: ['admin', 'marketing'] },
+  { name: "users", href: "/admin/users", icon: Users, roles: ['admin'] }, 
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
