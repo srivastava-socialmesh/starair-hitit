@@ -1,46 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    // Fetch all users from Auth
-    const { data: users, error } = await supabaseAdmin.auth.admin.listUsers();
+    const { email, password, role } = await request.json();
 
-    if (error) {
-      console.error("Auth listUsers error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!email || !password || !role) {
+      return NextResponse.json({ error: "Email, password, and role are required" }, { status: 400 });
     }
 
-    // Get all user roles in one query
-    const { data: roles, error: rolesError } = await supabaseAdmin
+    // Create user in Auth
+    const { data, error } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
+    });
+
+    if (error) throw error;
+
+    const userId = data.user.id;
+
+    // Assign role
+    const { error: roleError } = await supabaseAdmin
       .from("user_roles")
-      .select("user_id, role");
+      .insert({ user_id: userId, role });
 
-    if (rolesError && rolesError.code !== "PGRST116") {
-      console.error("Roles fetch error:", rolesError);
-      // Continue without roles – we'll show null for role
-    }
+    if (roleError) throw roleError;
 
-    // Build a map of user_id -> role
-    const roleMap: Record<string, string> = {};
-    if (roles) {
-      roles.forEach((r: any) => {
-        roleMap[r.user_id] = r.role;
-      });
-    }
-
-    // Format response
-    const formattedUsers = users.users.map((user: any) => ({
-      id: user.id,
-      email: user.email,
-      role: roleMap[user.id] || null,
-      is_active: !user.banned,
-      created_at: user.created_at,
-    }));
-
-    return NextResponse.json(formattedUsers);
+    return NextResponse.json({ success: true, user: data.user });
   } catch (error: any) {
-    console.error("Unexpected error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
