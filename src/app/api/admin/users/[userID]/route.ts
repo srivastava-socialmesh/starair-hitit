@@ -22,11 +22,14 @@ export async function GET(
 
     if (roleError && roleError.code !== "PGRST116") throw roleError;
 
+    // TypeScript workaround: user.banned exists but may not be in type definitions
+    const isBanned = (userData.user as any).banned || false;
+
     return NextResponse.json({
       id: userData.user.id,
       email: userData.user.email,
       role: roleData?.role || null,
-      is_active: !userData.user.banned,
+      is_active: !isBanned,
       created_at: userData.user.created_at,
     });
   } catch (error: any) {
