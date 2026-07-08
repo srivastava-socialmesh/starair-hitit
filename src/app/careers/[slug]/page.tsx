@@ -8,33 +8,31 @@ import ApplicationForm from "@/components/ApplicationForm";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export default async function CareerDetailPage({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  // Debug: log all searchParams
-  console.log("All searchParams:", JSON.stringify(searchParams, null, 2));
+type Props = {
+  params: Promise<{
+    slug: string;
+  }>;
+  searchParams?: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+};
 
-  // Get slug from various sources
-  let slug = params?.slug || searchParams?.slug || searchParams?.nxtPslug || null;
+export default async function CareerDetailPage({ params }: Props) {
+  const { slug } = await params;
 
-  // Ensure slug is a string (if it's an array, take the first element)
-  if (Array.isArray(slug)) {
-    slug = slug[0];
-  }
-
-  console.log("Career slug received:", slug);
+  console.log("==================================");
+  console.log("Resolved slug:", slug);
+  console.log("==================================");
 
   if (!slug) {
-    console.error("No slug provided in params or searchParams");
+    console.error("Slug is missing");
     notFound();
   }
 
   try {
     const supabase = await createServerClient();
+
+    console.log("Searching careers where job_id =", slug);
 
     // Try by job_id
     let { data: job, error } = await supabase
@@ -43,6 +41,9 @@ export default async function CareerDetailPage({
       .eq("job_id", slug)
       .eq("is_active", true)
       .maybeSingle();
+
+    console.log("Supabase result (job_id):", job);
+    console.log("Supabase error (job_id):", error);
 
     // If not found and slug is numeric, try by id (fallback)
     if (!job && !isNaN(parseInt(slug))) {
@@ -54,6 +55,8 @@ export default async function CareerDetailPage({
         .maybeSingle();
       job = jobById;
       error = errorById;
+      console.log("Supabase result (id):", job);
+      console.log("Supabase error (id):", error);
     }
 
     if (error) {

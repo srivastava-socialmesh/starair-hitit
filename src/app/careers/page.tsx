@@ -25,9 +25,7 @@ export default async function CareersPage() {
         <div className="text-center mb-16">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Join Our Team</span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mt-2">Shape the <span className="text-accent">Future</span> of Aviation</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-            We're looking for passionate individuals to join our growing family.
-          </p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-4">We're looking for passionate individuals to join our growing family.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 text-center">
@@ -81,7 +79,7 @@ export default async function CareersPage() {
                     href={`/careers/${job.job_id}`}
                     className="inline-block bg-accent hover:bg-[#b00226] text-white font-semibold py-2 px-6 rounded-full text-sm transition shadow-md"
                   >
-                    View Details
+                    View Details ({job.job_id})
                   </Link>
                 </div>
               </div>
