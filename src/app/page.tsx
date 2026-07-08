@@ -6,12 +6,13 @@ import ProductsSlider from "@/components/sections/ProductsSlider";
 import Loyalty from "@/components/sections/Loyalty";
 import NewsFeed from "@/components/sections/NewsFeed";
 import Stats from "@/components/sections/Stats";
+import LatestFareSheet from "@/components/sections/LatestFareSheet";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="bg-white min-h-screen overflow-x-hidden">
+    <main className="bg-white min-h-screen">
       <Navbar />
       <Hero />
       <Destinations />
@@ -47,6 +48,19 @@ export default function Home() {
 
       <NewsFeed />
       <Stats />
+
+      {/* Latest Fare Sheet Section */}
+      <section className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-accent text-sm font-semibold uppercase tracking-wider">📄 Latest Tariff</span>
+            <h2 className="text-3xl font-bold text-gray-900">Fare <span className="text-accent">Sheets</span></h2>
+            <p className="text-gray-500 mt-1">Download our latest fare documents</p>
+          </div>
+          <LatestFareSheet />
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
