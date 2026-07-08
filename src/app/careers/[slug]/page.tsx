@@ -15,11 +15,16 @@ export default async function CareerDetailPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  // Get slug from params, or from searchParams as fallback
-  const rawSlug = params?.slug || searchParams?.slug || searchParams?.nxtPslug || null;
+  // Debug: log all searchParams
+  console.log("All searchParams:", JSON.stringify(searchParams, null, 2));
+
+  // Get slug from various sources
+  let slug = params?.slug || searchParams?.slug || searchParams?.nxtPslug || null;
 
   // Ensure slug is a string (if it's an array, take the first element)
-  const slug = Array.isArray(rawSlug) ? rawSlug[0] : rawSlug;
+  if (Array.isArray(slug)) {
+    slug = slug[0];
+  }
 
   console.log("Career slug received:", slug);
 
