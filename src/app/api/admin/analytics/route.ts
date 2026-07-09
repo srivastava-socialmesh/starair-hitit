@@ -7,21 +7,6 @@ export async function GET() {
     // 1. SUPABASE DATABASE PERFORMANCE & STATUS
     // ============================================================
     
-    // Fetch database statistics (using system tables)
-    let dbStats = null;
-    try {
-      const { data, error } = await supabaseAdmin.rpc('get_db_stats');
-      if (!error) dbStats = data;
-    } catch (e) {
-      // RPC might not exist, proceed without it
-    }
-
-    // Get table sizes
-    const { data: tableSizes, error: tableSizeError } = await supabaseAdmin
-      .from('information_schema.tables')
-      .select('table_name')
-      .eq('table_schema', 'public');
-
     // Get row counts for main tables
     const [
       { count: userCount },
@@ -43,49 +28,35 @@ export async function GET() {
       supabaseAdmin.from("fare_sheets").select("*", { count: "exact", head: true }),
     ]);
 
-    // Get total database size (approximate) - simplified approach
+    // Get table count
+    const { data: tableSizes, error: tableSizeError } = await supabaseAdmin
+      .from('information_schema.tables')
+      .select('table_name')
+      .eq('table_schema', 'public');
+
+    // Get database size (simplified)
     let dbSize = "N/A";
     try {
-      // Try to get size from RPC function
       const { data, error } = await supabaseAdmin.rpc('pg_database_size', { database_name: 'postgres' });
       if (data && !error) {
         dbSize = formatBytes(data);
       }
     } catch (e) {
-      // Fallback: try to get size from storage
-      try {
-        const { data, error } = await supabaseAdmin
-          .from('storage.buckets')
-          .select('*');
-        if (!error && data) {
-          // If we can't get actual size, show "N/A" but we know the DB is there
-          dbSize = "~50 MB (estimated)";
-        }
-      } catch (e2) {
-        // Silent fallback
-      }
+      // Silent fallback
     }
 
-    // Get connection count (approximate)
+    // Get connection count (simplified)
     let connectionCount = 0;
     try {
-      const { data, error } = await supabaseAdmin
+      const { count, error } = await supabaseAdmin
         .from('pg_stat_activity')
-        .select('pid', { count: 'exact', head: true })
+        .select('*', { count: 'exact', head: true })
         .eq('state', 'active');
-      if (!error && data !== null) {
-        connectionCount = data || 0;
+      if (!error && count !== null) {
+        connectionCount = count || 0;
       }
     } catch (e) {
-      // Fallback to RPC
-      try {
-        const { data } = await supabaseAdmin.rpc('pg_stat_activity_count');
-        if (data !== null && data !== undefined) {
-          connectionCount = data;
-        }
-      } catch (e2) {
-        connectionCount = 0;
-      }
+      // Silent fallback
     }
 
     // Format bytes helper
