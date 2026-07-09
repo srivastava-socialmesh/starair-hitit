@@ -14,11 +14,7 @@ import {
   Server,
   Activity,
   Database,
-  Cpu,
-  BarChart,
   CheckCircle,
-  AlertCircle,
-  Shield,
   Zap,
 } from "lucide-react";
 
@@ -45,7 +41,6 @@ interface AnalyticsData {
     region: string;
     branch: string;
     commit: string;
-    build_time: string;
     framework: string;
     status: string;
   };
@@ -87,17 +82,15 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-pulse h-24"></div>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {[...Array(2)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-pulse h-48"></div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-pulse h-24"></div>
+          ))}
+        </div>
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-pulse h-48"></div>
+          ))}
         </div>
       </AdminLayout>
     );
@@ -116,16 +109,10 @@ export default function AdminDashboard() {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-            <p className="text-sm text-gray-500">Welcome back! Here's what's happening.</p>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Clock size={16} />
-            <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
-          </div>
+        {/* Time Stamp */}
+        <div className="flex items-center justify-end text-sm text-gray-500">
+          <Clock size={16} className="mr-2" />
+          <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
         </div>
 
         {/* Stats Grid */}
@@ -148,7 +135,7 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Database Performance Card */}
+        {/* Database Performance */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
             <Database size={20} className="text-gray-500" />
@@ -167,7 +154,7 @@ export default function AdminDashboard() {
               <p className="text-lg font-bold text-gray-800">{stats?.database.size || "N/A"}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-sm text-gray-500">Active Connections</p>
+              <p className="text-sm text-gray-500">Connections</p>
               <p className="text-lg font-bold text-gray-800">{stats?.database.connections || 0}</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-4">
@@ -178,7 +165,7 @@ export default function AdminDashboard() {
           <p className="text-xs text-gray-400 mt-4">Last checked: {stats?.timestamp ? new Date(stats.timestamp).toLocaleString() : "N/A"}</p>
         </div>
 
-        {/* Vercel Performance Card */}
+        {/* Vercel Deployment */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
             <Server size={20} className="text-gray-500" />
@@ -211,7 +198,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Total Content Card */}
+        {/* Total Content */}
         <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-6 text-white shadow-lg">
           <div className="flex items-center justify-between">
             <div>
