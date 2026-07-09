@@ -8,8 +8,14 @@ export async function GET() {
     // ============================================================
     
     // Fetch database statistics (using system tables)
-    const dbStats = await supabaseAdmin.rpc('get_db_stats').catch(() => null);
-    
+    let dbStats = null;
+    try {
+      const { data, error } = await supabaseAdmin.rpc('get_db_stats');
+      if (!error) dbStats = data;
+    } catch (e) {
+      // RPC might not exist, proceed without it
+    }
+
     // Get table sizes
     const { data: tableSizes, error: tableSizeError } = await supabaseAdmin
       .from('information_schema.tables')
@@ -38,27 +44,60 @@ export async function GET() {
     ]);
 
     // Get total database size (approximate)
-    const { data: dbSizeData } = await supabaseAdmin
-      .rpc('pg_database_size', { database_name: 'postgres' })
-      .catch(() => null);
+    let dbSize = "N/A";
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('pg_database')
+        .select('datname, pg_database_size(oid) as size')
+        .eq('datname', 'postgres')
+        .maybeSingle();
+      if (data && !error) {
+        const sizeInBytes = data.size || 0;
+        dbSize = sizeInBytes > 0 ? formatBytes(sizeInBytes) : "N/A";
+      }
+    } catch (e) {
+      // Fallback to pg_database_size function
+      try {
+        const { data } = await supabaseAdmin.rpc('pg_database_size', { database_name: 'postgres' });
+        if (data) dbSize = data;
+      } catch (e2) {}
+    }
 
     // Get connection count (approximate)
-    const { data: connections } = await supabaseAdmin
-      .rpc('pg_stat_activity_count')
-      .catch(() => null);
+    let connectionCount = 0;
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('pg_stat_activity')
+        .select('pid', { count: 'exact', head: true })
+        .eq('state', 'active');
+      if (!error) connectionCount = data || 0;
+    } catch (e) {
+      // Fallback to RPC
+      try {
+        const { data } = await supabaseAdmin.rpc('pg_stat_activity_count');
+        if (data) connectionCount = data;
+      } catch (e2) {}
+    }
+
+    // Format bytes helper
+    function formatBytes(bytes: number): string {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
 
     // ============================================================
     // 2. VERCEL PERFORMANCE & STATUS
     // ============================================================
 
-    // Vercel deployment stats (from environment)
     const vercelStats = {
       deployment_url: process.env.VERCEL_URL || "N/A",
       environment: process.env.VERCEL_ENV || "development",
       region: process.env.VERCEL_REGION || "unknown",
       branch: process.env.VERCEL_GIT_COMMIT_REF || "main",
       commit: process.env.VERCEL_GIT_COMMIT_SHA || "unknown",
-      build_time: process.env.VERCEL_BUILD_TIME || "unknown",
       framework: "Next.js 16.2.9",
       status: "active",
     };
@@ -68,7 +107,6 @@ export async function GET() {
     // ============================================================
 
     const stats = {
-      // User & Content Stats
       users: userCount || 0,
       deals: dealsCount || 0,
       products: productsCount || 0,
@@ -79,19 +117,15 @@ export async function GET() {
       fareSheets: fareSheetsCount || 0,
       total_content: (dealsCount || 0) + (productsCount || 0) + (blogsCount || 0) + (newsCount || 0),
       
-      // Database Performance
       database: {
-        size: dbSizeData || "N/A",
-        connections: connections || 0,
+        size: dbSize || "N/A",
+        connections: connectionCount || 0,
         tables: tableSizes?.length || 0,
         status: "healthy",
         last_check: new Date().toISOString(),
       },
       
-      // Vercel Performance
       vercel: vercelStats,
-      
-      // Timestamp
       timestamp: new Date().toISOString(),
     };
 
@@ -100,7 +134,6 @@ export async function GET() {
     console.error("Analytics error:", error);
     return NextResponse.json({ 
       error: error.message,
-      // Return partial data if possible
       timestamp: new Date().toISOString(),
     }, { status: 500 });
   }
