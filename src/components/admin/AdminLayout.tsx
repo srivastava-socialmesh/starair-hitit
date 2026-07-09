@@ -53,7 +53,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -97,27 +97,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return acc;
   }, {} as Record<string, NavItem[]>);
 
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+  // Auto-hide sidebar on mouse leave when collapsed
+  const handleMouseEnter = () => {
+    if (isCollapsed) {
+      setIsCollapsed(false);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isCollapsed) {
+      setIsCollapsed(true);
+    }
   };
 
   if (!isMounted) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 flex">
-      {/* Sidebar */}
+      {/* Sidebar - auto-hide */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-200 transform transition-all duration-300 ${
+        className={`fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-200 shadow-lg transition-all duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 ${
-          sidebarCollapsed ? "w-20" : "w-64"
-        } shadow-lg flex flex-col`}
+          isCollapsed ? "w-16" : "w-64"
+        } flex flex-col`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {/* Logo – compact, no clickable link */}
+        {/* Logo – compact */}
         <div className={`border-b border-gray-200 flex items-center justify-center ${
-          sidebarCollapsed ? "p-2 h-16" : "p-3 h-20"
+          isCollapsed ? "p-2 h-16" : "p-3 h-20"
         }`}>
-          <div className={`relative ${sidebarCollapsed ? "w-12 h-12" : "w-24 h-16"}`}>
+          <div className={`relative ${isCollapsed ? "w-10 h-10" : "w-24 h-16"}`}>
             {!logoError ? (
               <Image
                 src={LOGO_URL}
@@ -134,19 +145,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </div>
 
-        {/* Collapse Toggle Button */}
-        <button
-          onClick={toggleSidebar}
-          className="absolute -right-3 top-20 bg-white border border-gray-200 rounded-full p-1 shadow-md hover:bg-gray-50 transition hidden md:block"
-        >
-          {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-        </button>
-
         {/* Navigation */}
-        <nav className={`flex-1 overflow-y-auto ${sidebarCollapsed ? "px-2 py-4" : "p-4"}`}>
+        <nav className={`flex-1 overflow-y-auto ${isCollapsed ? "px-2 py-4" : "p-4"}`}>
           {Object.keys(categories).map((cat) => (
             <div key={cat} className="mb-6">
-              {!sidebarCollapsed && (
+              {!isCollapsed && (
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
                   {cat}
                 </h3>
@@ -162,11 +165,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         isActive
                           ? "bg-amber-50 text-amber-800 font-semibold"
                           : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                      } ${sidebarCollapsed ? "justify-center p-3" : "px-4 py-2.5"}`}
-                      title={sidebarCollapsed ? item.name : ""}
+                      } ${isCollapsed ? "justify-center p-3" : "px-4 py-2.5"}`}
+                      title={isCollapsed ? item.name : ""}
                     >
                       <item.icon size={20} className={`${isActive ? "text-amber-600" : item.color}`} />
-                      {!sidebarCollapsed && <span className="text-sm">{item.name}</span>}
+                      {!isCollapsed && <span className="text-sm">{item.name}</span>}
                     </Link>
                   );
                 })}
@@ -182,7 +185,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
+        isCollapsed ? "md:ml-16" : "md:ml-64"
+      }`}>
         {/* Top bar */}
         <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center gap-4">
