@@ -1,173 +1,158 @@
 "use client";
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
-import { createClient } from "@/lib/supabase/client";
 import { 
-  Percent, 
+  Users, 
   Package, 
   FileText, 
   Newspaper, 
-  BookOpen, 
+  Percent, 
+  Briefcase, 
   Table,
   TrendingUp,
-  Clock
+  Clock,
+  Server,
+  Activity,
+  Database,
 } from "lucide-react";
 
-interface Stats {
+interface AnalyticsData {
+  users: number;
   deals: number;
   products: number;
   blogs: number;
-  media: number;
-  magazines: number;
+  news: number;
+  applications: number;
+  careers: number;
   fareSheets: number;
+  total_content: number;
+  vercel: {
+    deployment_url: string;
+    environment: string;
+    region: string;
+    build_time: string;
+  };
+  timestamp: string;
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [stats, setStats] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchAnalytics = async () => {
       try {
-        const [
-          { count: deals },
-          { count: products },
-          { count: blogs },
-          { count: media },
-          { count: magazines },
-          { count: fareSheets },
-        ] = await Promise.all([
-          supabase.from("deals").select("*", { count: "exact", head: true }),
-          supabase.from("products").select("*", { count: "exact", head: true }),
-          supabase.from("blogs").select("*", { count: "exact", head: true }),
-          supabase.from("media").select("*", { count: "exact", head: true }),
-          supabase.from("magazines").select("*", { count: "exact", head: true }),
-          supabase.from("fare_sheets").select("*", { count: "exact", head: true }),
-        ]);
-
-        setStats({
-          deals: deals || 0,
-          products: products || 0,
-          blogs: blogs || 0,
-          media: media || 0,
-          magazines: magazines || 0,
-          fareSheets: fareSheets || 0,
-        });
-      } catch (error) {
-        console.error("Error fetching stats:", error);
+        const res = await fetch("/api/admin/analytics");
+        if (!res.ok) throw new Error("Failed to fetch analytics");
+        const data = await res.json();
+        setStats(data);
+      } catch (err: any) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchStats();
+    fetchAnalytics();
   }, []);
 
   const statCards = [
-    { label: "Deals", value: stats?.deals || 0, icon: Percent, color: "from-red-500 to-orange-500" },
-    { label: "Products", value: stats?.products || 0, icon: Package, color: "from-blue-500 to-cyan-500" },
-    { label: "Blogs", value: stats?.blogs || 0, icon: FileText, color: "from-green-500 to-emerald-500" },
-    { label: "Media Coverage", value: stats?.media || 0, icon: Newspaper, color: "from-purple-500 to-pink-500" },
-    { label: "Magazines", value: stats?.magazines || 0, icon: BookOpen, color: "from-amber-500 to-yellow-500" },
-    { label: "Fare Sheets", value: stats?.fareSheets || 0, icon: Table, color: "from-indigo-500 to-blue-500" },
+    { label: "Users", value: stats?.users || 0, icon: Users, color: "bg-blue-100 text-blue-600" },
+    { label: "Deals", value: stats?.deals || 0, icon: Percent, color: "bg-red-100 text-red-600" },
+    { label: "Products", value: stats?.products || 0, icon: Package, color: "bg-green-100 text-green-600" },
+    { label: "Blogs", value: stats?.blogs || 0, icon: FileText, color: "bg-purple-100 text-purple-600" },
+    { label: "News", value: stats?.news || 0, icon: Newspaper, color: "bg-amber-100 text-amber-600" },
+    { label: "Applications", value: stats?.applications || 0, icon: Briefcase, color: "bg-indigo-100 text-indigo-600" },
+    { label: "Careers", value: stats?.careers || 0, icon: TrendingUp, color: "bg-teal-100 text-teal-600" },
+    { label: "Fare Sheets", value: stats?.fareSheets || 0, icon: Table, color: "bg-rose-100 text-rose-600" },
   ];
 
   return (
     <AdminLayout>
-      <div className="space-y-8">
+      <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-              Dashboard
-            </h1>
-            <p className="text-slate-400 text-sm mt-1">
-              Welcome back! Here's what's happening with your content.
-            </p>
+            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <p className="text-sm text-gray-500">Welcome back! Here's what's happening.</p>
           </div>
-          <div className="flex items-center gap-2 text-slate-400 text-sm">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
             <Clock size={16} />
             <span>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
         </div>
 
-        {/* Stats Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-[#111827]/50 animate-pulse rounded-2xl p-6 h-28"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-pulse h-24"></div>
             ))}
+          </div>
+        ) : error ? (
+          <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl">
+            Error loading analytics: {error}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {statCards.map((card) => (
-              <div
-                key={card.label}
-                className="group bg-[#111827]/50 backdrop-blur-sm border border-white/5 hover:border-amber-500/30 rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-amber-500/5"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-slate-400 text-sm font-medium">{card.label}</p>
-                    <p className="text-3xl font-bold text-white mt-1">{card.value}</p>
-                  </div>
-                  <div className={`bg-gradient-to-br ${card.color} p-3 rounded-xl shadow-lg shadow-${card.color.split(' ')[0]}/20`}>
-                    <card.icon size={24} className="text-white" />
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center gap-1 text-xs text-green-400">
-                  <TrendingUp size={14} />
-                  <span>+12% from last month</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Quick Actions / Recent Activity (placeholder) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-[#111827]/50 backdrop-blur-sm border border-white/5 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-amber-400 mb-4">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { label: "Add Deal", href: "/admin/deals", icon: Percent },
-                { label: "Add Product", href: "/admin/products", icon: Package },
-                { label: "Write Blog", href: "/admin/blogs", icon: FileText },
-                { label: "Upload Magazine", href: "/admin/magazines", icon: BookOpen },
-              ].map((action) => (
-                <a
-                  key={action.label}
-                  href={action.href}
-                  className="flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-amber-500/10 rounded-xl transition border border-white/5 hover:border-amber-500/20"
+          <>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {statCards.map((card) => (
+                <div
+                  key={card.label}
+                  className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition"
                 >
-                  <action.icon size={18} className="text-amber-400" />
-                  <span className="text-sm text-slate-300">{action.label}</span>
-                </a>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-gray-500 font-medium">{card.label}</p>
+                      <p className="text-2xl font-bold text-gray-800 mt-1">{card.value}</p>
+                    </div>
+                    <div className={`p-3 rounded-xl ${card.color}`}>
+                      <card.icon size={24} />
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
 
-          <div className="bg-[#111827]/50 backdrop-blur-sm border border-white/5 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold text-amber-400 mb-4">Recent Activity</h3>
-            <div className="space-y-3 text-sm text-slate-400">
-              <div className="flex items-center gap-3 border-b border-white/5 pb-3">
-                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                <span>New deal added: "Summer Sale"</span>
-                <span className="ml-auto text-xs">2h ago</span>
-              </div>
-              <div className="flex items-center gap-3 border-b border-white/5 pb-3">
-                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                <span>Product updated: "Business Class"</span>
-                <span className="ml-auto text-xs">5h ago</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="w-2 h-2 bg-amber-400 rounded-full"></span>
-                <span>New blog published: "Luxury Travel Tips"</span>
-                <span className="ml-auto text-xs">1d ago</span>
+            {/* Total Content Card */}
+            <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-6 text-white shadow-lg">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-amber-100 text-sm font-medium">Total Content</p>
+                  <p className="text-3xl font-bold mt-1">{stats?.total_content || 0}</p>
+                  <p className="text-amber-100 text-sm mt-1">Deals + Products + Blogs + News</p>
+                </div>
+                <Activity size={48} className="text-amber-200 opacity-50" />
               </div>
             </div>
-          </div>
-        </div>
+
+            {/* Vercel Deployment Info */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
+                <Server size={20} className="text-gray-500" />
+                Deployment Information
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-500">Environment</p>
+                  <p className="font-medium text-gray-800 capitalize">{stats?.vercel.environment || "N/A"}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Region</p>
+                  <p className="font-medium text-gray-800">{stats?.vercel.region || "N/A"}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Deployment URL</p>
+                  <p className="font-medium text-gray-800 truncate">{stats?.vercel.deployment_url || "N/A"}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500">Last Updated</p>
+                  <p className="font-medium text-gray-800">{stats?.timestamp ? new Date(stats.timestamp).toLocaleString() : "N/A"}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </AdminLayout>
   );
