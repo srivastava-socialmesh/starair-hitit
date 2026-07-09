@@ -19,7 +19,6 @@ import {
   ChevronDown,
   User,
   Settings,
-  Home,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -63,8 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        setUserEmail(user.email);
-        // Fetch role from API
+        setUserEmail(user.email || null);
         try {
           const res = await fetch("/api/user/role");
           if (res.ok) {
