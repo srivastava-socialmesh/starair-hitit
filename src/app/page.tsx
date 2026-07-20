@@ -50,18 +50,6 @@ export default function Home() {
       <NewsFeed />
       <Stats />
 
-      {/* Latest Fare Sheet Section */}
-      <section className="py-12 px-4 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
-          <div className="text-center mb-8">
-            <span className="text-accent text-sm font-semibold uppercase tracking-wider">📄 Latest Tariff</span>
-            <h2 className="text-3xl font-bold text-gray-900">Fare <span className="text-accent">Sheets</span></h2>
-            <p className="text-gray-500 mt-1">Download our latest fare documents</p>
-          </div>
-          <LatestFareSheet />
-        </div>
-      </section>
-
       <Footer />
     </main>
   );
