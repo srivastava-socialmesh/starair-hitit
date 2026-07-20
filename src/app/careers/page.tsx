@@ -2,6 +2,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
+import ApplicationForm from "@/components/ApplicationForm";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -86,6 +87,13 @@ export default async function CareersPage() {
             ))}
           </div>
         )}
+
+        {/* Quick Apply Form */}
+        <div className="mt-16 bg-gray-50 rounded-2xl p-8 border border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">Don't see the right role?</h2>
+          <p className="text-gray-600 text-center mb-6">Submit your application and we'll keep you in mind for future opportunities.</p>
+          <ApplicationForm />
+        </div>
       </div>
       <Footer />
     </main>

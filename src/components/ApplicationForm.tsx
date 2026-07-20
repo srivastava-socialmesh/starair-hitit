@@ -1,137 +1,174 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
-interface ApplicationFormProps {
-  jobId: string;
-  careerId: number;
-}
-
-export default function ApplicationForm({ jobId, careerId }: ApplicationFormProps) {
+export default function ApplicationForm() {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
+    position: "",
+    experience: "",
+    resumeFile: null as File | null,
     coverLetter: "",
   });
-  const [resume, setResume] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setResume(e.target.files[0]);
+      setFormData({ ...formData, resumeFile: e.target.files[0] });
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!resume) {
-      setMessage({ type: "error", text: "Please upload your resume." });
-      return;
-    }
-
     setLoading(true);
-    setMessage(null);
-
-    const data = new FormData();
-    data.append("jobId", jobId);
-    data.append("careerId", String(careerId));
-    data.append("fullName", formData.fullName);
-    data.append("email", formData.email);
-    data.append("phone", formData.phone);
-    data.append("coverLetter", formData.coverLetter);
-    data.append("resume", resume);
 
     try {
-      const res = await fetch("/api/careers/apply", {
-        method: "POST",
-        body: data,
-      });
-      const result = await res.json();
-      if (res.ok) {
-        setMessage({ type: "success", text: "Application submitted successfully!" });
-        setFormData({ fullName: "", email: "", phone: "", coverLetter: "" });
-        setResume(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        setMessage({ type: "error", text: result.error || "Something went wrong." });
+      const supabase = createClient();
+
+      // Upload resume to Supabase Storage
+      let resumeUrl = "";
+      if (formData.resumeFile) {
+        const fileExt = formData.resumeFile.name.split(".").pop();
+        const fileName = `${Date.now()}-${formData.fullName.replace(/\s/g, "_")}.${fileExt}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("resumes")
+          .upload(fileName, formData.resumeFile);
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("resumes")
+          .getPublicUrl(fileName);
+
+        resumeUrl = publicUrlData.publicUrl;
       }
-    } catch (err) {
-      setMessage({ type: "error", text: "Network error. Please try again." });
+
+      // Insert application into database
+      const { error } = await supabase.from("applications").insert({
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        position: formData.position || "General Application",
+        experience: formData.experience,
+        resume_url: resumeUrl,
+        cover_letter: formData.coverLetter,
+      });
+
+      if (error) throw error;
+
+      alert("Application submitted successfully!");
+      setFormData({
+        fullName: "",
+        email: "",
+        phone: "",
+        position: "",
+        experience: "",
+        resumeFile: null,
+        coverLetter: "",
+      });
+    } catch (err: any) {
+      alert("Error submitting application: " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Full Name *</label>
+          <input
+            type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleChange}
+            required
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Email *</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Phone</label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Position Applying For</label>
+          <input
+            type="text"
+            name="position"
+            value={formData.position}
+            onChange={handleChange}
+            placeholder="e.g., Software Engineer"
+            className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
+          />
+        </div>
+      </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700">Full Name *</label>
+        <label className="block text-sm font-medium text-gray-700">Years of Experience</label>
         <input
           type="text"
-          name="fullName"
-          required
-          value={formData.fullName}
+          name="experience"
+          value={formData.experience}
           onChange={handleChange}
-          className="w-full border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:border-accent outline-none transition"
+          placeholder="e.g., 3-5 years"
+          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
         />
       </div>
+
       <div>
-        <label className="block text-sm font-medium text-gray-700">Email *</label>
+        <label className="block text-sm font-medium text-gray-700">Resume / CV *</label>
         <input
-          type="email"
-          name="email"
+          type="file"
+          accept=".pdf,.doc,.docx"
+          onChange={handleFileChange}
           required
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:border-accent outline-none transition"
+          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-[#b00226]"
         />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Phone</label>
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:border-accent outline-none transition"
-        />
-      </div>
+
       <div>
         <label className="block text-sm font-medium text-gray-700">Cover Letter</label>
         <textarea
           name="coverLetter"
-          rows={4}
           value={formData.coverLetter}
           onChange={handleChange}
-          className="w-full border border-gray-300 rounded-xl px-4 py-2 text-gray-800 focus:border-accent outline-none transition"
+          rows={4}
+          placeholder="Tell us why you'd be a great fit..."
+          className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl focus:border-accent focus:ring-accent outline-none transition"
         />
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Resume (PDF, DOC, DOCX) *</label>
-        <input
-          type="file"
-          ref={fileInputRef}
-          accept=".pdf,.doc,.docx"
-          onChange={handleFileChange}
-          required
-          className="w-full border border-gray-300 rounded-xl px-4 py-2 text-gray-800 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent file:text-white hover:file:bg-[#b00226] transition"
-        />
-      </div>
-      {message && (
-        <div className={`p-3 rounded-xl text-sm ${message.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"}`}>
-          {message.text}
-        </div>
-      )}
+
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-accent hover:bg-[#b00226] text-white font-bold py-3 rounded-xl shadow-md transition disabled:opacity-70"
+        className="w-full bg-accent hover:bg-[#b00226] text-white font-semibold py-3 px-6 rounded-xl transition disabled:opacity-50"
       >
         {loading ? "Submitting..." : "Submit Application"}
       </button>
