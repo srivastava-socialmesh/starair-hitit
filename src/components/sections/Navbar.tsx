@@ -82,6 +82,9 @@ export default function Navbar() {
             <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
               <Link href="/">About</Link>
             </li>
+            <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
+              <Link href="/fare-sheet">Fare Sheet</Link>
+            </li>
             {/* NEW: Careers link */}
             <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
               <Link href="/careers">Careers</Link>
