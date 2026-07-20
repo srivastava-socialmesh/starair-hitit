@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Pencil, Trash2, Plus, Save, X, ChevronDown, ChevronUp } from "lucide-react";
 
+// 1. Updated FareLevel interface with display_order
 interface FareLevel {
   id?: number;
+  route_id?: number;          // <-- added
   level_number: number;
   fare_type: string;
   fare_amount: number;
   cabin_class: string;
+  display_order: number;      // <-- now required (not optional)
 }
 
 interface Route {
@@ -46,7 +49,12 @@ export default function FareSheetManager() {
           *,
           fare_sheet_levels (*)
         `)
-        .order("display_order", { ascending: true });
+        .order("display_order", { ascending: true })
+        // 6. Sort fare levels by display_order as well
+        .order("display_order", {
+          foreignTable: "fare_sheet_levels",
+          ascending: true,
+        });
 
       if (error) {
         console.error("Fetch error:", error);
@@ -134,13 +142,14 @@ export default function FareSheetManager() {
     setError(null);
     setSuccess(null);
     try {
+      // 2. Updated payload with fallbacks
       const payload = {
         route_id: selectedRouteId!,
-        level_number: levelForm.level_number,
-        fare_type: levelForm.fare_type,
-        fare_amount: levelForm.fare_amount,
-        cabin_class: levelForm.cabin_class,
-        display_order: levelForm.display_order || 0,
+        level_number: levelForm.level_number ?? 1,
+        fare_type: levelForm.fare_type ?? "STANDARD",
+        fare_amount: levelForm.fare_amount ?? 0,
+        cabin_class: levelForm.cabin_class ?? "Economy",
+        display_order: levelForm.display_order ?? 0,
       };
 
       if (editingLevel?.id) {
@@ -195,7 +204,14 @@ export default function FareSheetManager() {
       setLevelForm(level);
     } else {
       setEditingLevel(null);
-      setLevelForm({ cabin_class: "Economy", fare_type: "STANDARD", level_number: 1, fare_amount: 0 });
+      // 3. Updated default with display_order
+      setLevelForm({
+        cabin_class: "Economy",
+        fare_type: "STANDARD",
+        level_number: 1,
+        fare_amount: 0,
+        display_order: 0,
+      });
     }
     setShowLevelForm(true);
   };
@@ -313,10 +329,11 @@ export default function FareSheetManager() {
               <option value="STANDARD">STANDARD</option>
               <option value="MAX">MAX (Maximum)</option>
             </select>
+            {/* 4. Updated input with ?? 0 */}
             <input
               type="number"
               placeholder="Display Order"
-              value={levelForm.display_order || 0}
+              value={levelForm.display_order ?? 0}
               onChange={(e) => setLevelForm({ ...levelForm, display_order: parseInt(e.target.value) || 0 })}
               className="bg-[#0a0e1a] border border-white/10 rounded-lg px-4 py-2 text-white"
             />
@@ -400,7 +417,10 @@ export default function FareSheetManager() {
                                 </span>
                               </td>
                               <td className="py-2 pr-4 text-white font-mono">{level.fare_amount}</td>
-                              <td className="py-2 pr-4 text-slate-400">{level.display_order}</td>
+                              {/* 5. Updated with ?? 0 */}
+                              <td className="py-2 pr-4 text-slate-400">
+                                {level.display_order ?? 0}
+                              </td>
                               <td className="py-2">
                                 <div className="flex gap-2">
                                   <button
