@@ -2,13 +2,19 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-export default function ApplicationForm() {
+interface ApplicationFormProps {
+  jobId?: string;
+  careerId?: number;
+  jobTitle?: string;
+}
+
+export default function ApplicationForm({ jobId, careerId, jobTitle }: ApplicationFormProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    position: "",
+    position: jobTitle || "",
     experience: "",
     resumeFile: null as File | null,
     coverLetter: "",
@@ -31,7 +37,6 @@ export default function ApplicationForm() {
     try {
       const supabase = createClient();
 
-      // Upload resume to Supabase Storage
       let resumeUrl = "";
       if (formData.resumeFile) {
         const fileExt = formData.resumeFile.name.split(".").pop();
@@ -49,15 +54,16 @@ export default function ApplicationForm() {
         resumeUrl = publicUrlData.publicUrl;
       }
 
-      // Insert application into database
       const { error } = await supabase.from("applications").insert({
         full_name: formData.fullName,
         email: formData.email,
         phone: formData.phone,
-        position: formData.position || "General Application",
+        position: formData.position || jobTitle || "General Application",
         experience: formData.experience,
         resume_url: resumeUrl,
         cover_letter: formData.coverLetter,
+        job_id: jobId || null,
+        career_id: careerId || null,
       });
 
       if (error) throw error;
@@ -67,7 +73,7 @@ export default function ApplicationForm() {
         fullName: "",
         email: "",
         phone: "",
-        position: "",
+        position: jobTitle || "",
         experience: "",
         resumeFile: null,
         coverLetter: "",
