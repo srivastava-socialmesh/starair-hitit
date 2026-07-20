@@ -47,6 +47,7 @@ const allNavItems: NavItem[] = [
   { name: "Careers", href: "/admin/careers", icon: Briefcase, roles: ['admin', 'hr'], category: "HR", color: "text-teal-500" },
   { name: "Applications", href: "/admin/applications", icon: FileText, roles: ['admin', 'hr'], category: "HR", color: "text-orange-500" },
   { name: "Users", href: "/admin/users", icon: Users, roles: ['admin'], category: "System", color: "text-violet-500" },
+  { name: "Flight Schedules", href: "/admin/flight-schedules", icon: Table, roles: ["admin", "revenue"], category: "Operations", color: "text-blue-500",},
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
