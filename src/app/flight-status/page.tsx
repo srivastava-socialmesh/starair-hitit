@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -153,7 +153,8 @@ const statusColors: Record<string, string> = {
   Cancelled: "bg-gray-100 text-gray-700",
 };
 
-export default function FlightStatusPage() {
+// Client component that uses useSearchParams
+function FlightStatusContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchType, setSearchType] = useState<"route" | "flight" | "origin">("route");
@@ -162,20 +163,17 @@ export default function FlightStatusPage() {
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // Get unique origins for dropdown
   const uniqueOrigins = Array.from(new Set(mockFlights.map((f) => f.origin_code))).map((code) => {
     const flight = mockFlights.find((f) => f.origin_code === code);
     return { code, name: flight?.origin || code };
   });
 
-  // Get unique destinations for route search
   const uniqueDestinations = Array.from(new Set(mockFlights.map((f) => f.dest_code))).map((code) => {
     const flight = mockFlights.find((f) => f.dest_code === code);
     return { code, name: flight?.destination || code };
   });
 
   useEffect(() => {
-    // Check URL params for initial search
     const type = searchParams.get("type") as "route" | "flight" | "origin" | null;
     const value = searchParams.get("value");
     if (type && value) {
@@ -195,7 +193,6 @@ export default function FlightStatusPage() {
     setLoading(true);
     setHasSearched(true);
 
-    // Simulate API delay
     setTimeout(() => {
       let results: Flight[] = [];
 
@@ -242,7 +239,6 @@ export default function FlightStatusPage() {
     e.preventDefault();
     if (!searchValue.trim()) return;
     performSearch(searchType, searchValue);
-    // Update URL params
     router.push(`/flight-status?type=${searchType}&value=${encodeURIComponent(searchValue)}`);
   };
 
@@ -256,9 +252,7 @@ export default function FlightStatusPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white">
-      <Navbar />
-
+    <>
       {/* Page Header */}
       <section className="pt-28 pb-6 bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -272,7 +266,6 @@ export default function FlightStatusPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
             <form onSubmit={handleSearch} className="space-y-4">
-              {/* Search Type Tabs */}
               <div className="flex flex-wrap gap-2 border-b border-gray-200 pb-4">
                 <button
                   type="button"
@@ -309,7 +302,6 @@ export default function FlightStatusPage() {
                 </button>
               </div>
 
-              {/* Search Input */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="flex-1">
                   {searchType === "route" ? (
@@ -461,7 +453,34 @@ export default function FlightStatusPage() {
           )}
         </div>
       </section>
+    </>
+  );
+}
 
+// Loading fallback for Suspense
+function FlightStatusFallback() {
+  return (
+    <>
+      <section className="pt-28 pb-6 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Flight Status</h1>
+          <p className="text-gray-600 mt-1">Loading...</p>
+        </div>
+      </section>
+      <div className="flex justify-center items-center py-32">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-accent border-t-transparent"></div>
+      </div>
+    </>
+  );
+}
+
+export default function FlightStatusPage() {
+  return (
+    <main className="min-h-screen bg-white">
+      <Navbar />
+      <Suspense fallback={<FlightStatusFallback />}>
+        <FlightStatusContent />
+      </Suspense>
       <Footer />
     </main>
   );
