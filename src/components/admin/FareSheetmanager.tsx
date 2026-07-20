@@ -9,7 +9,7 @@ interface FareLevel {
   fare_type: string;
   fare_amount: number;
   cabin_class: string;
-  display_order?: number;   // <-- ADDED this field
+  display_order?: number;   // <-- ADD THIS
 }
 
 interface Route {
@@ -196,7 +196,13 @@ export default function FareSheetManager() {
       setLevelForm(level);
     } else {
       setEditingLevel(null);
-      setLevelForm({ cabin_class: "Economy", fare_type: "STANDARD", level_number: 1, fare_amount: 0, display_order: 0 });
+      setLevelForm({
+        cabin_class: "Economy",
+        fare_type: "STANDARD",
+        level_number: 1,
+        fare_amount: 0,
+        display_order: 0,   // <-- ADD THIS
+      });
     }
     setShowLevelForm(true);
   };
