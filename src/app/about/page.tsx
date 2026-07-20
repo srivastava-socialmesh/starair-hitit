@@ -11,7 +11,7 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen bg-white">
-      {/* Fixed Background Image */}
+      {/* Fixed Background Image - 70% visible */}
       <div className="fixed inset-0 z-0">
         <Image
           src="https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Aircraft_Tail.jpg"
@@ -21,17 +21,17 @@ export default function AboutPage() {
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-white/85" />{" "}
-        {/* Transparency overlay – adjust opacity as needed */}
+        {/* Overlay at 30% opacity → image is 70% visible */}
+        <div className="absolute inset-0 bg-white/30" />
       </div>
 
       {/* Content */}
       <div className="relative z-10">
         <Navbar />
 
-        {/* Hero Section – now with gradient overlay over the background */}
+        {/* Hero Section – gradient overlay for text contrast */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
             <div className="max-w-2xl">
               <span className="inline-block text-accent text-sm font-semibold uppercase tracking-widest bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full mb-4 border border-white/20">
@@ -48,7 +48,7 @@ export default function AboutPage() {
         </section>
 
         {/* Company Overview */}
-        <section className="py-16 md:py-24 bg-white/80 backdrop-blur-sm">
+        <section className="py-16 md:py-24 bg-white/95 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -59,7 +59,7 @@ export default function AboutPage() {
                   Company Overview
                 </h2>
                 <div className="w-20 h-1 bg-accent rounded-full mt-4 mb-6" />
-                <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                <div className="prose prose-lg max-w-none text-gray-800 space-y-4">
                   <p>
                     Star Air, the aviation arm of <strong>Sanjay Ghodawat Group (SGG)</strong>,
                     commenced its commercial operations in <strong>2019</strong> with a mission to
@@ -83,21 +83,21 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">3M+</div>
-                  <div className="text-sm text-gray-600 mt-1">Flyers</div>
+                  <div className="text-sm text-gray-700 mt-1">Flyers</div>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">31</div>
-                  <div className="text-sm text-gray-600 mt-1">Destinations</div>
+                  <div className="text-sm text-gray-700 mt-1">Destinations</div>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">12</div>
-                  <div className="text-sm text-gray-600 mt-1">Aircraft</div>
+                  <div className="text-sm text-gray-700 mt-1">Aircraft</div>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">2026</div>
-                  <div className="text-sm text-gray-600 mt-1">Wings India Award</div>
+                  <div className="text-sm text-gray-700 mt-1">Wings India Award</div>
                 </div>
               </div>
             </div>
@@ -105,7 +105,7 @@ export default function AboutPage() {
         </section>
 
         {/* Group Overview */}
-        <section className="py-16 md:py-24 bg-gray-50/80 backdrop-blur-sm">
+        <section className="py-16 md:py-24 bg-gray-50/95 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1">
@@ -116,7 +116,7 @@ export default function AboutPage() {
                   Group Overview
                 </h2>
                 <div className="w-20 h-1 bg-accent rounded-full mt-4 mb-6" />
-                <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
+                <div className="prose prose-lg max-w-none text-gray-800 space-y-4">
                   <p>
                     <strong>Sanjay Ghodawat Group (SGG)</strong> is a diversified conglomerate with
                     operations spanning various high-value business verticals such as
@@ -146,17 +146,17 @@ export default function AboutPage() {
                 </div>
               </div>
               <div className="order-1 lg:order-2 grid grid-cols-2 gap-4">
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">11K+</div>
-                  <div className="text-sm text-gray-600 mt-1">Employees</div>
+                  <div className="text-sm text-gray-700 mt-1">Employees</div>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">21K+</div>
-                  <div className="text-sm text-gray-600 mt-1">Students</div>
+                  <div className="text-sm text-gray-700 mt-1">Students</div>
                 </div>
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 text-center shadow-sm col-span-2">
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm col-span-2">
                   <div className="text-4xl font-bold text-accent">1993</div>
-                  <div className="text-sm text-gray-600 mt-1">Founded</div>
+                  <div className="text-sm text-gray-700 mt-1">Founded</div>
                 </div>
               </div>
             </div>
