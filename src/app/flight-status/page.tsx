@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import { Search, Plane, MapPin, Clock, Calendar } from "lucide-react";
+import { Search, Plane, MapPin, Clock } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 interface Flight {
   id: number;
@@ -143,12 +145,12 @@ const mockFlights: Flight[] = [
 ];
 
 const statusColors: Record<string, string> = {
-  "Scheduled": "bg-blue-100 text-blue-700",
+  Scheduled: "bg-blue-100 text-blue-700",
   "On Time": "bg-green-100 text-green-700",
-  "Boarding": "bg-yellow-100 text-yellow-700",
-  "Landed": "bg-purple-100 text-purple-700",
-  "Delayed": "bg-red-100 text-red-700",
-  "Cancelled": "bg-gray-100 text-gray-700",
+  Boarding: "bg-yellow-100 text-yellow-700",
+  Landed: "bg-purple-100 text-purple-700",
+  Delayed: "bg-red-100 text-red-700",
+  Cancelled: "bg-gray-100 text-gray-700",
 };
 
 export default function FlightStatusPage() {
@@ -156,20 +158,19 @@ export default function FlightStatusPage() {
   const searchParams = useSearchParams();
   const [searchType, setSearchType] = useState<"route" | "flight" | "origin">("route");
   const [searchValue, setSearchValue] = useState("");
-  const [flights, setFlights] = useState<Flight[]>([]);
   const [filteredFlights, setFilteredFlights] = useState<Flight[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
   // Get unique origins for dropdown
-  const uniqueOrigins = Array.from(new Set(mockFlights.map(f => f.origin_code))).map(code => {
-    const flight = mockFlights.find(f => f.origin_code === code);
+  const uniqueOrigins = Array.from(new Set(mockFlights.map((f) => f.origin_code))).map((code) => {
+    const flight = mockFlights.find((f) => f.origin_code === code);
     return { code, name: flight?.origin || code };
   });
 
   // Get unique destinations for route search
-  const uniqueDestinations = Array.from(new Set(mockFlights.map(f => f.dest_code))).map(code => {
-    const flight = mockFlights.find(f => f.dest_code === code);
+  const uniqueDestinations = Array.from(new Set(mockFlights.map((f) => f.dest_code))).map((code) => {
+    const flight = mockFlights.find((f) => f.dest_code === code);
     return { code, name: flight?.destination || code };
   });
 
@@ -200,25 +201,31 @@ export default function FlightStatusPage() {
 
       switch (type) {
         case "route": {
-          // Search by origin + destination (comma separated)
-          const [origin, destination] = value.split(",").map(s => s.trim());
-          results = mockFlights.filter(f => {
-            const originMatch = !origin || f.origin.toLowerCase().includes(origin.toLowerCase()) || f.origin_code.toLowerCase().includes(origin.toLowerCase());
-            const destMatch = !destination || f.destination.toLowerCase().includes(destination.toLowerCase()) || f.dest_code.toLowerCase().includes(destination.toLowerCase());
+          const [origin, destination] = value.split(",").map((s) => s.trim());
+          results = mockFlights.filter((f) => {
+            const originMatch =
+              !origin ||
+              f.origin.toLowerCase().includes(origin.toLowerCase()) ||
+              f.origin_code.toLowerCase().includes(origin.toLowerCase());
+            const destMatch =
+              !destination ||
+              f.destination.toLowerCase().includes(destination.toLowerCase()) ||
+              f.dest_code.toLowerCase().includes(destination.toLowerCase());
             return originMatch && destMatch;
           });
           break;
         }
         case "flight": {
-          results = mockFlights.filter(f =>
+          results = mockFlights.filter((f) =>
             f.flight_no.toLowerCase().includes(value.toLowerCase())
           );
           break;
         }
         case "origin": {
-          results = mockFlights.filter(f =>
-            f.origin.toLowerCase().includes(value.toLowerCase()) ||
-            f.origin_code.toLowerCase().includes(value.toLowerCase())
+          results = mockFlights.filter(
+            (f) =>
+              f.origin.toLowerCase().includes(value.toLowerCase()) ||
+              f.origin_code.toLowerCase().includes(value.toLowerCase())
           );
           break;
         }
