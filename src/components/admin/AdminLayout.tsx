@@ -22,6 +22,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Plane,
+  Truck,
+  UserPlus,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -50,6 +52,8 @@ const allNavItems: NavItem[] = [
   { name: "Users", href: "/admin/users", icon: Users, roles: ['admin'], category: "System", color: "text-violet-500" },
   { name: "Flight Schedules", href: "/admin/flight-schedules", icon: Table, roles: ["admin", "revenue"], category: "Operations", color: "text-blue-500" },
   { name: "Charter Requests", href: "/admin/charter-requests", icon: Plane, roles: ["admin", "revenue"], category: "Operations", color: "text-cyan-500" },
+  { name: "Cargo Requests", href: "/admin/cargo-requests", icon: Truck, roles: ["admin", "revenue"], category: "Operations", color: "text-amber-500" },
+  { name: "Group Booking Requests", href: "/admin/group-booking-requests", icon: UserPlus, roles: ["admin", "revenue"], category: "Operations", color: "text-purple-500" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
