@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
-import { Plane, Shield, Users, Clock, Send } from "lucide-react";
+import { Plane, Shield, Users, Clock, Send, CheckCircle } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function CharterPage() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ export default function CharterPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -30,19 +32,50 @@ export default function CharterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setError(null);
+
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.from("charter_requests").insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        passengers: formData.passengers,
+        departure: formData.departure,
+        destination: formData.destination,
+        date: formData.date,
+        message: formData.message,
+      });
+
+      if (error) throw error;
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        passengers: "",
+        departure: "",
+        destination: "",
+        date: "",
+        message: "",
+      });
+      setSubmitted(true);
+      // Auto-hide success after 6 seconds
+      setTimeout(() => setSubmitted(false), 6000);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const fleet = [
-    { name: "ERJ 175", desc: "Embraer 175", image: "/images/fleet/erj175.jpg" },
-    { name: "ERJ 145", desc: "Embraer 145", image: "/images/fleet/erj145.jpg" },
-    { name: "EC-130 T2", desc: "Eurocopter EC-130", image: "/images/fleet/ec130.jpg" },
-    { name: "EC-135 T2+", desc: "Eurocopter EC-135 T2+", image: "/images/fleet/ec135.jpg" },
-    { name: "EC-135 T3H", desc: "Eurocopter EC-135 T3H", image: "/images/fleet/ec135t3h.jpg" },
+    { name: "ERJ 175", desc: "Embraer 175" },
+    { name: "ERJ 145", desc: "Embraer 145" },
+    { name: "EC-130 T2", desc: "Eurocopter EC-130" },
+    { name: "EC-135 T2+", desc: "Eurocopter EC-135 T2+" },
+    { name: "EC-135 T3H", desc: "Eurocopter EC-135 T3H" },
   ];
 
   return (
@@ -190,12 +223,18 @@ export default function CharterPage() {
             </div>
 
             {submitted ? (
-              <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-xl text-center">
-                <p className="font-semibold">Thank you for your request!</p>
+              <div className="bg-green-50 border border-green-200 text-green-700 p-6 rounded-xl text-center">
+                <CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-3" />
+                <p className="font-semibold text-lg">Thank you for your request!</p>
                 <p className="text-sm">Our team will get back to you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-center">
+                    {error}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
