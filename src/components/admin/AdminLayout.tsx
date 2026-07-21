@@ -21,6 +21,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  Plane,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 

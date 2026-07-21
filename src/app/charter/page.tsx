@@ -6,7 +6,6 @@ import Link from "next/link";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import { Plane, Shield, Users, Clock, Send, CheckCircle } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 export default function CharterPage() {
   const [formData, setFormData] = useState({
@@ -29,42 +28,46 @@ export default function CharterPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      passengers: "",
+      departure: "",
+      destination: "",
+      date: "",
+      message: "",
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.from("charter_requests").insert({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        passengers: formData.passengers,
-        departure: formData.departure,
-        destination: formData.destination,
-        date: formData.date,
-        message: formData.message,
+      const response = await fetch("/api/charter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      if (error) throw error;
+      const data = await response.json();
 
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        passengers: "",
-        departure: "",
-        destination: "",
-        date: "",
-        message: "",
-      });
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit request");
+      }
+
       setSubmitted(true);
-      // Auto-hide success after 6 seconds
-      setTimeout(() => setSubmitted(false), 6000);
+      resetForm();
+
+      // Automatically hide success message after 5 seconds
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 5000);
     } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -89,9 +92,7 @@ export default function CharterPage() {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
-              Charters
-            </h1>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">Charters</h1>
             <p className="mt-4 text-lg sm:text-xl text-gray-300">
               Now, fly anywhere at any time with the comfort and convenience of your own.
             </p>
@@ -143,7 +144,6 @@ export default function CharterPage() {
                 </div>
               </div>
 
-              {/* CTA Button */}
               <div className="mt-8">
                 <a
                   href="#charter-form"
@@ -181,10 +181,8 @@ export default function CharterPage() {
                 key={aircraft.name}
                 className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition group"
               >
-                <div className="relative h-32 bg-gray-100">
-                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
-                    <Plane className="w-12 h-12 text-gray-300" />
-                  </div>
+                <div className="relative h-32 bg-gray-100 flex items-center justify-center">
+                  <Plane className="w-12 h-12 text-gray-300" />
                 </div>
                 <div className="p-3 text-center">
                   <h4 className="font-semibold text-gray-900 text-sm">{aircraft.name}</h4>
@@ -212,9 +210,7 @@ export default function CharterPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                 Let the Beginning Be Special.
               </h2>
-              <p className="text-gray-600 mt-2">
-                Our Charters Are at Your Service.
-              </p>
+              <p className="text-gray-600 mt-2">Our Charters Are at Your Service.</p>
               <p className="text-sm text-gray-500 mt-1">
                 Be it for business or for leisure, StarAir's charter service can accommodate flights
                 for as few as 5 and as many as 212 passengers. Enjoy the safety, security and
@@ -224,17 +220,18 @@ export default function CharterPage() {
 
             {submitted ? (
               <div className="bg-green-50 border border-green-200 text-green-700 p-6 rounded-xl text-center">
-                <CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-3" />
+                <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
                 <p className="font-semibold text-lg">Thank you for your request!</p>
-                <p className="text-sm">Our team will get back to you shortly.</p>
+                <p className="text-sm mt-1">Our team will get back to you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl text-center">
+                  <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded-xl text-sm">
                     {error}
                   </div>
                 )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -368,7 +365,10 @@ export default function CharterPage() {
                   className="w-full bg-accent hover:bg-[#b00226] text-white font-semibold py-3 px-6 rounded-xl transition flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
-                    "Submitting..."
+                    <>
+                      <span className="animate-spin inline-block h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                      Submitting...
+                    </>
                   ) : (
                     <>
                       <Send size={18} /> Submit Request
