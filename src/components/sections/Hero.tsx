@@ -1,67 +1,87 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import FlightSearch from "./FlightSearch";
-
-const bannerImages = [
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
-  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/1783333.png",
-];
+import Link from "next/link";
+import Image from "next/image";
+import { Plane, Award, MapPin } from "lucide-react";
+import { FadeIn } from "@/components/FadeIn";
 
 export default function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % bannerImages.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <section
-      className="relative min-h-[100svh] overflow-hidden bg-gradient-light w-full"
-      style={{
-        backgroundImage: `url(${bannerImages[currentIndex]})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center center",
-        backgroundRepeat: "no-repeat",
-        transition: "background-image 1s ease-in-out",
-      }}
-    >
-      {/* No white overlay – background image is fully visible */}
-      <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-5"></div>
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent z-10"></div>
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png"
+          alt="Star Air luxury travel"
+          fill
+          priority
+          className="object-cover"
+          unoptimized
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      </div>
 
-      <div className="relative z-10 w-full max-w-full mx-auto min-h-[100svh] grid grid-cols-1 lg:grid-cols-2 items-start gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-8 lg:px-16 xl:px-24 pt-32 sm:pt-36 lg:pt-28 pb-8 min-w-0">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col justify-start items-start text-left space-y-3 sm:space-y-4 w-full min-w-0 overflow-hidden"
-        >
-          <h1 className="w-full text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-lg">
-            <span className="drop-shadow-lg block text-left">Discover the</span>
-            <span className="text-accent drop-shadow-lg block text-right">Art of Travel</span>
-          </h1>
-          <p className="text-white text-sm sm:text-base max-w-xl leading-relaxed font-medium drop-shadow-lg bg-black/10 backdrop-blur-sm p-2 rounded-lg">
-            Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.
-          </p>
-          <div className="flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm text-white uppercase tracking-wider font-semibold drop-shadow-lg bg-black/10 backdrop-blur-sm p-2 rounded-lg">
-            <span className="flex items-center gap-1.5">⭐ 4.9/5 Rating</span>
-            <span className="flex items-center gap-1.5">✈️ 120+ Destinations</span>
-            <span className="flex items-center gap-1.5">🏆 24 Awards</span>
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
+        <FadeIn>
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <span className="inline-flex items-center gap-2 bg-accent text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6 shadow-lg">
+              <Award size={16} />
+              Premium Airline
+            </span>
+
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+              Discover the <br />
+              <span className="text-accent">Art</span> of Travel
+            </h1>
+
+            {/* Description */}
+            <p className="mt-4 text-lg sm:text-xl text-white/80 max-w-lg">
+              Experience luxury at 35,000 feet with real-time global inventory
+              powered by Hitit middleware.
+            </p>
+
+            {/* Stats */}
+            <div className="mt-8 flex flex-wrap gap-6">
+              <div className="flex items-center gap-2 text-white">
+                <span className="text-2xl font-bold text-accent">4.9/5</span>
+                <span className="text-sm text-white/70">Rating</span>
+              </div>
+              <div className="flex items-center gap-2 text-white">
+                <MapPin size={20} className="text-accent" />
+                <span className="text-sm text-white/70">120+ Destinations</span>
+              </div>
+              <div className="flex items-center gap-2 text-white">
+                <Award size={20} className="text-accent" />
+                <span className="text-sm text-white/70">24 Awards</span>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                href="/flight-status"
+                className="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-3 rounded-full transition shadow-lg hover:shadow-xl"
+              >
+                <Plane size={18} /> Check Flight Status
+              </Link>
+              <Link
+                href="/deals"
+                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-full transition backdrop-blur-sm border border-white/30"
+              >
+                View Deals
+              </Link>
+            </div>
           </div>
-        </motion.div>
+        </FadeIn>
+      </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full mt-0 min-w-0 overflow-hidden"
-        >
-          <FlightSearch />
-        </motion.div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden sm:block">
+        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce" />
+        </div>
       </div>
     </section>
   );

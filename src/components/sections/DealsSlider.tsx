@@ -1,10 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { FadeIn } from "@/components/FadeIn";
+import { SkeletonCard } from "@/components/SkeletonCard";
 import { createClient } from "@/lib/supabase/client";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 interface Deal {
   id: number;
@@ -14,6 +20,7 @@ interface Deal {
   discount_percent: number;
   valid_until: string;
   link: string;
+  is_active: boolean;
 }
 
 export default function DealsSlider() {
@@ -27,7 +34,8 @@ export default function DealsSlider() {
         .from("deals")
         .select("*")
         .eq("is_active", true)
-        .order("created_at", { ascending: false });
+        .order("id", { ascending: true });
+
       if (error) {
         console.error("Error fetching deals:", error);
       } else {
@@ -38,48 +46,80 @@ export default function DealsSlider() {
     fetchDeals();
   }, []);
 
-  if (loading) return <div className="py-12 px-4 bg-gray-50 text-center text-gray-400">Loading deals...</div>;
-  if (deals.length === 0) return null;
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <SkeletonCard key={i} />
+        ))}
+      </div>
+    );
+  }
+
+  if (deals.length === 0) {
+    return (
+      <div className="text-center py-12 text-gray-500">
+        No deals available at the moment.
+      </div>
+    );
+  }
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
-        <div className="mb-8 text-center">
-          <span className="text-accent text-sm font-semibold uppercase tracking-widest">🔥 Limited Time</span>
-          <h2 className="text-4xl font-bold text-gray-900">Exclusive <span className="text-accent">Deals</span></h2>
-          <p className="text-gray-500 mt-1">Grab these offers before they expire</p>
-        </div>
-        <Swiper
-          modules={[Autoplay, Pagination]}
-          spaceBetween={24}
-          slidesPerView={1}
-          loop={true}
-          speed={600}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          pagination={{ clickable: true }}
-          breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
-          className="pb-10"
-        >
-          {deals.map((deal) => (
-            <SwiperSlide key={deal.id}>
-              <div className="group relative rounded-2xl overflow-hidden h-96 shadow-lg bg-white border border-gray-200 hover:border-accent transition duration-300">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent z-10"></div>
-                <img src={deal.image_url} alt={deal.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                <div className="absolute top-4 right-4 z-20">
-                  <span className="bg-accent text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">{deal.discount_percent}% OFF</span>
-                </div>
-                <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
-                  <h3 className="text-2xl font-bold text-white">{deal.title}</h3>
-                  <p className="text-white/80 text-sm line-clamp-2">{deal.description}</p>
-                  {deal.valid_until && <p className="text-amber-300 text-xs mt-1">Valid until {new Date(deal.valid_until).toLocaleDateString()}</p>}
-                  <button className="mt-4 px-5 py-2 bg-accent hover:bg-[#b00226] rounded-full text-white text-sm font-semibold shadow-lg shadow-accent/30 transition">Learn More →</button>
-                </div>
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+    <Swiper
+      modules={[Navigation, Pagination, Autoplay]}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
+      loop
+      breakpoints={{
+        640: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      }}
+      spaceBetween={24}
+      className="pb-12"
+    >
+      {deals.map((deal, index) => (
+        <SwiperSlide key={deal.id}>
+          <FadeIn delay={index * 0.1}>
+            <div className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100">
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src={deal.image_url}
+                  alt={deal.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition duration-500"
+                  unoptimized
+                />
+                {deal.discount_percent > 0 && (
+                  <span className="absolute top-4 right-4 bg-accent text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-lg">
+                    {deal.discount_percent}% OFF
+                  </span>
+                )}
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </section>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 group-hover:text-accent transition">
+                  {deal.title}
+                </h3>
+                <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                  {deal.description}
+                </p>
+                {deal.valid_until && (
+                  <p className="text-xs text-gray-400 mt-2">
+                    Valid until {new Date(deal.valid_until).toLocaleDateString()}
+                  </p>
+                )}
+                <Link
+                  href={deal.link || "/deals"}
+                  className="mt-4 inline-flex items-center text-accent font-semibold hover:text-accent-dark transition group-hover:translate-x-1 duration-200"
+                >
+                  Book Now →
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 }

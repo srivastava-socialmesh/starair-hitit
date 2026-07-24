@@ -1,13 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
-const LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
-const UDAN_LOGO_URL = "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/udan.png";
+const LOGO_URL =
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
+const UDAN_LOGO_URL =
+  "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/udan.png";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
@@ -21,7 +25,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const fetchCMSPages = async () => {
-      const res = await fetch('/api/cms/pages');
+      const res = await fetch("/api/cms/pages");
       if (res.ok) {
         const data = await res.json();
         setCmsPages(data);
@@ -45,9 +49,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const fareServicePages = cmsPages.filter(p =>
-    ['fare-rules', 'fraudulent-claims', 'privacy-policy', 'disclaimer'].includes(p.slug)
+  const fareServicePages = cmsPages.filter((p) =>
+    ["fare-rules", "fraudulent-claims", "privacy-policy", "disclaimer"].includes(p.slug)
   );
+
+  const isActive = (path: string) => pathname === path;
+
+  const navItems = [
+    { name: "Flights", href: "/flight-status", dropdown: true },
+    { name: "Fares And Services", href: "#", dropdown: true },
+    { name: "About", href: "/about", dropdown: false },
+    { name: "Charters", href: "/charter", dropdown: false },
+    { name: "Login", href: "/login", dropdown: false },
+  ];
 
   return (
     <nav
@@ -57,6 +71,7 @@ export default function Navbar() {
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
+          {/* Logo */}
           <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -73,18 +88,25 @@ export default function Navbar() {
             )}
           </Link>
 
+          {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium ml-auto">
-            {/* Flights with Dropdown */}
+            {/* Flights Dropdown */}
             <li className="relative group">
               <button
                 onClick={() => setFlightsDropdownOpen(!flightsDropdownOpen)}
-                className="flex items-center gap-1 text-gray-800 hover:text-accent transition-colors capitalize font-semibold"
+                className={`flex items-center gap-1 transition-colors capitalize font-semibold ${
+                  isActive("/flight-status") || isActive("/flight-schedule") || isActive("/web-checkin")
+                    ? "text-accent"
+                    : "text-gray-800 hover:text-accent"
+                }`}
               >
                 Flights <ChevronDown size={14} />
               </button>
-              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                flightsDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-              } group-hover:opacity-100 group-hover:visible`}>
+              <div
+                className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+                  flightsDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                } group-hover:opacity-100 group-hover:visible`}
+              >
                 <Link
                   href="/flight-schedule"
                   className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
@@ -113,13 +135,19 @@ export default function Navbar() {
             <li className="relative group">
               <button
                 onClick={() => setFaresDropdownOpen(!faresDropdownOpen)}
-                className="flex items-center gap-1 text-gray-800 hover:text-accent transition-colors capitalize font-semibold"
+                className={`flex items-center gap-1 transition-colors capitalize font-semibold ${
+                  fareServicePages.some((p) => isActive(`/cms/${p.slug}`))
+                    ? "text-accent"
+                    : "text-gray-800 hover:text-accent"
+                }`}
               >
                 Fares And Services <ChevronDown size={14} />
               </button>
-              <div className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                faresDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-              } group-hover:opacity-100 group-hover:visible`}>
+              <div
+                className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+                  faresDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                } group-hover:opacity-100 group-hover:visible`}
+              >
                 {fareServicePages.length > 0 ? (
                   fareServicePages.map((p) => (
                     <Link
@@ -143,22 +171,27 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* About */}
-            <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
-              <Link href="/about">About</Link>
-            </li>
-
-            {/* Charters */}
-            <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
-              <Link href="/charter">Charters</Link>
-            </li>
-
-            {/* Login */}
-            <li className="text-gray-800 hover:text-accent cursor-pointer transition-colors capitalize font-semibold">
-              <Link href="/login">Login</Link>
-            </li>
+            {/* Static links */}
+            {navItems
+              .filter((item) => !item.dropdown)
+              .map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`relative text-sm font-medium transition-colors capitalize ${
+                      isActive(item.href) ? "text-accent" : "text-gray-800 hover:text-accent"
+                    }`}
+                  >
+                    {item.name}
+                    {isActive(item.href) && (
+                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent rounded-full" />
+                    )}
+                  </Link>
+                </li>
+              ))}
           </ul>
 
+          {/* Right side: Sign In + UDAN */}
           <div className="flex items-center gap-3 lg:gap-4 ml-4">
             <div className="relative group">
               <button
@@ -167,12 +200,20 @@ export default function Navbar() {
               >
                 Sign In <ChevronDown size={14} className="ml-1" />
               </button>
-              <div className={`absolute right-0 mt-2 w-48 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                signDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-              } group-hover:opacity-100 group-hover:visible`}>
-                <Link href="/login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">Sign In</Link>
-                <Link href="/travel-agent-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">Travel Agent Login</Link>
-                <Link href="/corporate-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">Corporate Login</Link>
+              <div
+                className={`absolute right-0 mt-2 w-48 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
+                  signDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                } group-hover:opacity-100 group-hover:visible`}
+              >
+                <Link href="/login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                  Sign In
+                </Link>
+                <Link href="/travel-agent-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                  Travel Agent Login
+                </Link>
+                <Link href="/corporate-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                  Corporate Login
+                </Link>
               </div>
             </div>
             <div className="relative w-12 h-10 sm:w-16 sm:h-12 flex-shrink-0">
@@ -191,42 +232,82 @@ export default function Navbar() {
             </div>
           </div>
 
+          {/* Mobile Menu Toggle */}
           <button className="lg:hidden text-gray-800 ml-auto" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 p-4">
           <ul className="flex flex-col gap-3 text-sm capitalize text-gray-800 font-medium">
-            {/* Flights with sub-items in mobile */}
             <li className="font-semibold">Flights</li>
             <ul className="pl-3 border-l border-accent/30 space-y-1">
-              <li><Link href="/flight-schedule" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>Flight Schedules</Link></li>
-              <li><Link href="/web-checkin" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>Web Check-in</Link></li>
-              <li><Link href="/flight-status" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>Flight Status</Link></li>
+              <li>
+                <Link href="/flight-schedule" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                  Flight Schedules
+                </Link>
+              </li>
+              <li>
+                <Link href="/web-checkin" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                  Web Check-in
+                </Link>
+              </li>
+              <li>
+                <Link href="/flight-status" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                  Flight Status
+                </Link>
+              </li>
             </ul>
 
-            {/* Fares And Services with sub-items in mobile */}
             <li className="font-semibold">Fares And Services</li>
             <ul className="pl-3 border-l border-accent/30 space-y-1">
               {fareServicePages.length > 0 ? (
                 fareServicePages.map((p) => (
-                  <li key={p.slug}><Link href={`/cms/${p.slug}`} className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>{p.title}</Link></li>
+                  <li key={p.slug}>
+                    <Link href={`/cms/${p.slug}`} className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                      {p.title}
+                    </Link>
+                  </li>
                 ))
               ) : (
-                <li><Link href="/fare-sheet" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>Fare Sheet</Link></li>
+                <li>
+                  <Link href="/fare-sheet" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                    Fare Sheet
+                  </Link>
+                </li>
               )}
             </ul>
 
-            <li><Link href="/about" onClick={() => setIsOpen(false)}>About</Link></li>
-            <li><Link href="/charter" onClick={() => setIsOpen(false)}>Charters</Link></li>
-            <li><Link href="/login" onClick={() => setIsOpen(false)}>Login</Link></li>
+            <li>
+              <Link href="/about" className="hover:text-accent" onClick={() => setIsOpen(false)}>
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/charter" className="hover:text-accent" onClick={() => setIsOpen(false)}>
+                Charters
+              </Link>
+            </li>
+            <li>
+              <Link href="/login" className="hover:text-accent" onClick={() => setIsOpen(false)}>
+                Login
+              </Link>
+            </li>
 
             <li className="px-4 py-1.5 bg-accent rounded-full text-center text-white font-bold">Sign In</li>
-            <li className="text-sm text-gray-500 pl-4"><Link href="/travel-agent-login" onClick={() => setIsOpen(false)}>Travel Agent Login</Link></li>
-            <li className="text-sm text-gray-500 pl-4"><Link href="/corporate-login" onClick={() => setIsOpen(false)}>Corporate Login</Link></li>
+            <li className="text-sm text-gray-500 pl-4">
+              <Link href="/travel-agent-login" onClick={() => setIsOpen(false)}>
+                Travel Agent Login
+              </Link>
+            </li>
+            <li className="text-sm text-gray-500 pl-4">
+              <Link href="/corporate-login" onClick={() => setIsOpen(false)}>
+                Corporate Login
+              </Link>
+            </li>
           </ul>
         </div>
       )}
