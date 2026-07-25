@@ -237,3 +237,12 @@ a:hover {
   border-color: rgba(210, 4, 45, 0.8);
   box-shadow: 0 0 30px rgba(210, 4, 45, 0.2), inset 0 0 30px rgba(210, 4, 45, 0.05);
 }
+
+/* Grid pattern for futuristic feel */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
