@@ -14,6 +14,15 @@ export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  const navItems = [
+    { label: "Flights", href: "/flight-status" },
+    { label: "Deals", href: "/deals" },
+    { label: "Services", href: "/services" },
+    { label: "Travel", href: "/travel-info" },
+    { label: "Company", href: "/about" },
+    { label: "Other", href: "#" },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -58,19 +67,33 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Language Selector */}
-          <div className="hidden sm:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
-            <Globe size={14} className="text-text-muted" />
-            <span className="text-xs text-text-secondary font-medium">English</span>
-          </div>
+          {/* Desktop Navigation */}
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="text-text-secondary hover:text-accent transition-colors"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden text-text-primary ml-2"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Right side: Language + Mobile button */}
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
+              <Globe size={14} className="text-text-muted" />
+              <span className="text-xs text-text-secondary font-medium">English</span>
+            </div>
+            <button
+              className="lg:hidden text-text-primary ml-2"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -78,7 +101,18 @@ export default function Navbar() {
       {isOpen && (
         <div className="lg:hidden glass-dark border-t border-white/10 p-4 backdrop-blur-xl">
           <ul className="flex flex-col gap-3 text-sm">
-            <li className="flex items-center gap-2 text-text-muted">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="text-text-secondary hover:text-accent transition"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li className="pt-2 border-t border-white/5 flex items-center gap-2 text-text-muted">
               <Globe size={14} /> English
             </li>
           </ul>

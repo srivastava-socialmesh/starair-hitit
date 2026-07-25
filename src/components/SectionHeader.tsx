@@ -14,33 +14,16 @@ export default function SectionHeader({
   centered = true,
   className = "",
 }: SectionHeaderProps) {
-  const parts = title.split(" ");
-
   return (
     <FadeIn>
-      <div className={`${centered ? "text-center" : "text-left"} ${className}`}>
-        <h2 className="section-title text-3xl md:text-4xl font-bold text-white inline-block">
-          {parts.map((word, i) => {
-            const isHighlight = i === parts.length - 1;
-            return isHighlight ? (
-              <span key={i} className="gradient-text">
-                {word}
-              </span>
-            ) : (
-              <span key={i}>{word} </span>
-            );
-          })}
+      <div className={`${centered ? "text-center" : "text-left"} ${className} mb-8`}>
+        <h2 className="text-3xl font-bold text-white">
+          {title}
         </h2>
-        <div
-          className={`w-16 h-1 bg-gradient-to-r from-accent to-accent-light rounded-full mt-3 ${
-            centered ? "mx-auto" : ""
-          }`}
-        />
         {subtitle && (
-          <p className="text-text-secondary text-lg mt-4 max-w-2xl mx-auto">
-            {subtitle}
-          </p>
+          <p className="text-text-secondary text-lg mt-1">{subtitle}</p>
         )}
+        <div className={`w-16 h-1 bg-gradient-to-r from-accent to-accent-light rounded-full mt-2 ${centered ? "mx-auto" : ""}`} />
       </div>
     </FadeIn>
   );
