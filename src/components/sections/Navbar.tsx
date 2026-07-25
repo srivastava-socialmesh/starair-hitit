@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
+import { Menu, X, ChevronDown, Sparkles, Plane } from "lucide-react";
 import Image from "next/image";
 
 const LOGO_URL =
@@ -165,7 +165,7 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* Static links with futuristic styling */}
+            {/* Static links */}
             <li>
               <Link
                 href="/about"
@@ -188,8 +188,17 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Right Side: Sign In + UDAN */}
+          {/* Right Side: Book a Flight + Sign In + UDAN */}
           <div className="flex items-center gap-3 lg:gap-4 ml-4">
+            {/* NEW: Book a Flight CTA */}
+            <Link
+              href="/flight-status"
+              className="hidden lg:flex items-center gap-1.5 bg-accent hover:bg-accent-dark text-white text-xs font-semibold px-4 py-2 rounded-full transition shadow-[0_0_20px_rgba(210,4,45,0.3)] hover:shadow-[0_0_30px_rgba(210,4,45,0.5)]"
+            >
+              <Plane size={14} />
+              Book a Flight
+            </Link>
+
             <div className="relative group">
               <button
                 onClick={() => setSignDropdownOpen(!signDropdownOpen)}
@@ -294,6 +303,11 @@ export default function Navbar() {
             </li>
 
             <li className="mt-2">
+              <Link href="/flight-status" className="block text-center glass text-text-primary hover:text-accent px-4 py-2 rounded-lg transition" onClick={() => setIsOpen(false)}>
+                <Plane size={16} className="inline mr-2" /> Book a Flight
+              </Link>
+            </li>
+            <li>
               <Link href="/login" className="block text-center glass text-text-primary hover:text-accent px-4 py-2 rounded-lg transition" onClick={() => setIsOpen(false)}>
                 Sign In
               </Link>

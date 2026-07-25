@@ -1,11 +1,17 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Plane, Award, MapPin, Sparkles, ChevronRight } from "lucide-react";
+import { Plane, Award, MapPin, Sparkles, Users, Globe, CheckCircle } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
 import GlowButton from "@/components/GlowButton";
 
 export default function Hero() {
+  const stats = [
+    { value: "450+", label: "Airlines Supported", icon: Globe },
+    { value: "12,230+", label: "Destinations", icon: MapPin },
+    { value: "8.5M+", label: "Flights Booked", icon: CheckCircle },
+  ];
+
   return (
     <section className="relative min-h-[100vh] flex items-center overflow-hidden">
       {/* Background with gradient overlay */}
@@ -23,13 +29,13 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-radial from-accent/10 to-transparent opacity-50" />
       </div>
 
-      {/* Animated glow orb */}
+      {/* Animated glow orbs */}
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-20">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           <FadeIn>
             {/* Badge */}
             <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-6 border border-white/10">
@@ -41,38 +47,38 @@ export default function Hero() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              Discover the <br />
-              <span className="gradient-text">Art of Travel</span>
+              Find the Best <br />
+              <span className="gradient-text">Flights</span> at the <span className="gradient-text">Best Prices</span>
             </h1>
 
             {/* Description */}
             <p className="mt-4 text-lg sm:text-xl text-text-secondary max-w-lg">
-              Experience luxury at 35,000 feet with real-time global inventory
-              powered by Hitit middleware.
+              Search, compare, and book flights from hundreds of airlines worldwide.
             </p>
 
-            {/* Stats */}
+            {/* Stats Row - New */}
             <div className="mt-8 flex flex-wrap gap-6">
-              {[
-                { value: "4.9/5", label: "Rating", icon: Award },
-                { value: "120+", label: "Destinations", icon: MapPin },
-                { value: "24", label: "Awards", icon: Sparkles },
-              ].map((stat, i) => (
-                <div key={i} className="flex items-center gap-2 glass px-4 py-2 rounded-full border border-white/5">
-                  <stat.icon size={16} className="text-accent" />
-                  <span className="text-sm font-bold text-white">{stat.value}</span>
-                  <span className="text-xs text-text-muted">{stat.label}</span>
-                </div>
-              ))}
+              {stats.map((stat, i) => {
+                const Icon = stat.icon;
+                return (
+                  <div key={i} className="flex items-center gap-2 glass px-5 py-3 rounded-xl border border-white/10">
+                    <Icon size={20} className="text-accent" />
+                    <div>
+                      <div className="text-lg font-bold text-white">{stat.value}</div>
+                      <div className="text-xs text-text-muted">{stat.label}</div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-wrap gap-4">
               <GlowButton href="/flight-status" icon={<Plane size={18} />}>
-                Check Flight Status
+                Book a Flight
               </GlowButton>
               <GlowButton href="/deals" variant="secondary">
-                View Deals <ChevronRight size={16} />
+                View Deals
               </GlowButton>
             </div>
           </FadeIn>
