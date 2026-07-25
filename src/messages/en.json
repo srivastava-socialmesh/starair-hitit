@@ -1,0 +1,37 @@
+{
+  "Home": {
+    "title": "Discover the",
+    "subtitle": "Art of Travel",
+    "description": "Experience luxury at 35,000 feet. Real-time global inventory powered by Hitit middleware.",
+    "rating": "4.9/5 Rating",
+    "destinations": "120+ Destinations",
+    "awards": "24 Awards"
+  },
+  "Nav": {
+    "deals": "Deals",
+    "flightStatus": "Flight Status",
+    "about": "About",
+    "fares": "Fares & Services",
+    "signIn": "Sign In",
+    "loyalty": "Loyalty",
+    "cargo": "Cargo",
+    "charter": "Charter",
+    "guides": "Destination Guides",
+    "referral": "Refer & Earn"
+  },
+  "Search": {
+    "oneWay": "One Way",
+    "roundTrip": "Round Trip",
+    "from": "From",
+    "to": "To",
+    "departure": "Departure",
+    "return": "Return",
+    "cabinClass": "Cabin Class",
+    "passengers": "Passengers",
+    "adults": "Adults",
+    "children": "Children",
+    "infants": "Infants",
+    "search": "Search Flight",
+    "searching": "Searching..."
+  }
+}
