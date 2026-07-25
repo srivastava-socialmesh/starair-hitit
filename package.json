@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/orbitron": "^5.3.0",
     "@radix-ui/react-dialog": "^1.1.17",
     "@radix-ui/react-tabs": "^1.1.15",
     "@supabase/ssr": "^0.12.0",

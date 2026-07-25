@@ -8,62 +8,85 @@ import NewsFeed from "@/components/sections/NewsFeed";
 import Stats from "@/components/sections/Stats";
 import Footer from "@/components/sections/Footer";
 import Navbar from "@/components/sections/Navbar";
+import SectionHeader from "@/components/SectionHeader";
 import { FadeIn } from "@/components/FadeIn";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-dark relative">
       <Navbar />
       <Hero />
-      <section className="relative -mt-8 z-20">
+
+      {/* Flight Search - Overlapping */}
+      <section className="relative -mt-16 z-20 px-4">
         <FlightSearch />
       </section>
-      <section className="py-16">
+
+      {/* Deals */}
+      <section className="py-20 bg-dark relative">
+        <div className="absolute inset-0 bg-gradient-radial from-accent/5 to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Exclusive <span className="text-accent">Deals</span>
-            </h2>
-          </FadeIn>
-          <DealsSlider />
+          <SectionHeader
+            title="Exclusive Deals"
+            subtitle="Handpicked offers for our valued customers"
+          />
+          <div className="mt-10">
+            <DealsSlider />
+          </div>
         </div>
       </section>
-      <section className="py-16 bg-gray-50">
+
+      {/* Products */}
+      <section className="py-20 bg-dark-secondary relative">
+        <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Our <span className="text-accent">Products</span>
-            </h2>
-          </FadeIn>
-          <ProductsSlider />
+          <SectionHeader
+            title="Our Products"
+            subtitle="Premium travel experiences tailored for you"
+          />
+          <div className="mt-10">
+            <ProductsSlider />
+          </div>
         </div>
       </section>
-      <section className="py-16">
+
+      {/* Destinations */}
+      <section className="py-20 bg-dark relative">
         <div className="max-w-7xl mx-auto px-4">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Popular <span className="text-accent">Destinations</span>
-            </h2>
-          </FadeIn>
-          <Destinations />
+          <SectionHeader
+            title="Popular Destinations"
+            subtitle="Explore our most loved routes"
+          />
+          <div className="mt-10">
+            <Destinations />
+          </div>
         </div>
       </section>
-      <section className="py-16 bg-accent/5">
+
+      {/* Loyalty Program */}
+      <section className="py-20 bg-dark-secondary relative">
+        <div className="absolute inset-0 bg-gradient-radial from-accent/10 to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4">
           <Loyalty />
         </div>
       </section>
+
+      {/* Stats */}
       <Stats />
-      <section className="py-16 bg-gray-50">
+
+      {/* News */}
+      <section className="py-20 bg-dark relative">
         <div className="max-w-7xl mx-auto px-4">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Latest <span className="text-accent">News</span>
-            </h2>
-          </FadeIn>
-          <NewsFeed />
+          <SectionHeader
+            title="Latest News"
+            subtitle="Stay updated with StarAir"
+          />
+          <div className="mt-10">
+            <NewsFeed />
+          </div>
         </div>
       </section>
+
       <Footer />
     </main>
   );

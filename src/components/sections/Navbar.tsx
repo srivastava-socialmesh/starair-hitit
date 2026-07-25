@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import Image from "next/image";
 
 const LOGO_URL =
@@ -55,23 +55,18 @@ export default function Navbar() {
 
   const isActive = (path: string) => pathname === path;
 
-  const navItems = [
-    { name: "Flights", href: "/flight-status", dropdown: true },
-    { name: "Fares And Services", href: "#", dropdown: true },
-    { name: "About", href: "/about", dropdown: false },
-    { name: "Charters", href: "/charter", dropdown: false },
-    { name: "Login", href: "/login", dropdown: false },
-  ];
-
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
         isHidden ? "-translate-y-full" : "translate-y-0"
-      } ${isScrolled ? "bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-md" : "bg-transparent"}`}
+      } ${
+        isScrolled
+          ? "glass-dark border-b border-white/10"
+          : "bg-transparent"
+      }`}
     >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-between">
-          {/* Logo */}
           <Link href="/" className="relative w-32 h-12 sm:w-40 sm:h-14 lg:w-48 lg:h-16 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -88,42 +83,41 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Navigation */}
           <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm lg:text-base font-medium ml-auto">
             {/* Flights Dropdown */}
             <li className="relative group">
               <button
                 onClick={() => setFlightsDropdownOpen(!flightsDropdownOpen)}
-                className={`flex items-center gap-1 transition-colors capitalize font-semibold ${
+                className={`flex items-center gap-1 transition-colors font-display tracking-wider uppercase text-xs ${
                   isActive("/flight-status") || isActive("/flight-schedule") || isActive("/web-checkin")
                     ? "text-accent"
-                    : "text-gray-800 hover:text-accent"
+                    : "text-text-secondary hover:text-accent"
                 }`}
               >
                 Flights <ChevronDown size={14} />
               </button>
               <div
-                className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                  flightsDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                } group-hover:opacity-100 group-hover:visible`}
+                className={`absolute left-0 mt-2 w-56 glass rounded-xl border border-white/10 overflow-hidden transition-all duration-200 ${
+                  flightsDropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                } group-hover:opacity-100 group-hover:visible group-hover:translate-y-0`}
               >
                 <Link
                   href="/flight-schedule"
-                  className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+                  className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition"
                   onClick={() => setFlightsDropdownOpen(false)}
                 >
                   Flight Schedules
                 </Link>
                 <Link
                   href="/web-checkin"
-                  className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+                  className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition"
                   onClick={() => setFlightsDropdownOpen(false)}
                 >
                   Web Check-in
                 </Link>
                 <Link
                   href="/flight-status"
-                  className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+                  className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition"
                   onClick={() => setFlightsDropdownOpen(false)}
                 >
                   Flight Status
@@ -131,29 +125,29 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* Fares And Services Dropdown */}
+            {/* Fares And Services */}
             <li className="relative group">
               <button
                 onClick={() => setFaresDropdownOpen(!faresDropdownOpen)}
-                className={`flex items-center gap-1 transition-colors capitalize font-semibold ${
+                className={`flex items-center gap-1 transition-colors font-display tracking-wider uppercase text-xs ${
                   fareServicePages.some((p) => isActive(`/cms/${p.slug}`))
                     ? "text-accent"
-                    : "text-gray-800 hover:text-accent"
+                    : "text-text-secondary hover:text-accent"
                 }`}
               >
-                Fares And Services <ChevronDown size={14} />
+                Fares & Services <ChevronDown size={14} />
               </button>
               <div
-                className={`absolute left-0 mt-2 w-56 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                  faresDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                } group-hover:opacity-100 group-hover:visible`}
+                className={`absolute left-0 mt-2 w-56 glass rounded-xl border border-white/10 overflow-hidden transition-all duration-200 ${
+                  faresDropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                } group-hover:opacity-100 group-hover:visible group-hover:translate-y-0`}
               >
                 {fareServicePages.length > 0 ? (
                   fareServicePages.map((p) => (
                     <Link
                       key={p.slug}
                       href={`/cms/${p.slug}`}
-                      className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+                      className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition"
                       onClick={() => setFaresDropdownOpen(false)}
                     >
                       {p.title}
@@ -162,7 +156,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/fare-sheet"
-                    className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition"
+                    className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition"
                     onClick={() => setFaresDropdownOpen(false)}
                   >
                     Fare Sheet
@@ -171,47 +165,51 @@ export default function Navbar() {
               </div>
             </li>
 
-            {/* Static links */}
-            {navItems
-              .filter((item) => !item.dropdown)
-              .map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`relative text-sm font-medium transition-colors capitalize ${
-                      isActive(item.href) ? "text-accent" : "text-gray-800 hover:text-accent"
-                    }`}
-                  >
-                    {item.name}
-                    {isActive(item.href) && (
-                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-accent rounded-full" />
-                    )}
-                  </Link>
-                </li>
-              ))}
+            {/* Static links with futuristic styling */}
+            <li>
+              <Link
+                href="/about"
+                className={`font-display tracking-wider uppercase text-xs transition-colors ${
+                  isActive("/about") ? "text-accent" : "text-text-secondary hover:text-accent"
+                }`}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/charter"
+                className={`font-display tracking-wider uppercase text-xs transition-colors ${
+                  isActive("/charter") ? "text-accent" : "text-text-secondary hover:text-accent"
+                }`}
+              >
+                Charters
+              </Link>
+            </li>
           </ul>
 
-          {/* Right side: Sign In + UDAN */}
+          {/* Right Side: Sign In + UDAN */}
           <div className="flex items-center gap-3 lg:gap-4 ml-4">
             <div className="relative group">
               <button
                 onClick={() => setSignDropdownOpen(!signDropdownOpen)}
-                className="h-8 px-4 flex items-center rounded-full bg-accent text-white text-xs lg:text-sm font-semibold shadow-md hover:scale-105 transition duration-300 cursor-pointer"
+                className="h-8 px-4 flex items-center rounded-full bg-gradient-to-r from-accent to-accent-dark text-white text-xs lg:text-sm font-semibold shadow-[0_0_20px_rgba(210,4,45,0.3)] hover:shadow-[0_0_30px_rgba(210,4,45,0.5)] transition duration-300 cursor-pointer"
               >
+                <Sparkles size={14} className="mr-1.5" />
                 Sign In <ChevronDown size={14} className="ml-1" />
               </button>
               <div
-                className={`absolute right-0 mt-2 w-48 bg-white shadow-xl rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
-                  signDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                } group-hover:opacity-100 group-hover:visible`}
+                className={`absolute right-0 mt-2 w-48 glass rounded-xl border border-white/10 overflow-hidden transition-all duration-200 ${
+                  signDropdownOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                } group-hover:opacity-100 group-hover:visible group-hover:translate-y-0`}
               >
-                <Link href="/login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                <Link href="/login" className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition">
                   Sign In
                 </Link>
-                <Link href="/travel-agent-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                <Link href="/travel-agent-login" className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition">
                   Travel Agent Login
                 </Link>
-                <Link href="/corporate-login" className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-accent/10 hover:text-accent transition">
+                <Link href="/corporate-login" className="block px-5 py-2.5 text-sm text-text-secondary hover:text-accent hover:bg-white/5 transition">
                   Corporate Login
                 </Link>
               </div>
@@ -227,13 +225,16 @@ export default function Navbar() {
                   onError={() => setUdanError(true)}
                 />
               ) : (
-                <span className="text-xs text-gray-400">UDAN</span>
+                <span className="text-xs text-text-muted">UDAN</span>
               )}
             </div>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button className="lg:hidden text-gray-800 ml-auto" onClick={() => setIsOpen(!isOpen)}>
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden text-text-primary ml-auto glass p-2 rounded-lg"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -241,40 +242,40 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 p-4">
-          <ul className="flex flex-col gap-3 text-sm capitalize text-gray-800 font-medium">
-            <li className="font-semibold">Flights</li>
+        <div className="lg:hidden glass-dark border-t border-white/10 p-4 backdrop-blur-xl">
+          <ul className="flex flex-col gap-3 text-sm font-medium">
+            <li className="font-display text-text-secondary text-xs tracking-wider uppercase">Flights</li>
             <ul className="pl-3 border-l border-accent/30 space-y-1">
               <li>
-                <Link href="/flight-schedule" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                <Link href="/flight-schedule" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                   Flight Schedules
                 </Link>
               </li>
               <li>
-                <Link href="/web-checkin" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                <Link href="/web-checkin" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                   Web Check-in
                 </Link>
               </li>
               <li>
-                <Link href="/flight-status" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                <Link href="/flight-status" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                   Flight Status
                 </Link>
               </li>
             </ul>
 
-            <li className="font-semibold">Fares And Services</li>
+            <li className="font-display text-text-secondary text-xs tracking-wider uppercase mt-2">Fares & Services</li>
             <ul className="pl-3 border-l border-accent/30 space-y-1">
               {fareServicePages.length > 0 ? (
                 fareServicePages.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/cms/${p.slug}`} className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                    <Link href={`/cms/${p.slug}`} className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                       {p.title}
                     </Link>
                   </li>
                 ))
               ) : (
                 <li>
-                  <Link href="/fare-sheet" className="text-gray-600 hover:text-accent" onClick={() => setIsOpen(false)}>
+                  <Link href="/fare-sheet" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                     Fare Sheet
                   </Link>
                 </li>
@@ -282,30 +283,19 @@ export default function Navbar() {
             </ul>
 
             <li>
-              <Link href="/about" className="hover:text-accent" onClick={() => setIsOpen(false)}>
+              <Link href="/about" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                 About
               </Link>
             </li>
             <li>
-              <Link href="/charter" className="hover:text-accent" onClick={() => setIsOpen(false)}>
+              <Link href="/charter" className="text-text-secondary hover:text-accent transition" onClick={() => setIsOpen(false)}>
                 Charters
               </Link>
             </li>
-            <li>
-              <Link href="/login" className="hover:text-accent" onClick={() => setIsOpen(false)}>
-                Login
-              </Link>
-            </li>
 
-            <li className="px-4 py-1.5 bg-accent rounded-full text-center text-white font-bold">Sign In</li>
-            <li className="text-sm text-gray-500 pl-4">
-              <Link href="/travel-agent-login" onClick={() => setIsOpen(false)}>
-                Travel Agent Login
-              </Link>
-            </li>
-            <li className="text-sm text-gray-500 pl-4">
-              <Link href="/corporate-login" onClick={() => setIsOpen(false)}>
-                Corporate Login
+            <li className="mt-2">
+              <Link href="/login" className="block text-center glass text-text-primary hover:text-accent px-4 py-2 rounded-lg transition" onClick={() => setIsOpen(false)}>
+                Sign In
               </Link>
             </li>
           </ul>

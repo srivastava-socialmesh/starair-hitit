@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Plane, Award, MapPin } from "lucide-react";
+import { Plane, Award, MapPin, Sparkles, ChevronRight } from "lucide-react";
 import { FadeIn } from "@/components/FadeIn";
+import GlowButton from "@/components/GlowButton";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-      {/* Background Image */}
+    <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+      {/* Background with gradient overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png"
@@ -17,70 +18,72 @@ export default function Hero() {
           className="object-cover"
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent" />
+        <div className="absolute inset-0 bg-grid-pattern opacity-30" />
+        <div className="absolute inset-0 bg-gradient-radial from-accent/10 to-transparent opacity-50" />
       </div>
 
+      {/* Animated glow orb */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none" />
+
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
-        <FadeIn>
-          <div className="max-w-2xl">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-20">
+        <div className="max-w-2xl">
+          <FadeIn>
             {/* Badge */}
-            <span className="inline-flex items-center gap-2 bg-accent text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6 shadow-lg">
-              <Award size={16} />
-              Premium Airline
-            </span>
+            <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-6 border border-white/10">
+              <Sparkles size={14} className="text-accent" />
+              <span className="text-xs font-display tracking-wider text-text-secondary uppercase">
+                Premium Airline
+              </span>
+            </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
               Discover the <br />
-              <span className="text-accent">Art</span> of Travel
+              <span className="gradient-text">Art of Travel</span>
             </h1>
 
             {/* Description */}
-            <p className="mt-4 text-lg sm:text-xl text-white/80 max-w-lg">
+            <p className="mt-4 text-lg sm:text-xl text-text-secondary max-w-lg">
               Experience luxury at 35,000 feet with real-time global inventory
               powered by Hitit middleware.
             </p>
 
             {/* Stats */}
             <div className="mt-8 flex flex-wrap gap-6">
-              <div className="flex items-center gap-2 text-white">
-                <span className="text-2xl font-bold text-accent">4.9/5</span>
-                <span className="text-sm text-white/70">Rating</span>
-              </div>
-              <div className="flex items-center gap-2 text-white">
-                <MapPin size={20} className="text-accent" />
-                <span className="text-sm text-white/70">120+ Destinations</span>
-              </div>
-              <div className="flex items-center gap-2 text-white">
-                <Award size={20} className="text-accent" />
-                <span className="text-sm text-white/70">24 Awards</span>
-              </div>
+              {[
+                { value: "4.9/5", label: "Rating", icon: Award },
+                { value: "120+", label: "Destinations", icon: MapPin },
+                { value: "24", label: "Awards", icon: Sparkles },
+              ].map((stat, i) => (
+                <div key={i} className="flex items-center gap-2 glass px-4 py-2 rounded-full border border-white/5">
+                  <stat.icon size={16} className="text-accent" />
+                  <span className="text-sm font-bold text-white">{stat.value}</span>
+                  <span className="text-xs text-text-muted">{stat.label}</span>
+                </div>
+              ))}
             </div>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/flight-status"
-                className="inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-3 rounded-full transition shadow-lg hover:shadow-xl"
-              >
-                <Plane size={18} /> Check Flight Status
-              </Link>
-              <Link
-                href="/deals"
-                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-full transition backdrop-blur-sm border border-white/30"
-              >
-                View Deals
-              </Link>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <GlowButton href="/flight-status" icon={<Plane size={18} />}>
+                Check Flight Status
+              </GlowButton>
+              <GlowButton href="/deals" variant="secondary">
+                View Deals <ChevronRight size={16} />
+              </GlowButton>
             </div>
-          </div>
-        </FadeIn>
+          </FadeIn>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden sm:block">
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce" />
+        <div className="flex flex-col items-center gap-2 text-text-muted text-xs font-display tracking-widest uppercase">
+          <span>Scroll</span>
+          <div className="w-[1px] h-12 bg-gradient-to-b from-accent to-transparent animate-pulse" />
         </div>
       </div>
     </section>
