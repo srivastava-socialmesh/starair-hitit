@@ -8,7 +8,7 @@ export default function FlightSearchAvianca() {
   const [tripType, setTripType] = useState<TripType>("roundtrip");
 
   return (
-    <div className="w-full max-w-2xl">
+    <div className="w-full">
       {/* Trip type tabs */}
       <div className="flex gap-0 mb-4 bg-white/5 rounded-xl p-1 border border-white/10 w-fit">
         {[
@@ -58,12 +58,12 @@ export default function FlightSearchAvianca() {
         </div>
 
         {tripType === "multicity" && (
-          <div className="text-xs text-accent font-medium">
+          <div className="text-xs text-accent font-medium cursor-pointer">
             + Add another flight
           </div>
         )}
 
-        <div className="flex flex-wrap items-center gap-3 pt-1">
+        <div className="flex flex-wrap items-center gap-4 pt-1">
           <div className="flex items-center gap-2 text-sm text-text-secondary">
             <Calendar size={16} />
             <span>Departure</span>

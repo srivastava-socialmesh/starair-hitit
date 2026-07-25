@@ -1,15 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown, Globe } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import Image from "next/image";
 
 const LOGO_URL =
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
 
 export default function Navbar() {
-  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
@@ -30,15 +28,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
-
-  const navItems = [
-    { name: "Flights", href: "/flight-status" },
-    { name: "Deals and offers", href: "/deals" },
-    { name: "Electronic services", href: "/web-checkin" },
-    { name: "Travel information", href: "/fare-sheet" },
-    { name: "Our company", href: "/about" },
-    { name: "Other websites", href: "#" },
-  ];
 
   return (
     <nav
@@ -69,38 +58,19 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium">
-            {navItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`transition-colors ${
-                    pathname === item.href
-                      ? "text-accent"
-                      : "text-text-secondary hover:text-accent"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Right side: Language + Mobile button */}
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
-              <Globe size={14} className="text-text-muted" />
-              <span className="text-xs text-text-secondary font-medium">English</span>
-              <ChevronDown size={12} className="text-text-muted" />
-            </div>
-            <button
-              className="lg:hidden text-text-primary ml-2"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+          {/* Language Selector */}
+          <div className="hidden sm:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
+            <Globe size={14} className="text-text-muted" />
+            <span className="text-xs text-text-secondary font-medium">English</span>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden text-text-primary ml-2"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
@@ -108,21 +78,8 @@ export default function Navbar() {
       {isOpen && (
         <div className="lg:hidden glass-dark border-t border-white/10 p-4 backdrop-blur-xl">
           <ul className="flex flex-col gap-3 text-sm">
-            {navItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className="text-text-secondary hover:text-accent transition"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-            <li className="pt-2 border-t border-white/5">
-              <div className="flex items-center gap-2 text-sm text-text-muted">
-                <Globe size={14} /> English
-              </div>
+            <li className="flex items-center gap-2 text-text-muted">
+              <Globe size={14} /> English
             </li>
           </ul>
         </div>

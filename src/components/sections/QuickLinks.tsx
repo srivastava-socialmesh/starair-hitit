@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Plane, Ticket, Clock, Phone, User, Award } from "lucide-react";
+import { Plane, Ticket, Clock, Phone, User } from "lucide-react";
 
 const links = [
   { icon: Plane, label: "LifeMiles", href: "/loyalty" },
@@ -14,7 +14,7 @@ const links = [
 
 export default function QuickLinks() {
   return (
-    <div className="glass rounded-2xl p-5 border border-white/10 space-y-4 w-full max-w-xs">
+    <div className="glass rounded-2xl p-5 border border-white/10 space-y-4 w-full">
       <h3 className="text-sm font-display uppercase tracking-wider text-text-muted">
         Quick Access
       </h3>
