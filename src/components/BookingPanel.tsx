@@ -8,11 +8,11 @@ export default function BookingPanel() {
   const [tripType, setTripType] = useState<TripType>("roundtrip");
 
   return (
-    <div className="glass rounded-2xl p-6 border border-white/10 w-full max-w-md mx-auto">
-      <h2 className="text-xl font-bold text-white mb-4 text-center">Book a Flight</h2>
+    <div className="glass rounded-2xl p-6 border border-white/10 w-full max-w-md">
+      <h2 className="text-xl font-bold text-white mb-4">Book a Flight</h2>
 
-      {/* Trip type tabs - Center aligned, no Multi City */}
-      <div className="flex gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit mx-auto mb-4">
+      {/* Trip type tabs - No Multi City */}
+      <div className="flex gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit mb-4">
         {[
           { id: "roundtrip", label: "Round Trip" },
           { id: "oneway", label: "One Way" },
