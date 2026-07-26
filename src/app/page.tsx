@@ -13,53 +13,38 @@ import OurCompany from "@/components/sections/OurCompany";
 import OtherWebsites from "@/components/sections/OtherWebsites";
 import SectionHeader from "@/components/SectionHeader";
 
-// Add this to make the page dynamic
 export const dynamic = "force-dynamic";
 
-const tabs = [
-  { id: "flights", label: "Flights" },
-  { id: "deals", label: "Deals and offers" },
-  { id: "electronic-services", label: "Electronic services" },
-  { id: "travel-info", label: "Travel information" },
-  { id: "our-company", label: "Our company" },
-  { id: "other-websites", label: "Other websites" },
-];
-
-// Tab content mapping
+// Tab content mapping (for the left panel content based on active tab)
 const tabContent = {
   flights: {
     left: <BookingPanel />,
-    right: null,
     showSections: true,
   },
   deals: {
     left: <DealsGrid />,
-    right: null,
     showSections: false,
   },
   "electronic-services": {
     left: <ElectronicServices />,
-    right: null,
     showSections: false,
   },
   "travel-info": {
     left: <TravelInformation />,
-    right: null,
     showSections: false,
   },
   "our-company": {
     left: <OurCompany />,
-    right: null,
     showSections: false,
   },
   "other-websites": {
     left: <OtherWebsites />,
-    right: null,
     showSections: false,
   },
 };
 
 function HomeContent() {
+  // We'll use the URL or state to determine active tab, but since navigation is now in header, we can default to flights
   const [activeTab, setActiveTab] = useState("flights");
 
   const content = tabContent[activeTab as keyof typeof tabContent] || tabContent.flights;
@@ -84,28 +69,18 @@ function HomeContent() {
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          {/* Tab Bar */}
-          <div className="flex flex-wrap gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onMouseEnter={() => setActiveTab(tab.id)}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
-                    : "text-text-secondary hover:text-white"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            {/* Left: Booking Panel */}
             <div>{content.left}</div>
-            {content.right && <div>{content.right}</div>}
+
+            {/* Right: "Find your perfect flight" text moved here */}
+            <div className="text-white hidden lg:block">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-right">
+                Find your <br />
+                <span className="gradient-text">perfect flight</span>
+              </h1>
+              {/* Removed the subtitle as requested */}
+            </div>
           </div>
         </div>
       </section>
