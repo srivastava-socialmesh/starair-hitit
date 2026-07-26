@@ -1,4 +1,4 @@
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
 import Image from "next/image";
@@ -115,7 +115,7 @@ export default async function Home({
 
   return (
     <main className="min-h-screen bg-dark">
-      <Navbar />
+      <NavbarWrapper />
 
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">

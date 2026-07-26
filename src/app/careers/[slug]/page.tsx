@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -25,7 +25,7 @@ export default async function CareerDetailPage({ params }: { params: { slug: str
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <NavbarWrapper />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 pt-24 sm:pt-28 lg:pt-24">
         <Link href="/careers" className="text-accent hover:text-[#b00226] text-sm font-medium inline-flex items-center gap-1">
           ← Back to Careers

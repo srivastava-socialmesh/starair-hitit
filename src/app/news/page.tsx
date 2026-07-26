@@ -1,6 +1,6 @@
 import { createServerClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 
 export const dynamic = 'force-dynamic';
@@ -20,7 +20,7 @@ export default async function NewsPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <NavbarWrapper />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <h1 className="text-4xl font-bold text-gray-800 mb-2">Our News Feeds</h1>
         <p className="text-gray-500 mb-8">Latest news and updates from Star Air</p>

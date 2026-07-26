@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useState } from "react";
 import Image from "next/image";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 import { Package, Send, CheckCircle, Truck, Clock, Shield } from "lucide-react";
 
@@ -77,7 +77,7 @@ export default function CargoPage() {
   return (
     <main className="min-h-screen bg-white">
       <Suspense fallback={<div className="h-20" />}>
-        <Navbar />
+        <NavbarWrapper />
       </Suspense>
 
       {/* Hero Section */}

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 
 export const metadata = {
@@ -28,7 +28,7 @@ export default function AboutPage() {
       {/* Content */}
       <div className="relative z-10">
         <Suspense fallback={<div className="h-20" />}>
-          <Navbar />
+          <NavbarWrapper />
         </Suspense>
 
         {/* Hero Section */}

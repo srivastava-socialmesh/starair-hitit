@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 import { Plane, Shield, Users, Clock, Send, CheckCircle } from "lucide-react";
 
@@ -62,7 +62,6 @@ export default function CharterPage() {
       setSubmitted(true);
       resetForm();
 
-      // Automatically hide success message after 5 seconds
       setTimeout(() => {
         setSubmitted(false);
       }, 5000);
@@ -83,7 +82,7 @@ export default function CharterPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <NavbarWrapper />
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-br from-gray-900 to-gray-700 text-white overflow-hidden">

@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import Navbar from "@/components/sections/Navbar";
+import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/sections/Footer";
 
 export const dynamic = "force-dynamic";
@@ -67,7 +67,7 @@ export default async function FlightSchedulePage({
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <NavbarWrapper />
 
       {/* Page Header */}
       <section className="pt-28 pb-8 bg-gray-50 border-b border-gray-200">
