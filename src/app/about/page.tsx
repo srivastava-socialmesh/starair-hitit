@@ -25,7 +25,7 @@ export default function AboutPage() {
       </div>
 
       <div className="relative z-10">
-        <NavbarClient />
+        <NavbarClient activeMenu="flights" />
 
         {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">

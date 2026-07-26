@@ -38,10 +38,6 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleMenuHover = (id: string) => {
-    onMenuChange(id);
-  };
-
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
@@ -54,7 +50,7 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Row: Logo + Nav Links + Language + Mobile Toggle */}
-        <div className="flex items-center justify-between h-14 sm:h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-4">
           <Link href="/" className="relative w-32 h-10 sm:w-40 sm:h-12 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -71,28 +67,30 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
             )}
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden lg:flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
-            {menuItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  onMouseEnter={() => handleMenuHover(item.id)}
-                  onClick={() => handleMenuHover(item.id)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${
-                    activeMenu === item.id
-                      ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
-                      : "text-text-secondary hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              </li>
-            ))}
-          </ul>
+          {/* Desktop Navigation - Centered with max-width */}
+          <div className="hidden lg:flex items-center justify-center flex-1">
+            <ul className="flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10 max-w-full overflow-x-auto">
+              {menuItems.map((item) => (
+                <li key={item.id} className="flex-shrink-0">
+                  <button
+                    onMouseEnter={() => onMenuChange(item.id)}
+                    onClick={() => onMenuChange(item.id)}
+                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap ${
+                      activeMenu === item.id
+                        ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
+                        : "text-text-secondary hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           {/* Language + Mobile Toggle */}
-          <div className="flex items-center gap-3">
-            <div className="hidden lg:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="hidden lg:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
               <Globe size={14} className="text-text-muted" />
               <span className="text-xs text-text-secondary font-medium">English</span>
             </div>
@@ -118,7 +116,7 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
                 <li key={item.id}>
                   <button
                     onClick={() => {
-                      handleMenuHover(item.id);
+                      onMenuChange(item.id);
                       setIsMobileMenuOpen(false);
                     }}
                     className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition ${
