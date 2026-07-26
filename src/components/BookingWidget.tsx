@@ -8,7 +8,9 @@ export default function BookingWidget() {
   const [tripType, setTripType] = useState<TripType>("roundtrip");
 
   return (
-    <div className="w-full">
+    <div className="w-full glass rounded-2xl p-6 border border-white/10">
+      <h2 className="text-xl font-bold text-white mb-4">Book a Flight</h2>
+
       {/* Trip type tabs */}
       <div className="flex gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit mb-4">
         {[
@@ -29,7 +31,7 @@ export default function BookingWidget() {
         ))}
       </div>
 
-      {/* From / To - One Row */}
+      {/* From / To */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <div>
           <label className="block text-xs text-text-muted mb-1">From</label>
@@ -55,7 +57,7 @@ export default function BookingWidget() {
         </div>
       </div>
 
-      {/* Departure, Cabin Class, Passengers - One Row */}
+      {/* Departure, Cabin, Passengers */}
       <div className="grid grid-cols-3 gap-3">
         <div>
           <label className="block text-xs text-text-muted mb-1">Departure</label>
@@ -95,7 +97,6 @@ export default function BookingWidget() {
         </div>
       </div>
 
-      {/* Search Button */}
       <button className="w-full mt-4 bg-accent hover:bg-accent-dark text-white font-semibold py-2.5 rounded-lg transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(210,4,45,0.3)] hover:shadow-[0_0_30px_rgba(210,4,45,0.5)]">
         <Search size={18} /> Search Flights
       </button>

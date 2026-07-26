@@ -1,18 +1,62 @@
 "use client";
 
-import Navbar from "@/components/sections/Navbar";
+import { useState } from "react";
+import Image from "next/image";
+import Navbar, { menuItems } from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
-import HeroSlider from "@/components/sections/HeroSlider";
+import BookingWidget from "@/components/BookingWidget";
+import DealsGrid from "@/components/sections/DealsGrid";
+import ElectronicServices from "@/components/sections/ElectronicServices";
+import TravelInformation from "@/components/sections/TravelInformation";
+import OurCompany from "@/components/sections/OurCompany";
+import OtherWebsites from "@/components/sections/OtherWebsites";
 import SectionHeader from "@/components/SectionHeader";
 
 export const dynamic = "force-dynamic";
 
+// Map menu IDs to content components
+const contentMap = {
+  flights: <BookingWidget />,
+  deals: <DealsGrid />,
+  "electronic-services": <ElectronicServices />,
+  "travel-info": <TravelInformation />,
+  "our-company": <OurCompany />,
+  "other-websites": <OtherWebsites />,
+};
+
 export default function Home() {
+  const [activeMenu, setActiveMenu] = useState("flights");
+
+  const ActiveContent = contentMap[activeMenu as keyof typeof contentMap] || contentMap.flights;
+
   return (
     <main className="min-h-screen bg-dark">
-      <Navbar />
-      <HeroSlider />
+      <Navbar activeMenu={activeMenu} onMenuChange={setActiveMenu} />
+
+      {/* Hero Section with Static Content Area */}
+      <section className="relative min-h-[70vh] flex items-center pt-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&q=80"
+            alt="Star Air"
+            fill
+            className="object-cover"
+            priority
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent" />
+          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
+          <div className="flex justify-start">
+            <div className="w-full max-w-2xl">
+              {ActiveContent}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Sections Below */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">

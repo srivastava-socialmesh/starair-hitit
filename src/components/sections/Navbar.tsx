@@ -1,36 +1,27 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Globe, ChevronDown, X } from "lucide-react";
-import BookingWidget from "@/components/BookingWidget";
-import DealsGrid from "@/components/sections/DealsGrid";
-import ElectronicServices from "@/components/sections/ElectronicServices";
-import TravelInformation from "@/components/sections/TravelInformation";
-import OurCompany from "@/components/sections/OurCompany";
-import OtherWebsites from "@/components/sections/OtherWebsites";
 
 const LOGO_URL =
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
 
-const menuItems = [
-  { id: "flights", label: "Flights", component: <BookingWidget /> },
-  { id: "deals", label: "Deals and offers", component: <DealsGrid /> },
-  { id: "electronic-services", label: "Electronic services", component: <ElectronicServices /> },
-  { id: "travel-info", label: "Travel information", component: <TravelInformation /> },
-  { id: "our-company", label: "Our company", component: <OurCompany /> },
-  { id: "other-websites", label: "Other websites", component: <OtherWebsites /> },
+export const menuItems = [
+  { id: "flights", label: "Flights" },
+  { id: "deals", label: "Deals and offers" },
+  { id: "electronic-services", label: "Electronic services" },
+  { id: "travel-info", label: "Travel information" },
+  { id: "our-company", label: "Our company" },
+  { id: "other-websites", label: "Other websites" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: string; onMenuChange: (id: string) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [logoError, setLogoError] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const dropdownTimeout = useRef<NodeJS.Timeout | null>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,43 +38,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleMouseEnter = (id: string) => {
-    if (dropdownTimeout.current) {
-      clearTimeout(dropdownTimeout.current);
-      dropdownTimeout.current = null;
-    }
-    setActiveDropdown(id);
+  const handleMenuHover = (id: string) => {
+    onMenuChange(id);
   };
-
-  const handleMouseLeave = () => {
-    dropdownTimeout.current = setTimeout(() => {
-      setActiveDropdown(null);
-    }, 300);
-  };
-
-  // Close mobile menu on resize to desktop
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target as Node)) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    if (isMobileMenuOpen) {
-      document.addEventListener("click", handleClickOutside);
-    }
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [isMobileMenuOpen]);
 
   return (
     <nav
@@ -96,7 +53,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Row: Logo + Language + Mobile Toggle */}
+        {/* Top Row: Logo + Nav Links + Language + Mobile Toggle */}
         <div className="flex items-center justify-between h-14 sm:h-16">
           <Link href="/" className="relative w-32 h-10 sm:w-40 sm:h-12 flex-shrink-0">
             {!logoError ? (
@@ -114,94 +71,70 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Desktop Language */}
-          <div className="hidden lg:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10 flex-shrink-0">
-            <Globe size={14} className="text-text-muted" />
-            <span className="text-xs text-text-secondary font-medium">English</span>
-          </div>
-
-          {/* Mobile Toggle */}
-          <button
-            className="lg:hidden text-text-primary p-1.5 glass rounded-lg"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={22} /> : (
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
-
-        {/* Bottom Row: Desktop Navigation */}
-        <div className="hidden lg:flex items-center justify-center py-2 border-t border-white/5">
-          <ul className="flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
+          {/* Desktop Navigation */}
+          <ul className="hidden lg:flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
             {menuItems.map((item) => (
-              <li
-                key={item.id}
-                className="relative"
-                onMouseEnter={() => handleMouseEnter(item.id)}
-                onMouseLeave={handleMouseLeave}
-              >
+              <li key={item.id}>
                 <button
-                  className={`flex items-center gap-0.5 px-4 py-1.5 rounded-full text-sm font-medium transition ${
-                    activeDropdown === item.id
-                      ? "bg-accent/20 text-white"
+                  onMouseEnter={() => handleMenuHover(item.id)}
+                  onClick={() => handleMenuHover(item.id)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${
+                    activeMenu === item.id
+                      ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
                       : "text-text-secondary hover:text-white hover:bg-white/10"
                   }`}
                 >
                   {item.label}
-                  <ChevronDown size={14} className="ml-0.5" />
                 </button>
-
-                {/* Dropdown */}
-                {activeDropdown === item.id && (
-                  <div
-                    className="absolute left-0 top-full mt-2 w-[90vw] max-w-4xl glass rounded-2xl border border-white/10 p-6 shadow-2xl backdrop-blur-xl z-50"
-                    onMouseEnter={() => {
-                      if (dropdownTimeout.current) {
-                        clearTimeout(dropdownTimeout.current);
-                        dropdownTimeout.current = null;
-                      }
-                    }}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    {item.component}
-                  </div>
-                )}
               </li>
             ))}
           </ul>
+
+          {/* Language + Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10 flex-shrink-0">
+              <Globe size={14} className="text-text-muted" />
+              <span className="text-xs text-text-secondary font-medium">English</span>
+            </div>
+            <button
+              className="lg:hidden text-text-primary p-1.5 glass rounded-lg"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={22} /> : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu (Full screen overlay) */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="lg:hidden fixed inset-0 top-14 sm:top-16 glass-dark backdrop-blur-xl z-40 overflow-y-auto"
-          >
-            <div className="p-6 space-y-2">
+          <div className="lg:hidden glass-dark border-t border-white/10 p-4 backdrop-blur-xl">
+            <ul className="flex flex-col gap-2">
               {menuItems.map((item) => (
-                <div key={item.id} className="border-b border-white/5 pb-3">
+                <li key={item.id}>
                   <button
-                    className="flex items-center justify-between w-full text-text-secondary hover:text-white py-2"
                     onClick={() => {
-                      // For mobile, we can navigate or toggle sub-content
-                      // For now, just close menu and go to the corresponding page
+                      handleMenuHover(item.id);
                       setIsMobileMenuOpen(false);
                     }}
+                    className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition ${
+                      activeMenu === item.id
+                        ? "bg-accent text-white"
+                        : "text-text-secondary hover:text-white hover:bg-white/10"
+                    }`}
                   >
-                    <span className="text-sm font-medium">{item.label}</span>
-                    <ChevronDown size={16} />
+                    {item.label}
                   </button>
-                  {/* Mobile sub-content could be shown here if needed */}
-                </div>
+                </li>
               ))}
-              <div className="pt-4 flex items-center gap-2 text-text-muted text-sm">
+              <li className="pt-2 border-t border-white/5 flex items-center gap-2 text-text-muted text-sm">
                 <Globe size={14} /> English
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
         )}
       </div>
