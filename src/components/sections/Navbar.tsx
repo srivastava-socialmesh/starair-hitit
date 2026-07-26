@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Globe } from "lucide-react";
+import { Globe, ChevronDown } from "lucide-react";
 
 const LOGO_URL =
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
@@ -30,11 +30,11 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Flights", href: "/" },
-    { label: "Deals", href: "/deals" },
-    { label: "Services", href: "/services" },
-    { label: "Travel", href: "/travel-info" },
-    { label: "Company", href: "/about" },
-    { label: "Other", href: "#" },
+    { label: "Deals and offers", href: "/deals" },
+    { label: "Electronic services", href: "/electronic-services", hasDropdown: true },
+    { label: "Travel information", href: "/travel-info", hasDropdown: true },
+    { label: "Our company", href: "/about", hasDropdown: true },
+    { label: "Other websites", href: "#", hasDropdown: true },
   ];
 
   return (
@@ -48,8 +48,8 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="h-16 sm:h-20 flex items-center justify-between gap-6">
-          {/* Logo */}
+        {/* Top Row: Logo + Language */}
+        <div className="flex items-center justify-between h-14 sm:h-16">
           <Link href="/" className="relative w-32 h-10 sm:w-40 sm:h-12 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -66,25 +66,28 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Navigation Links - Rounded border, equal spacing */}
-          <ul className="hidden lg:flex items-center gap-1 glass rounded-full px-2 py-1 border border-white/10">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="block px-4 py-1.5 rounded-full text-sm font-medium text-text-secondary hover:text-white hover:bg-white/10 transition"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Language Selector */}
+          {/* Language Selector - Top Right */}
           <div className="flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10 flex-shrink-0">
             <Globe size={14} className="text-text-muted" />
             <span className="text-xs text-text-secondary font-medium">English</span>
           </div>
+        </div>
+
+        {/* Bottom Row: Navigation Links */}
+        <div className="flex items-center justify-center py-2 border-t border-white/5">
+          <ul className="flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
+            {navLinks.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  className="flex items-center gap-0.5 px-4 py-1.5 rounded-full text-sm font-medium text-text-secondary hover:text-white hover:bg-white/10 transition"
+                >
+                  {link.label}
+                  {link.hasDropdown && <ChevronDown size={14} className="ml-0.5" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </nav>
