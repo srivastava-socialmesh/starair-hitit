@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -21,15 +22,16 @@ export default function AboutPage() {
           priority
           unoptimized
         />
-        {/* Overlay at 30% opacity → image is 70% visible */}
         <div className="absolute inset-0 bg-white/30" />
       </div>
 
       {/* Content */}
       <div className="relative z-10">
-        <Navbar />
+        <Suspense fallback={<div className="h-20" />}>
+          <Navbar />
+        </Suspense>
 
-        {/* Hero Section – gradient overlay for text contrast */}
+        {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
@@ -41,7 +43,8 @@ export default function AboutPage() {
                 Who We <span className="text-accent">Are</span>
               </h1>
               <p className="mt-4 text-lg text-white/80 max-w-xl">
-                Connecting Real India with Secure, Swift, Spacious, Sincere, and Sustainable air service.
+                Connecting Real India with Secure, Swift, Spacious, Sincere, and
+                Sustainable air service.
               </p>
             </div>
           </div>
@@ -61,24 +64,29 @@ export default function AboutPage() {
                 <div className="w-20 h-1 bg-accent rounded-full mt-4 mb-6" />
                 <div className="prose prose-lg max-w-none text-gray-800 space-y-4">
                   <p>
-                    Star Air, the aviation arm of <strong>Sanjay Ghodawat Group (SGG)</strong>,
-                    commenced its commercial operations in <strong>2019</strong> with a mission to
-                    <strong> “Connect Real India” </strong> by making air travel affordable and
-                    convenient for the Indian populace.
+                    Star Air, the aviation arm of{" "}
+                    <strong>Sanjay Ghodawat Group (SGG)</strong>, commenced its
+                    commercial operations in <strong>2019</strong> with a mission
+                    to <strong> “Connect Real India” </strong> by making air
+                    travel affordable and convenient for the Indian populace.
                   </p>
                   <p>
-                    Since its inception, Star Air has won the trust and hearts of close to
-                    <strong> 3.0 million flyers </strong> across <strong>31 destinations</strong> in India
-                    with its promise of Secure, Swift, Spacious, Sincere, and Sustainable air service.
+                    Since its inception, Star Air has won the trust and hearts
+                    of close to <strong> 3.0 million flyers </strong> across{" "}
+                    <strong>31 destinations</strong> in India with its promise
+                    of Secure, Swift, Spacious, Sincere, and Sustainable air
+                    service.
                   </p>
                   <p>
-                    Currently, Star Air operates a fleet of <strong>12 aircraft</strong>, including
-                    8 Embraer E175s and 4 Embraer E145s, and is looking to expand the fleet to
+                    Currently, Star Air operates a fleet of{" "}
+                    <strong>12 aircraft</strong>, including 8 Embraer E175s and
+                    4 Embraer E145s, and is looking to expand the fleet to{" "}
                     <strong> 25 aircraft </strong> over the next 36 months.
                   </p>
                   <p>
-                    It was awarded <strong>‘Best Airline – Regional/UDAN Connectivity’</strong> at
-                    Wings India in 2026.
+                    It was awarded{" "}
+                    <strong>‘Best Airline – Regional/UDAN Connectivity’</strong>{" "}
+                    at Wings India in 2026.
                   </p>
                 </div>
               </div>
@@ -97,7 +105,9 @@ export default function AboutPage() {
                 </div>
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/60 text-center shadow-sm">
                   <div className="text-4xl font-bold text-accent">2026</div>
-                  <div className="text-sm text-gray-700 mt-1">Wings India Award</div>
+                  <div className="text-sm text-gray-700 mt-1">
+                    Wings India Award
+                  </div>
                 </div>
               </div>
             </div>
@@ -118,22 +128,30 @@ export default function AboutPage() {
                 <div className="w-20 h-1 bg-accent rounded-full mt-4 mb-6" />
                 <div className="prose prose-lg max-w-none text-gray-800 space-y-4">
                   <p>
-                    <strong>Sanjay Ghodawat Group (SGG)</strong> is a diversified conglomerate with
-                    operations spanning various high-value business verticals such as
-                    <strong> Aviation, Consumer Products, Education, Energy, Realty, and Retail</strong>.
+                    <strong>Sanjay Ghodawat Group (SGG)</strong> is a diversified
+                    conglomerate with operations spanning various high-value
+                    business verticals such as{" "}
+                    <strong>
+                      Aviation, Consumer Products, Education, Energy, Realty, and
+                      Retail
+                    </strong>
+                    .
                   </p>
                   <p>
-                    Since its founding in <strong>1993</strong>, SGG has witnessed impressive growth
-                    under the splendid stewardship of its Founder and Chairman,
+                    Since its founding in <strong>1993</strong>, SGG has witnessed
+                    impressive growth under the splendid stewardship of its
+                    Founder and Chairman,{" "}
                     <strong> Mr. Sanjay Ghodawat</strong>.
                   </p>
                   <p>
-                    It has a strong base of millions of customers globally, with an employee strength of
-                    over <strong>11,000</strong> and a student base of over <strong>21,000</strong>.
+                    It has a strong base of millions of customers globally, with
+                    an employee strength of over <strong>11,000</strong> and a
+                    student base of over <strong>21,000</strong>.
                   </p>
                   <p>
-                    SGG is moving ahead with great vigor and bringing significant changes in people's
-                    lives with its wide range of high-quality products and services.
+                    SGG is moving ahead with great vigor and bringing significant
+                    changes in people's lives with its wide range of high-quality
+                    products and services.
                   </p>
                   <a
                     href="https://www.ghodawat.com"
@@ -168,7 +186,8 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold">Join the Star Air Family</h2>
             <p className="mt-4 text-white/80 text-lg max-w-2xl mx-auto">
-              Experience the difference of flying with India's most trusted regional airline.
+              Experience the difference of flying with India's most trusted
+              regional airline.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <a
