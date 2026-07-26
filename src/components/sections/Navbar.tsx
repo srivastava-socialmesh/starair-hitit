@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Globe, ChevronDown, X } from "lucide-react";
+import { Globe, X, Menu } from "lucide-react";
 
 const LOGO_URL =
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
@@ -16,7 +16,13 @@ export const menuItems = [
   { id: "other-websites", label: "Other websites" },
 ];
 
-export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: string; onMenuChange: (id: string) => void }) {
+export default function Navbar({
+  activeMenu,
+  onMenuChange,
+}: {
+  activeMenu: string;
+  onMenuChange: (id: string) => void;
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -38,6 +44,11 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  const handleMenuClick = (id: string) => {
+    onMenuChange(id);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
@@ -49,8 +60,9 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Row: Logo + Nav Links + Language + Mobile Toggle */}
-        <div className="flex items-center justify-between h-14 sm:h-16 gap-4">
+        {/* Top Row: Logo + Nav (Centered) + Language + Mobile Toggle */}
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          {/* Logo */}
           <Link href="/" className="relative w-32 h-10 sm:w-40 sm:h-12 flex-shrink-0">
             {!logoError ? (
               <Image
@@ -67,29 +79,27 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
             )}
           </Link>
 
-          {/* Desktop Navigation - Centered with max-width */}
-          <div className="hidden lg:flex items-center justify-center flex-1">
-            <ul className="flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10 max-w-full overflow-x-auto">
-              {menuItems.map((item) => (
-                <li key={item.id} className="flex-shrink-0">
-                  <button
-                    onMouseEnter={() => onMenuChange(item.id)}
-                    onClick={() => onMenuChange(item.id)}
-                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap ${
-                      activeMenu === item.id
-                        ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
-                        : "text-text-secondary hover:text-white hover:bg-white/10"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Desktop Navigation (Centered) */}
+          <ul className="hidden lg:flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
+            {menuItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  onMouseEnter={() => onMenuChange(item.id)}
+                  onClick={() => onMenuChange(item.id)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap ${
+                    activeMenu === item.id
+                      ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
+                      : "text-text-secondary hover:text-white hover:bg-white/10"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-          {/* Language + Mobile Toggle */}
-          <div className="flex items-center gap-3 flex-shrink-0">
+          {/* Right side: Language + Mobile Toggle */}
+          <div className="flex items-center gap-3">
             <div className="hidden lg:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
               <Globe size={14} className="text-text-muted" />
               <span className="text-xs text-text-secondary font-medium">English</span>
@@ -99,11 +109,7 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X size={22} /> : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
@@ -115,10 +121,7 @@ export default function Navbar({ activeMenu, onMenuChange }: { activeMenu: strin
               {menuItems.map((item) => (
                 <li key={item.id}>
                   <button
-                    onClick={() => {
-                      onMenuChange(item.id);
-                      setIsMobileMenuOpen(false);
-                    }}
+                    onClick={() => handleMenuClick(item.id)}
                     className={`w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition ${
                       activeMenu === item.id
                         ? "bg-accent text-white"

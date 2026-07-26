@@ -18,7 +18,7 @@ const slides = [
   },
 ];
 
-export default function HeroSlider() {
+export default function HeroSlider({ children }: { children?: React.ReactNode }) {
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -40,8 +40,8 @@ export default function HeroSlider() {
   const prev = () => goTo((current - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
-      {/* Background */}
+    <section className="relative h-[70vh] min-h-[500px] flex items-center overflow-hidden">
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src={slides[current].image}
@@ -55,11 +55,9 @@ export default function HeroSlider() {
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
       </div>
 
-      {/* Content - Booking widget will be rendered separately in the page */}
+      {/* Content (Booking Widget or other) */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-start">
-          {/* Booking widget is placed directly in the page, not here */}
-        </div>
+        {children}
       </div>
 
       {/* Navigation Arrows */}

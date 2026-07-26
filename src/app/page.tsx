@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
+import HeroSlider from "@/components/sections/HeroSlider";
 import BookingWidget from "@/components/BookingWidget";
 import DealsGrid from "@/components/sections/DealsGrid";
 import ElectronicServices from "@/components/sections/ElectronicServices";
@@ -32,27 +32,14 @@ export default function Home() {
     <main className="min-h-screen bg-dark">
       <Navbar activeMenu={activeMenu} onMenuChange={setActiveMenu} />
 
-      <section className="relative min-h-[70vh] flex items-center pt-20 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&q=80"
-            alt="Star Air"
-            fill
-            className="object-cover"
-            priority
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent" />
-          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+      {/* Hero with Slider Background + Content */}
+      <HeroSlider>
+        <div className="flex justify-start w-full max-w-2xl">
+          {ActiveContent}
         </div>
+      </HeroSlider>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex justify-start">
-            <div className="w-full max-w-2xl">{ActiveContent}</div>
-          </div>
-        </div>
-      </section>
-
+      {/* Sections Below */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">
         <section>
           <SectionHeader title="Popular Destinations" subtitle="Most loved routes" />

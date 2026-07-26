@@ -8,7 +8,7 @@ export default function BookingWidget() {
   const [tripType, setTripType] = useState<TripType>("roundtrip");
 
   return (
-    <div className="w-full glass rounded-2xl p-6 border border-white/10">
+    <div className="glass rounded-2xl p-6 border border-white/10 w-full max-w-md">
       <h2 className="text-xl font-bold text-white mb-4">Book a Flight</h2>
 
       {/* Trip type tabs */}
