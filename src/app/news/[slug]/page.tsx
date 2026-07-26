@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabase/server";
-import NavbarWrapper from "@/components/NavbarWrapper";
+import NavbarClient from "@/components/NavbarClient";
 import Footer from "@/components/sections/Footer";
 import Image from "next/image";
 
@@ -31,7 +31,7 @@ export default async function NewsDetailPage({ params }: { params: { slug: strin
 
   return (
     <main className="min-h-screen bg-white">
-      <NavbarWrapper />
+      <NavbarClient />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <div className="mb-6">
           <Link href="/news" className="text-red-600 hover:text-red-700 text-sm">← Back to News</Link>

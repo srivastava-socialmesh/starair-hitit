@@ -1,4 +1,4 @@
-import NavbarWrapper from "@/components/NavbarWrapper";
+import NavbarClient from "@/components/NavbarClient";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ export const revalidate = 0;
 export default function LoyaltyPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <NavbarWrapper />
+      <NavbarClient />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
         <h1 className="text-4xl font-bold text-center mb-2">StarAir Privilege Club</h1>
         <p className="text-center text-rose-400 text-lg font-semibold mb-8">Earn. Redeem. Enjoy.</p>

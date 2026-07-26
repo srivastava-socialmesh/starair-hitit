@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import NavbarWrapper from "@/components/NavbarWrapper";
+import NavbarClient from "@/components/NavbarClient";
 import Footer from "@/components/sections/Footer";
 import Link from "next/link";
 import ApplicationForm from "@/components/ApplicationForm";
@@ -21,7 +21,7 @@ export default async function CareersPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <NavbarWrapper />
+      <NavbarClient />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 pt-24 sm:pt-28 lg:pt-24">
         <div className="text-center mb-16">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Join Our Team</span>

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import NavbarWrapper from "@/components/NavbarWrapper";
+import NavbarClient from "@/components/NavbarClient";
 import Footer from "@/components/sections/Footer";
 import { Search, Plane, MapPin, Clock } from "lucide-react";
 
@@ -477,7 +477,7 @@ function FlightStatusFallback() {
 export default function FlightStatusPage() {
   return (
     <main className="min-h-screen bg-white">
-      <NavbarWrapper />
+      <NavbarClient />
       <Suspense fallback={<FlightStatusFallback />}>
         <FlightStatusContent />
       </Suspense>
