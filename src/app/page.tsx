@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
-import BookingPanel from "@/components/BookingPanel";
+import HeroSlider from "@/components/sections/HeroSlider";
 import SectionHeader from "@/components/SectionHeader";
 
 export const dynamic = "force-dynamic";
@@ -13,28 +12,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-dark">
       <Navbar />
-
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-28 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png"
-            alt="Star Air"
-            fill
-            className="object-cover"
-            priority
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark via-dark/80 to-transparent" />
-          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-        </div>
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex justify-start">
-            <BookingPanel />
-          </div>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* Sections Below */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">

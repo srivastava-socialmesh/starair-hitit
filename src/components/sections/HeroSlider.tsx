@@ -2,20 +2,19 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import BookingPanel from "@/components/BookingPanel";
 
 const slides = [
   {
     id: 1,
-    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
+    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/175.jpg",
   },
   {
     id: 2,
-    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Banner_6.jpg",
+    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/counter.jpg",
   },
   {
     id: 3,
-    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Banner_5.jpg",
+    image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/cabin.jpg",
   },
 ];
 
@@ -27,7 +26,7 @@ export default function HeroSlider() {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -40,17 +39,15 @@ export default function HeroSlider() {
   const next = () => goTo((current + 1) % slides.length);
   const prev = () => goTo((current - 1 + slides.length) % slides.length);
 
-  const slide = slides[current];
-
   return (
     <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={slide.image}
+          src={slides[current].image}
           alt="Star Air"
           fill
-          className="object-cover"
+          className="object-cover transition-opacity duration-1000"
           priority
           unoptimized
         />
@@ -58,11 +55,10 @@ export default function HeroSlider() {
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
       </div>
 
-      {/* Content */}
+      {/* Content - Booking widget will be rendered separately in the page */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-start">
-          {/* Booking Panel - Left side only */}
-          <BookingPanel />
+          {/* Booking widget is placed directly in the page, not here */}
         </div>
       </div>
 
