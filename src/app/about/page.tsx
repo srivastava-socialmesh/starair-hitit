@@ -10,9 +10,6 @@ export const metadata = {
 };
 
 export default function AboutPage() {
-  // For static pages, we don't need menu state, so pass dummy props
-  const dummyMenuChange = () => {};
-
   return (
     <main className="relative min-h-screen bg-white">
       <div className="fixed inset-0 z-0">
@@ -28,7 +25,7 @@ export default function AboutPage() {
       </div>
 
       <div className="relative z-10">
-        <Navbar activeMenu="flights" onMenuChange={dummyMenuChange} />
+        <NavbarClient />
 
         {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
