@@ -8,26 +8,14 @@ const slides = [
   {
     id: 1,
     image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/file.png",
-    headline: "Embraer 175",
-    description: "This is how we connect the future",
-    cta: "Live the experience",
-    aircraft: true,
   },
   {
     id: 2,
     image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Banner_6.jpg",
-    headline: "Embark on your",
-    description: "Next Adventure",
-    cta: "Book now",
-    aircraft: false,
   },
   {
     id: 3,
     image: "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Banner_5.jpg",
-    headline: "No Middle Seat",
-    description: "Say Goodbye to the middle squeeze",
-    cta: "Learn more",
-    aircraft: false,
   },
 ];
 
