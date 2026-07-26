@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import NavbarWrapper from "@/components/NavbarWrapper";
+import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 
 export const metadata = {
@@ -10,9 +10,11 @@ export const metadata = {
 };
 
 export default function AboutPage() {
+  // For static pages, we don't need menu state, so pass dummy props
+  const dummyMenuChange = () => {};
+
   return (
     <main className="relative min-h-screen bg-white">
-      {/* Fixed Background Image - 70% visible */}
       <div className="fixed inset-0 z-0">
         <Image
           src="https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/banners/Aircraft_Tail.jpg"
@@ -25,11 +27,8 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-white/30" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10">
-        <Suspense fallback={<div className="h-20" />}>
-          <NavbarWrapper />
-        </Suspense>
+        <Navbar activeMenu="flights" onMenuChange={dummyMenuChange} />
 
         {/* Hero Section */}
         <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
