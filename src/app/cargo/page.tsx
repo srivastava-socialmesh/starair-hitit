@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState } from "react";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
@@ -75,7 +76,9 @@ export default function CargoPage() {
 
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
+      <Suspense fallback={<div className="h-20" />}>
+        <Navbar />
+      </Suspense>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-br from-gray-900 to-gray-700 text-white overflow-hidden">
