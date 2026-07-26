@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import Navbar from "@/components/sections/Navbar";
+import NavbarClient from "@/components/NavbarClient";
 import Footer from "@/components/sections/Footer";
 
 export const metadata = {
