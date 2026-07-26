@@ -4,7 +4,6 @@ import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import LiveChat from "@/components/sections/LiveChat";
 import FuturisticBackground from "@/components/FuturisticBackground";
 
@@ -31,9 +30,6 @@ export default async function RootLayout({
         <FuturisticBackground />
         <NextIntlClientProvider messages={messages}>
           <div className="relative z-10">
-            <div className="fixed top-4 right-4 z-50">
-              <LanguageSwitcher />
-            </div>
             {children}
             <LiveChat />
           </div>

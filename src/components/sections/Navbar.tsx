@@ -1,13 +1,27 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Globe } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 
 const LOGO_URL =
   "https://uuepctepzesuvvjmvkrz.supabase.co/storage/v1/object/public/logo/starair_logo.png";
 
+const tabs = [
+  { id: "flights", label: "Flights" },
+  { id: "deals", label: "Deals and offers" },
+  { id: "electronic-services", label: "Electronic services" },
+  { id: "travel-info", label: "Travel information" },
+  { id: "our-company", label: "Our company" },
+  { id: "other-websites", label: "Other websites" },
+];
+
 export default function Navbar() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "flights";
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -27,6 +41,10 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  const handleTabClick = (tabId: string) => {
+    router.push(`/?tab=${tabId}`);
+  };
 
   return (
     <nav
@@ -57,11 +75,37 @@ export default function Navbar() {
             )}
           </Link>
 
+          {/* Tabs */}
+          <ul className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium">
+            {tabs.map((tab) => (
+              <li key={tab.id}>
+                <button
+                  onClick={() => handleTabClick(tab.id)}
+                  className={`flex items-center gap-1 transition-colors ${
+                    activeTab === tab.id
+                      ? "text-accent"
+                      : "text-text-secondary hover:text-accent"
+                  }`}
+                >
+                  {tab.label}
+                  {/* Add dropdown indicator if needed */}
+                </button>
+              </li>
+            ))}
+          </ul>
+
           {/* Language Selector */}
-          <div className="flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
+          <div className="hidden sm:flex items-center gap-1 glass rounded-full px-3 py-1.5 border border-white/10">
             <Globe size={14} className="text-text-muted" />
             <span className="text-xs text-text-secondary font-medium">English</span>
           </div>
+
+          {/* Mobile menu toggle (simplified) */}
+          <button className="lg:hidden text-text-primary ml-2">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
         </div>
       </div>
     </nav>

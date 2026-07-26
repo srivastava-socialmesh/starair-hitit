@@ -1,90 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
 import BookingPanel from "@/components/BookingPanel";
-import QuickLinks from "@/components/sections/QuickLinks";
 import DealsGrid from "@/components/sections/DealsGrid";
 import ElectronicServices from "@/components/sections/ElectronicServices";
 import TravelInformation from "@/components/sections/TravelInformation";
 import OurCompany from "@/components/sections/OurCompany";
 import OtherWebsites from "@/components/sections/OtherWebsites";
 import SectionHeader from "@/components/SectionHeader";
+import { Suspense } from "react";
 
-const tabs = [
-  { id: "flights", label: "Flights" },
-  { id: "deals", label: "Deals and offers" },
-  { id: "electronic-services", label: "Electronic services" },
-  { id: "travel-info", label: "Travel information" },
-  { id: "our-company", label: "Our company" },
-  { id: "other-websites", label: "Other websites" },
-];
-
-// Tab content mapping
 const tabContent = {
   flights: {
-    left: <BookingPanel />,
-    right: (
-      <div className="space-y-4">
-        <div className="glass rounded-2xl p-5 border border-white/10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent pointer-events-none" />
-          <h3 className="text-sm font-display uppercase tracking-wider text-accent mb-1">
-            NEW BOEING 787
-          </h3>
-          <p className="text-white font-semibold text-lg leading-tight">
-            This is how we connect the future
-          </p>
-          <p className="text-text-secondary text-sm mt-1">
-            Live the experience
-          </p>
-          <button className="mt-3 bg-accent hover:bg-accent-dark text-white px-4 py-1.5 rounded-full text-sm font-medium transition">
-            Learn more →
-          </button>
-        </div>
-        <QuickLinks />
-      </div>
-    ),
+    component: <BookingPanel />,
     showSections: true,
   },
   deals: {
-    left: <DealsGrid />,
-    right: <QuickLinks />,
+    component: <DealsGrid />,
     showSections: false,
   },
   "electronic-services": {
-    left: <ElectronicServices />,
-    right: <QuickLinks />,
+    component: <ElectronicServices />,
     showSections: false,
   },
   "travel-info": {
-    left: <TravelInformation />,
-    right: <QuickLinks />,
+    component: <TravelInformation />,
     showSections: false,
   },
   "our-company": {
-    left: <OurCompany />,
-    right: <QuickLinks />,
+    component: <OurCompany />,
     showSections: false,
   },
   "other-websites": {
-    left: <OtherWebsites />,
-    right: <QuickLinks />,
+    component: <OtherWebsites />,
     showSections: false,
   },
 };
 
-export default function Home() {
-  const [activeTab, setActiveTab] = useState("flights");
-
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "flights";
   const content = tabContent[activeTab as keyof typeof tabContent] || tabContent.flights;
 
   return (
-    <main className="min-h-screen bg-dark">
-      <Navbar />
-
+    <>
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
         {/* Background */}
@@ -103,37 +66,17 @@ export default function Home() {
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="mb-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-              Find your <span className="gradient-text">perfect flight</span>
-            </h1>
-            <p className="text-text-secondary text-lg mt-1">
-              Search, compare, and book with Star Air.
-            </p>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Left: Booking Panel */}
+            <div>{content.component}</div>
 
-          {/* Tab Bar - Now with hover support */}
-          <div className="flex flex-wrap gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onMouseEnter={() => setActiveTab(tab.id)}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
-                    : "text-text-secondary hover:text-white"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content */}
-          <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-2">{content.left}</div>
-            <div className="space-y-4">{content.right}</div>
+            {/* Right: Headline only */}
+            <div className="text-right hidden lg:block">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Find your <br />
+                <span className="gradient-text">perfect flight</span>
+              </h1>
+            </div>
           </div>
         </div>
       </section>
@@ -220,6 +163,17 @@ export default function Home() {
 
       <Awards />
       <Footer />
+    </>
+  );
+}
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-dark">
+      <Navbar />
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-text-muted">Loading...</div>}>
+        <HomeContent />
+      </Suspense>
     </main>
   );
 }
