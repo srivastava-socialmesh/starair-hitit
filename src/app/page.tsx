@@ -32,10 +32,12 @@ export default function Home() {
     <main className="min-h-screen bg-dark">
       <Navbar activeMenu={activeMenu} onMenuChange={setActiveMenu} />
 
-      {/* Hero with Slider Background + Content */}
+      {/* Hero with Slider Background + Centered Content */}
       <HeroSlider>
-        <div className="flex justify-start w-full max-w-2xl">
-          {ActiveContent}
+        <div className="flex justify-center w-full">
+          <div className="w-full max-w-2xl">
+            {ActiveContent}
+          </div>
         </div>
       </HeroSlider>
 
