@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 import Image from "next/image";
 import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -12,38 +12,56 @@ import TravelInformation from "@/components/sections/TravelInformation";
 import OurCompany from "@/components/sections/OurCompany";
 import OtherWebsites from "@/components/sections/OtherWebsites";
 import SectionHeader from "@/components/SectionHeader";
-import { Suspense } from "react";
 
+// Add this to make the page dynamic
+export const dynamic = "force-dynamic";
+
+const tabs = [
+  { id: "flights", label: "Flights" },
+  { id: "deals", label: "Deals and offers" },
+  { id: "electronic-services", label: "Electronic services" },
+  { id: "travel-info", label: "Travel information" },
+  { id: "our-company", label: "Our company" },
+  { id: "other-websites", label: "Other websites" },
+];
+
+// Tab content mapping
 const tabContent = {
   flights: {
-    component: <BookingPanel />,
+    left: <BookingPanel />,
+    right: null,
     showSections: true,
   },
   deals: {
-    component: <DealsGrid />,
+    left: <DealsGrid />,
+    right: null,
     showSections: false,
   },
   "electronic-services": {
-    component: <ElectronicServices />,
+    left: <ElectronicServices />,
+    right: null,
     showSections: false,
   },
   "travel-info": {
-    component: <TravelInformation />,
+    left: <TravelInformation />,
+    right: null,
     showSections: false,
   },
   "our-company": {
-    component: <OurCompany />,
+    left: <OurCompany />,
+    right: null,
     showSections: false,
   },
   "other-websites": {
-    component: <OtherWebsites />,
+    left: <OtherWebsites />,
+    right: null,
     showSections: false,
   },
 };
 
 function HomeContent() {
-  const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || "flights";
+  const [activeTab, setActiveTab] = useState("flights");
+
   const content = tabContent[activeTab as keyof typeof tabContent] || tabContent.flights;
 
   return (
@@ -66,17 +84,28 @@ function HomeContent() {
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Booking Panel */}
-            <div>{content.component}</div>
+          {/* Tab Bar */}
+          <div className="flex flex-wrap gap-1 bg-white/5 rounded-xl p-1 border border-white/10 w-fit">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onMouseEnter={() => setActiveTab(tab.id)}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "bg-accent text-white shadow-[0_0_15px_rgba(210,4,45,0.3)]"
+                    : "text-text-secondary hover:text-white"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-            {/* Right: Headline only */}
-            <div className="text-right hidden lg:block">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Find your <br />
-                <span className="gradient-text">perfect flight</span>
-              </h1>
-            </div>
+          {/* Tab Content */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div>{content.left}</div>
+            {content.right && <div>{content.right}</div>}
           </div>
         </div>
       </section>
@@ -87,7 +116,6 @@ function HomeContent() {
           <section>
             <SectionHeader title="Popular Destinations" subtitle="Most loved routes" />
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-              {/* Static example destinations - replace with dynamic data */}
               {[
                 { city: "Mumbai", country: "India", code: "BOM", price: 4999 },
                 { city: "Delhi", country: "India", code: "DEL", price: 5499 },
@@ -171,7 +199,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-dark">
       <Navbar />
-      <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-text-muted">Loading...</div>}>
+      <Suspense fallback={<div className="h-screen flex items-center justify-center text-text-muted">Loading...</div>}>
         <HomeContent />
       </Suspense>
     </main>
