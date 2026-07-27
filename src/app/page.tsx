@@ -5,6 +5,7 @@ import Navbar from "@/components/sections/Navbar";
 import Footer from "@/components/sections/Footer";
 import Awards from "@/components/sections/Awards";
 import HeroSlider from "@/components/sections/HeroSlider";
+import QuickActions from "@/components/sections/QuickActions";
 import BookingWidget from "@/components/BookingWidget";
 import DealsGrid from "@/components/sections/DealsGrid";
 import ElectronicServices from "@/components/sections/ElectronicServices";
@@ -35,11 +36,12 @@ export default function Home() {
       {/* Hero with Slider Background + Centered Content */}
       <HeroSlider>
         <div className="flex justify-center w-full">
-          <div className="w-full max-w-2xl">
-            {ActiveContent}
-          </div>
+          <div className="w-full max-w-2xl">{ActiveContent}</div>
         </div>
       </HeroSlider>
+
+      {/* Quick Actions Bar */}
+      <QuickActions />
 
       {/* Sections Below */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">
