@@ -31,8 +31,10 @@ export default function Home() {
     <main className="min-h-screen bg-dark">
       <Navbar activeMenu={activeMenu} onMenuChange={setActiveMenu} />
 
-      <HeroSlider quickActions={<QuickActions />}>
-        {ActiveContent}
+      <HeroSlider bottom={<QuickActions />}>
+        <div className="flex justify-center w-full">
+          <div className="w-full max-w-2xl">{ActiveContent}</div>
+        </div>
       </HeroSlider>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-20">

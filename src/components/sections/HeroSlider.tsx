@@ -18,7 +18,7 @@ const slides = [
   },
 ];
 
-export default function HeroSlider({ children, quickActions }: { children?: React.ReactNode; quickActions?: React.ReactNode }) {
+export default function HeroSlider({ children, bottom }: { children?: React.ReactNode; bottom?: React.ReactNode }) {
   const [current, setCurrent] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -40,7 +40,7 @@ export default function HeroSlider({ children, quickActions }: { children?: Reac
   const prev = () => goTo((current - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative h-[75vh] min-h-[550px] flex items-center overflow-hidden">
+    <section className="relative h-screen max-h-[700px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -55,19 +55,19 @@ export default function HeroSlider({ children, quickActions }: { children?: Reac
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
       </div>
 
-      {/* Content (Booking Widget) - Centered, slightly lower to allow quick actions at bottom */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-center w-full pt-8">
-          <div className="w-full max-w-2xl">{children}</div>
-        </div>
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-[72px] sm:pt-[80px]">
+        {children}
       </div>
 
-      {/* Quick Actions - Positioned at bottom of slider, above the dots */}
-      <div className="absolute bottom-16 left-0 right-0 z-20 w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          {quickActions}
+      {/* Bottom Content (QuickActions) - positioned above dots */}
+      {bottom && (
+        <div className="absolute bottom-16 left-0 right-0 z-15 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto">
+            {bottom}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Navigation Arrows */}
       <button
@@ -85,7 +85,7 @@ export default function HeroSlider({ children, quickActions }: { children?: Reac
         <ChevronRight size={24} className="text-white" />
       </button>
 
-      {/* Dots */}
+      {/* Dots - at the bottom */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {slides.map((_, i) => (
           <button
