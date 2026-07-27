@@ -10,10 +10,9 @@ const LOGO_URL =
 export const menuItems = [
   { id: "flights", label: "Flights" },
   { id: "deals", label: "Deals and offers" },
-  { id: "electronic-services", label: "Electronic services" },
   { id: "travel-info", label: "Travel information" },
   { id: "our-company", label: "Our company" },
-  { id: "other-websites", label: "Other websites" },
+  { id: "more-services", label: "More services" },
 ];
 
 export default function Navbar({
@@ -60,7 +59,6 @@ export default function Navbar({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Row: Logo + Nav (Centered) + Language + Mobile Toggle */}
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <Link href="/" className="relative w-32 h-10 sm:w-40 sm:h-12 flex-shrink-0">
@@ -79,10 +77,10 @@ export default function Navbar({
             )}
           </Link>
 
-          {/* Desktop Navigation (Centered) */}
-          <ul className="hidden lg:flex items-center gap-1 bg-white/5 rounded-full px-3 py-1 border border-white/10">
+          {/* Desktop Navigation */}
+          <ul className="hidden lg:flex items-center gap-0 bg-white/5 rounded-full px-3 py-1 border border-white/10">
             {menuItems.map((item) => (
-              <li key={item.id}>
+              <li key={item.id} className="relative">
                 <button
                   onMouseEnter={() => onMenuChange(item.id)}
                   onClick={() => onMenuChange(item.id)}
@@ -94,6 +92,7 @@ export default function Navbar({
                 >
                   {item.label}
                 </button>
+                {/* No gap dropdown indicator - we handle content in the page */}
               </li>
             ))}
           </ul>

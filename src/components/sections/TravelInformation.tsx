@@ -12,9 +12,7 @@ const infoItems = [
 export default function TravelInformation() {
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-white">Travel Information</h2>
-      <p className="text-text-secondary">Everything you need to know</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {infoItems.map((item) => {
           const Icon = item.icon;
           return (
