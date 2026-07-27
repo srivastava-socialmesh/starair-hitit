@@ -55,8 +55,8 @@ export default function HeroSlider({ children, bottom }: { children?: React.Reac
         <div className="absolute inset-0 bg-grid-pattern opacity-10" />
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-[72px] sm:pt-[80px]">
+      {/* Main Content - REMOVED TOP PADDING */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6">
         {children}
       </div>
 
